@@ -20,6 +20,9 @@ _NODE_COLOR = {
     "VLMROnly": "#d3d3d3",
     "AccidentEvent": "#fa8072",  # 鲑鱼红
     "CoordinateSystem": "#74c0fc",
+    "RoadArea": "#dee2e6",
+    "LaneLine": "#ced4da",
+    "RoadBoundary": "#ffe066",
 }
 
 # z 轴分层高度（压缩后接近 2D 平面，避免纵深过大）
@@ -31,30 +34,75 @@ _NODE_Z = {
     "Facility": 0.10,
     "VLMROnly": 0.0,
     "CoordinateSystem": 0.95,
+    "RoadArea": 0.45,
+    "LaneLine": 0.45,
+    "RoadBoundary": 0.45,
 }
 
 _NODE_LABEL_ZH = {
     "Scene": "场景",
-    "Vehicle": "车辆（交通参与者）",
-    "Pedestrian": "行人（交通参与者）",
-    "Facility": "道路交通设施",
+    "Vehicle": "车辆",
+    "Pedestrian": "行人",
+    "Facility": "道路设施",
     "VLMROnly": "仅 VLM 对象",
     "AccidentEvent": "事故事件",
-    "CoordinateSystem": "道路局部坐标系",
+    "CoordinateSystem": "道路坐标系",
+    "RoadArea": "路面区域",
+    "LaneLine": "车道线",
+    "RoadBoundary": "道路边界",
 }
 
 _EDGE_STYLE = {
     "semantic": {"color": "#e03131", "width": 5, "dash": "solid",
-                 "name": "L3 语义关系（VLM 观察）"},
+                 "name": "L3 语义关系"},
     "geometry": {"color": "#f4a261", "width": 1.5, "dash": "dot",
-                 "name": "L2 几何候选关系"},
+                 "name": "L2 几何候选"},
     "accident": {"color": "#ff8787", "width": 1.2, "dash": "dash",
-                 "name": "事故事件关联"},
+                 "name": "事故关联"},
     "belongs": {"color": "#adb5bd", "width": 0.8, "dash": "dash",
                 "name": "属于场景"},
     "position": {"color": "#4dabf7", "width": 1.4, "dash": "dot",
-                 "name": "L4 道路平面坐标引用"},
+                 "name": "L4 道路坐标"},
 }
+
+
+_CLICK_JS = """
+(function(){
+  var gd = document.getElementById('{plot_id}');
+  if(!gd) return;
+  gd.on('plotly_click', function(ev){
+    if(!ev || !ev.points || !ev.points.length) return;
+    var cd = ev.points[0].customdata;
+    if(!cd || !cd[0]) return;
+    try { parent.postMessage({type:'graph-node', id:String(cd[0])}, '*'); } catch(e) {}
+  });
+})();
+"""
+
+_VIEWPORT = ('<meta name="viewport" content="width=device-width, initial-scale=1.0, '
+             'viewport-fit=cover">')
+
+
+def write_graph_html(fig, path, div_id="graph-plot"):
+    """写 3D 图谱 HTML：共用一份 plotly.min.js + 注入 viewport + 点击联动脚本。"""
+    import re
+    from pathlib import Path
+
+    path = Path(path)
+    fig.write_html(str(path), include_plotlyjs="directory", full_html=True,
+                   div_id=div_id,
+                   config={"displaylogo": False, "responsive": True},
+                   post_script=_CLICK_JS.replace("{plot_id}", div_id))
+    html = path.read_text(encoding="utf-8")
+    if 'name="viewport"' not in html:
+        html = html.replace("<head>", f"<head>\n        {_VIEWPORT}", 1)
+    # 让画布跟随 iframe 高度，避免页面里出现上下裁切
+    inject = ('<style>html,body{height:100%;margin:0;}'
+              '[id^="graph-plot"]{height:100% !important;}</style></head>')
+    html = html.replace("</head>", inject, 1)
+    html = html.replace("<body>", '<body style="margin:0">', 1)
+    path.write_text(html, encoding="utf-8")
+    return path
 
 
 def build_interactive_3d_figure(graph: nx.MultiDiGraph) -> go.Figure:
@@ -93,9 +141,18 @@ def build_interactive_3d_figure(graph: nx.MultiDiGraph) -> go.Figure:
             match_status = data.get("match_status", "")
             match_str = (f"<br>对齐状态: {match_status}"
                          if match_status else "")
+            extra = ""
+            if data.get("position_text"):
+                extra += f"<br>道路坐标: {data['position_text']}"
+            if data.get("projection_status"):
+                extra += f"<br>投影状态: {data['projection_status']}"
+            if data.get("line_type"):
+                extra += f"<br>线型: {data['line_type']}"
+            if data.get("quality"):
+                extra += f"<br>标注质量: {data['quality']}"
             texts.append(
                 f"<b>{n}</b><br>类型: {ntype}<br>名称: {label}"
-                f"{conf_str}{match_str}"
+                f"{conf_str}{match_str}{extra}"
             )
             if ntype == "AccidentEvent":
                 sizes.append(54)
@@ -120,6 +177,7 @@ def build_interactive_3d_figure(graph: nx.MultiDiGraph) -> go.Figure:
             ),
             hovertext=texts,
             hoverinfo="text",
+            customdata=[[n] for n, _ in items],
         ))
 
     # ---------- 边：按类型分 trace（带 relation 悬停提示 + 中线标签） ----------
@@ -185,10 +243,13 @@ def build_interactive_3d_figure(graph: nx.MultiDiGraph) -> go.Figure:
             ))
 
     # ---------- 布局：屏幕平面就是 2D 图谱平面，z 轴作为"纵深" ----------
+    n_nodes = graph.number_of_nodes()
+    n_edges = graph.number_of_edges()
     fig.update_layout(
         title=dict(
-            text="交通事故融合知识图谱（2D 布局三维化：拖拽旋转 / 滚轮缩放 / 悬停详情）",
-            font=dict(size=14),
+            text=f"交通事故融合知识图谱（{n_nodes} 节点 / {n_edges} 边）",
+            font=dict(size=13),
+            x=0.5, xanchor="center", y=0.97, yanchor="top",
         ),
         scene=dict(
             xaxis=dict(visible=False),
@@ -205,11 +266,14 @@ def build_interactive_3d_figure(graph: nx.MultiDiGraph) -> go.Figure:
         ),
         legend=dict(
             itemsizing="constant",
-            font=dict(size=10),
-            x=0.01, y=0.99,
-            bgcolor="rgba(255,255,255,0.85)",
+            font=dict(size=9),
+            x=0.01, y=1.0, xanchor="left", yanchor="top",
+            bgcolor="rgba(255,255,255,0.88)",
+            bordercolor="rgba(0,0,0,0.12)",
+            borderwidth=1,
+            tracegroupgap=2,
         ),
-        margin=dict(l=0, r=0, t=40, b=0),
+        margin=dict(l=2, r=2, t=32, b=2),
         height=720,
         showlegend=True,
     )
