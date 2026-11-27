@@ -1,8 +1,10 @@
 {
   "unit": "local_unit",
   "source": "homography_distance",
-  "note": "距离为道路局部坐标下的欧氏距离，单位 local_unit，不可表述为米制精度。",
+  "note": "距离为道路局部坐标下的欧氏距离，单位 local_unit，不可表述为米制精度；只有双方都位于标定区内（reliable=true）的距离才可用于测量结论。",
   "pair_count": 15,
+  "reliable_pair_count": 3,
+  "unreliable_pair_count": 12,
   "pairs": [
     {
       "a": "O8",
@@ -11,6 +13,8 @@
       "unit": "local_unit",
       "a_status": "projected",
       "b_status": "projected",
+      "reliable": true,
+      "reliability_note": "双方均在标定区内，可作为候选测量",
       "source": "homography_distance",
       "status": "computed"
     },
@@ -21,6 +25,8 @@
       "unit": "local_unit",
       "a_status": "projected_extrapolated",
       "b_status": "projected_extrapolated",
+      "reliable": false,
+      "reliability_note": "至少一方为外推结果，仅保留数值供追溯，不用于测量结论",
       "source": "homography_distance",
       "status": "computed"
     },
@@ -31,6 +37,8 @@
       "unit": "local_unit",
       "a_status": "projected_extrapolated",
       "b_status": "projected",
+      "reliable": false,
+      "reliability_note": "至少一方为外推结果，仅保留数值供追溯，不用于测量结论",
       "source": "homography_distance",
       "status": "computed"
     },
@@ -41,6 +49,8 @@
       "unit": "local_unit",
       "a_status": "projected",
       "b_status": "projected",
+      "reliable": true,
+      "reliability_note": "双方均在标定区内，可作为候选测量",
       "source": "homography_distance",
       "status": "computed"
     },
@@ -51,6 +61,8 @@
       "unit": "local_unit",
       "a_status": "projected_extrapolated",
       "b_status": "projected",
+      "reliable": false,
+      "reliability_note": "至少一方为外推结果，仅保留数值供追溯，不用于测量结论",
       "source": "homography_distance",
       "status": "computed"
     },
@@ -61,6 +73,8 @@
       "unit": "local_unit",
       "a_status": "projected",
       "b_status": "projected",
+      "reliable": true,
+      "reliability_note": "双方均在标定区内，可作为候选测量",
       "source": "homography_distance",
       "status": "computed"
     },
@@ -71,6 +85,8 @@
       "unit": "local_unit",
       "a_status": "projected_extrapolated",
       "b_status": "projected",
+      "reliable": false,
+      "reliability_note": "至少一方为外推结果，仅保留数值供追溯，不用于测量结论",
       "source": "homography_distance",
       "status": "computed"
     },
@@ -81,6 +97,8 @@
       "unit": "local_unit",
       "a_status": "projected",
       "b_status": "projected_extrapolated",
+      "reliable": false,
+      "reliability_note": "至少一方为外推结果，仅保留数值供追溯，不用于测量结论",
       "source": "homography_distance",
       "status": "computed"
     },
@@ -91,6 +109,8 @@
       "unit": "local_unit",
       "a_status": "projected",
       "b_status": "projected_extrapolated",
+      "reliable": false,
+      "reliability_note": "至少一方为外推结果，仅保留数值供追溯，不用于测量结论",
       "source": "homography_distance",
       "status": "computed"
     },
@@ -101,6 +121,8 @@
       "unit": "local_unit",
       "a_status": "projected_extrapolated",
       "b_status": "projected",
+      "reliable": false,
+      "reliability_note": "至少一方为外推结果，仅保留数值供追溯，不用于测量结论",
       "source": "homography_distance",
       "status": "computed"
     },
@@ -111,6 +133,8 @@
       "unit": "local_unit",
       "a_status": "projected_extrapolated",
       "b_status": "projected",
+      "reliable": false,
+      "reliability_note": "至少一方为外推结果，仅保留数值供追溯，不用于测量结论",
       "source": "homography_distance",
       "status": "computed"
     },
@@ -121,6 +145,8 @@
       "unit": "local_unit",
       "a_status": "projected_extrapolated",
       "b_status": "projected",
+      "reliable": false,
+      "reliability_note": "至少一方为外推结果，仅保留数值供追溯，不用于测量结论",
       "source": "homography_distance",
       "status": "computed"
     },
@@ -131,6 +157,8 @@
       "unit": "local_unit",
       "a_status": "projected_extrapolated",
       "b_status": "projected",
+      "reliable": false,
+      "reliability_note": "至少一方为外推结果，仅保留数值供追溯，不用于测量结论",
       "source": "homography_distance",
       "status": "computed"
     },
@@ -141,6 +169,8 @@
       "unit": "local_unit",
       "a_status": "projected_extrapolated",
       "b_status": "projected_extrapolated",
+      "reliable": false,
+      "reliability_note": "至少一方为外推结果，仅保留数值供追溯，不用于测量结论",
       "source": "homography_distance",
       "status": "computed"
     },
@@ -151,6 +181,46 @@
       "unit": "local_unit",
       "a_status": "projected_extrapolated",
       "b_status": "projected_extrapolated",
+      "reliable": false,
+      "reliability_note": "至少一方为外推结果，仅保留数值供追溯，不用于测量结论",
+      "source": "homography_distance",
+      "status": "computed"
+    }
+  ],
+  "reliable_pairs": [
+    {
+      "a": "O8",
+      "b": "O9",
+      "distance": 1.253,
+      "unit": "local_unit",
+      "a_status": "projected",
+      "b_status": "projected",
+      "reliable": true,
+      "reliability_note": "双方均在标定区内，可作为候选测量",
+      "source": "homography_distance",
+      "status": "computed"
+    },
+    {
+      "a": "O2",
+      "b": "O9",
+      "distance": 2.775,
+      "unit": "local_unit",
+      "a_status": "projected",
+      "b_status": "projected",
+      "reliable": true,
+      "reliability_note": "双方均在标定区内，可作为候选测量",
+      "source": "homography_distance",
+      "status": "computed"
+    },
+    {
+      "a": "O2",
+      "b": "O8",
+      "distance": 3.715,
+      "unit": "local_unit",
+      "a_status": "projected",
+      "b_status": "projected",
+      "reliable": true,
+      "reliability_note": "双方均在标定区内，可作为候选测量",
       "source": "homography_distance",
       "status": "computed"
     }
@@ -162,6 +232,20 @@
     "unit": "local_unit",
     "a_status": "projected",
     "b_status": "projected",
+    "reliable": true,
+    "reliability_note": "双方均在标定区内，可作为候选测量",
+    "source": "homography_distance",
+    "status": "computed"
+  },
+  "nearest_reliable_pair": {
+    "a": "O8",
+    "b": "O9",
+    "distance": 1.253,
+    "unit": "local_unit",
+    "a_status": "projected",
+    "b_status": "projected",
+    "reliable": true,
+    "reliability_note": "双方均在标定区内，可作为候选测量",
     "source": "homography_distance",
     "status": "computed"
   },
@@ -170,7 +254,9 @@
       "relation": "接触",
       "subject": "O1",
       "object": "O2",
-      "distance": 5.38
+      "distance": null,
+      "approx_value_for_trace": 5.38,
+      "reliable": false
     }
   ]
 }
