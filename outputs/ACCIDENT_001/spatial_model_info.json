@@ -76,6 +76,12 @@
     "no_bbox_available": 0
   },
   "success_rate_percent": 50.0,
+  "distance_policy": {
+    "reliable": "双方 status=projected（均在标定区内）",
+    "unreliable": "含 projected_extrapolated 的距离只保留数值，不进入可靠统计",
+    "reliable_pair_count": 3,
+    "pair_count": 15
+  },
   "self_consistency": {
     "reprojection_error_max": 0.0,
     "reprojection_error_mean": 0.0,
