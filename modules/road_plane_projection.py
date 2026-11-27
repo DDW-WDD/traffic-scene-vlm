@@ -167,6 +167,8 @@ def project_scene_to_ground(scene_path, calibration_path, output_path,
         counters[status] += 1
 
     # ---- 道路平面距离 ----
+    # 只有双方都落在标定区内（status=projected）时，距离才作为"可靠距离"；
+    # 含外推点的距离仍计算并保留，但标记 reliable=False，不进入可靠距离统计。
     eligible = [o for o in spatial_scene["objects"]
                 if o["ground_position"]["status"] in
                 ("projected", "projected_extrapolated")]
@@ -177,6 +179,8 @@ def project_scene_to_ground(scene_path, calibration_path, output_path,
             ax, ay = a["ground_position"]["x"], a["ground_position"]["y"]
             bx, by = b["ground_position"]["x"], b["ground_position"]["y"]
             dist = math.hypot(ax - bx, ay - by)
+            reliable = (a["ground_position"]["status"] == "projected" and
+                        b["ground_position"]["status"] == "projected")
             pairs.append({
                 "a": a["id"],
                 "b": b["id"],
@@ -184,27 +188,48 @@ def project_scene_to_ground(scene_path, calibration_path, output_path,
                 "unit": unit,
                 "a_status": a["ground_position"]["status"],
                 "b_status": b["ground_position"]["status"],
+                "reliable": reliable,
+                "reliability_note": ("双方均在标定区内，可作为候选测量"
+                                     if reliable else
+                                     "至少一方为外推结果，仅保留数值供追溯，不用于测量结论"),
                 "source": "homography_distance",
                 "status": "computed",
             })
     pairs.sort(key=lambda p: p["distance"])
+    reliable_pairs = [p for p in pairs if p["reliable"]]
 
-    # ---- 语义关系上补充道路平面距离 ----
+    # ---- 语义关系上补充道路平面距离（仅可靠时给值） ----
     relation_updates = []
     pos_by_id = {o["id"]: o["ground_position"] for o in spatial_scene["objects"]}
     for rel in spatial_scene.get("semantic_relations", []):
         s, t = rel.get("subject"), rel.get("object")
         ps, pt = pos_by_id.get(s, {}), pos_by_id.get(t, {})
-        if (ps.get("status") in ("projected", "projected_extrapolated") and
-                pt.get("status") in ("projected", "projected_extrapolated")):
+        if (ps.get("status") == "projected" and pt.get("status") == "projected"):
             d = math.hypot(ps["x"] - pt["x"], ps["y"] - pt["y"])
             rel["ground_distance"] = {"value": round(d, 3), "unit": unit,
+                                      "reliable": True,
                                       "source": "homography_distance"}
             relation_updates.append({"relation": rel.get("predicate"),
                                      "subject": s, "object": t,
-                                     "distance": round(d, 3)})
+                                     "distance": round(d, 3),
+                                     "reliable": True})
+        elif (ps.get("status") in ("projected", "projected_extrapolated") and
+              pt.get("status") in ("projected", "projected_extrapolated")):
+            d = math.hypot(ps["x"] - pt["x"], ps["y"] - pt["y"])
+            rel["ground_distance"] = {
+                "value": None, "unit": unit, "reliable": False,
+                "approx_value_for_trace": round(d, 3),
+                "status": "unreliable_extrapolated",
+                "reason": "至少一个对象为标定区外推结果，距离不用于测量结论",
+            }
+            relation_updates.append({"relation": rel.get("predicate"),
+                                     "subject": s, "object": t,
+                                     "distance": None,
+                                     "approx_value_for_trace": round(d, 3),
+                                     "reliable": False})
         else:
             rel["ground_distance"] = {"value": None, "unit": unit,
+                                      "reliable": False,
                                       "status": "unavailable",
                                       "reason": "至少一个对象未成功投影"}
 
@@ -245,6 +270,9 @@ def project_scene_to_ground(scene_path, calibration_path, output_path,
         "no_bbox_available": counters["no_bbox_available"],
         "success_rate_percent": round(success_rate, 1),
         "unit": unit,
+        "distance_policy": "仅双方 status=projected 的距离为可靠距离",
+        "pair_count": len(pairs),
+        "reliable_pair_count": len(reliable_pairs),
         "self_consistency_error": reproj_info,
     }
 
@@ -254,10 +282,15 @@ def project_scene_to_ground(scene_path, calibration_path, output_path,
         save_json({
             "unit": unit,
             "source": "homography_distance",
-            "note": "距离为道路局部坐标下的欧氏距离，单位 local_unit，不可表述为米制精度。",
+            "note": ("距离为道路局部坐标下的欧氏距离，单位 local_unit，不可表述为米制精度；"
+                     "只有双方都位于标定区内（reliable=true）的距离才可用于测量结论。"),
             "pair_count": len(pairs),
+            "reliable_pair_count": len(reliable_pairs),
+            "unreliable_pair_count": len(pairs) - len(reliable_pairs),
             "pairs": pairs,
+            "reliable_pairs": reliable_pairs,
             "nearest_pair": pairs[0] if pairs else None,
+            "nearest_reliable_pair": reliable_pairs[0] if reliable_pairs else None,
             "semantic_relation_distances": relation_updates,
         }, distances_path)
 
@@ -280,6 +313,12 @@ def project_scene_to_ground(scene_path, calibration_path, output_path,
             },
             "counts": counters,
             "success_rate_percent": round(success_rate, 1),
+            "distance_policy": {
+                "reliable": "双方 status=projected（均在标定区内）",
+                "unreliable": "含 projected_extrapolated 的距离只保留数值，不进入可靠统计",
+                "reliable_pair_count": len(reliable_pairs),
+                "pair_count": len(pairs),
+            },
             "self_consistency": reproj_info,
             "limitations": calibration.get("limitations", []),
         }, info_path)
@@ -288,5 +327,6 @@ def project_scene_to_ground(scene_path, calibration_path, output_path,
         "counters": counters,
         "success_rate_percent": round(success_rate, 1),
         "pair_count": len(pairs),
+        "reliable_pair_count": len(reliable_pairs),
         "reprojection": reproj_info,
     }
