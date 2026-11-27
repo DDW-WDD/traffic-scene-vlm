@@ -1,0 +1,202 @@
+{
+  "unit": "local_unit",
+  "coordinate_system": "road_local_plane",
+  "source": "road_geometry.json 经同一单应性矩阵变换",
+  "road_polygon": [
+    {
+      "x": -3.351,
+      "y": -0.054,
+      "status": "outside_calibration_region"
+    },
+    {
+      "x": 8.457,
+      "y": -0.054,
+      "status": "outside_calibration_region"
+    },
+    {
+      "x": 9.649,
+      "y": 3.0,
+      "status": "outside_calibration_region"
+    },
+    {
+      "x": -2.323,
+      "y": 3.0,
+      "status": "outside_calibration_region"
+    }
+  ],
+  "road_boundaries": [
+    {
+      "id": "RB_R",
+      "name": "右侧路缘（停车带）边界",
+      "visibility": "visible",
+      "quality": "approximate",
+      "note": "位于右侧车道白线与右侧停放车辆之间，按可见沥青边缘判读",
+      "points_image": [
+        [
+          1262,
+          768
+        ],
+        [
+          1296,
+          608
+        ]
+      ],
+      "points_local": [
+        {
+          "x": 8.457,
+          "y": -0.054,
+          "status": "outside_calibration_region"
+        },
+        {
+          "x": 9.94,
+          "y": 3.397,
+          "status": "outside_calibration_region"
+        }
+      ]
+    }
+  ],
+  "lane_lines": [
+    {
+      "id": "L1",
+      "name": "左侧车道分界线（事故车道左边界）",
+      "type": "solid",
+      "points_image": [
+        [
+          607.73,
+          620.0
+        ],
+        [
+          365.07,
+          768.0
+        ]
+      ],
+      "points_local": [
+        {
+          "x": -0.061,
+          "y": 3.0,
+          "status": "outside_calibration_region"
+        },
+        {
+          "x": 0.065,
+          "y": -0.054,
+          "status": "outside_calibration_region"
+        }
+      ],
+      "visible_split_local": {
+        "y_at_visible_top_row": 1.706,
+        "visible_row_range": [
+          668,
+          768
+        ],
+        "extrapolated_row_range": [
+          620,
+          668
+        ]
+      },
+      "fit": {
+        "x_of_y_slope": -1.6396,
+        "x_of_y_intercept": 1624.27,
+        "fit_max_residual_px": 0.52,
+        "measured_rows": [
+          764,
+          752,
+          740,
+          728,
+          716,
+          704,
+          692,
+          680,
+          668
+        ]
+      },
+      "split": {
+        "visible_part_rows": [
+          668,
+          768
+        ],
+        "extrapolated_part_rows": [
+          620,
+          668
+        ],
+        "extrapolation_reason": "y<668 被失控小汽车（O1）与灰色 SUV（O2）车身遮挡，按已测点直线外推"
+      }
+    },
+    {
+      "id": "L2",
+      "name": "右侧车道分界线（事故车道右边界）",
+      "type": "solid",
+      "points_image": [
+        [
+          1170.06,
+          620.0
+        ],
+        [
+          1213.22,
+          768.0
+        ]
+      ],
+      "points_local": [
+        {
+          "x": 8.001,
+          "y": 3.0,
+          "status": "outside_calibration_region"
+        },
+        {
+          "x": 8.0,
+          "y": -0.054,
+          "status": "outside_calibration_region"
+        }
+      ],
+      "visible_split_local": {
+        "y_at_visible_top_row": 1.706,
+        "visible_row_range": [
+          668,
+          768
+        ],
+        "extrapolated_row_range": [
+          620,
+          668
+        ]
+      },
+      "fit": {
+        "x_of_y_slope": 0.2917,
+        "x_of_y_intercept": 989.22,
+        "fit_max_residual_px": 0.56,
+        "measured_rows": [
+          764,
+          752,
+          740,
+          728,
+          716,
+          704,
+          692,
+          680,
+          668
+        ]
+      },
+      "split": {
+        "visible_part_rows": [
+          668,
+          768
+        ],
+        "extrapolated_part_rows": [
+          620,
+          668
+        ],
+        "extrapolation_reason": "y<668 被右侧行人（O8、O9）与停放车辆遮挡，按已测点直线外推"
+      }
+    }
+  ],
+  "stop_lines": [],
+  "crosswalks": [],
+  "absent_features": {
+    "stop_lines": "本案例画面内未见停止线（路口停止线在画面外或不存在）",
+    "crosswalks": "本案例画面内未见人行横道，故不标注，避免臆造"
+  },
+  "quality": {
+    "type": "manual_approximate",
+    "position_tolerance_px": 15,
+    "verified": false,
+    "note": "所有坐标都是原图像素；被车辆遮挡的路段按可见段直线延伸，属于近似，不代表实测道路几何。"
+  }
+}
