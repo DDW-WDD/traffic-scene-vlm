@@ -1,0 +1,57 @@
+{
+  "scene_description": "画面展示了一个城市道路交叉口的交通事故现场。一辆银色微型车与一辆灰色SUV发生碰撞，两车均有明显损坏，路面散落着碎片。三名成年男性站在车辆旁边，其中一人正在对现场进行拍照记录。背景中有交通信号灯和其他等待的车辆。",
+  "participants": [
+    {
+      "id": "V1",
+      "category": "车辆",
+      "visible_features": "银色双门微型车，车头右侧有明显碰撞凹陷和损坏，驾驶侧车门处于打开状态",
+      "image_position": "画面左侧前景"
+    },
+    {
+      "id": "V2",
+      "category": "车辆",
+      "visible_features": "灰色SUV，车尾保险杠及尾门区域有碰撞痕迹，红色尾灯亮起",
+      "image_position": "画面中间偏右前景"
+    },
+    {
+      "id": "P1",
+      "category": "行人",
+      "visible_features": "身穿深蓝色羽绒服和牛仔裤的男性，正举着相机或手机对着两车碰撞部位拍照",
+      "image_position": "画面右侧，V2车辆右后方"
+    },
+    {
+      "id": "P2",
+      "category": "行人",
+      "visible_features": "身穿深色外套和牛仔裤的男性，正面向P1，似乎在交谈或查看情况",
+      "image_position": "画面右侧，P1左侧"
+    },
+    {
+      "id": "P3",
+      "category": "行人",
+      "visible_features": "身穿深色外套的男性，站在V1打开的驾驶座车门旁",
+      "image_position": "画面中间偏左，V1车辆旁边"
+    }
+  ],
+  "spatial_relations": [
+    {
+      "subject": "V1",
+      "relation": "接触",
+      "object": "V2",
+      "visual_evidence": "V1的车头右侧紧密抵住V2的车尾左侧，接触区域有明显的物理形变，且两车之间的路面上散落着黑色的车辆碎片。"
+    }
+  ],
+  "possible_accident_type": {
+    "type": "追尾碰撞",
+    "confidence": "高",
+    "evidence": "V1（微型车）的车头部位与V2（SUV）的车尾部位直接接触并受损，这是典型的追尾碰撞形态。"
+  },
+  "road_environment": {
+    "road_type": "城市多车道道路",
+    "visible_facilities": [
+      "交通信号灯（显示红灯）",
+      "路灯",
+      "车道标线",
+      "交通标志牌"
+    ]
+  }
+}

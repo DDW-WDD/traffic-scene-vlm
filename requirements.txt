@@ -1,0 +1,17 @@
+# 网页与模型调用
+gradio>=5.0
+openai>=1.0
+python-dotenv>=1.0
+Pillow>=10.0
+
+# 图像处理与数值计算（第三、四阶段必需）
+numpy>=1.26
+opencv-python>=4.8
+
+# 图谱与可视化
+networkx>=3.1
+matplotlib>=3.7
+plotly>=5.18
+
+# 第二阶段目标检测（可选；会连带安装 CPU 版 PyTorch，体积较大）
+ultralytics>=8.2

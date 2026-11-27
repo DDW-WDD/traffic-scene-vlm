@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>交通事故语义场景建模 · 第四阶段 道路平面重建</title>
+<style>
+  :root{
+    --ink:#141821; --muted:#5c6577; --line:#e3e7ef;
+    --bg:#f5f7fb; --card:#ffffff;
+    --blue:#2f6fd0; --green:#3f9d63; --red:#d2483b; --amber:#c9871f;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif;
+    line-height:1.7; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  header{
+    background:linear-gradient(135deg,#1d2b45 0%,#2f6fd0 100%);
+    color:#fff;padding:52px 0 44px;
+  }
+  header .wrap{display:block}
+  .tag{
+    display:inline-block;font-size:13px;letter-spacing:.5px;
+    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);
+    padding:4px 12px;border-radius:999px;margin-bottom:14px;
+  }
+  h1{margin:0 0 10px;font-size:30px;letter-spacing:.5px;font-weight:700}
+  .sub{opacity:.9;font-size:15px;max-width:780px}
+  .meta{margin-top:18px;font-size:13px;opacity:.8}
+  section{margin:34px 0}
+  h2{font-size:19px;margin:0 0 6px;display:flex;align-items:center;gap:10px}
+  h2 span.dot{width:8px;height:8px;border-radius:50%;background:var(--blue);display:inline-block}
+  .lead{color:var(--muted);font-size:14px;margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+        box-shadow:0 4px 18px rgba(20,24,33,.05);overflow:hidden}
+  .card img{display:block;width:100%;height:auto}
+  .cap{padding:12px 16px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);background:#fbfcfe}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 18px 14px;
+       box-shadow:0 4px 18px rgba(20,24,33,.05)}
+  .kpi .v{font-size:26px;font-weight:700;letter-spacing:.5px}
+  .kpi .u{font-size:12px;color:var(--muted);margin-top:2px}
+  .kpi .k{font-size:13px;color:var(--muted);margin-top:8px}
+  .kpi.b .v{color:var(--blue)} .kpi.g .v{color:var(--green)}
+  .kpi.r .v{color:var(--red)}  .kpi.a .v{color:var(--amber)}
+  .iframe-box{border:0;width:100%;height:780px;display:block;background:#fff}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff}
+  th,td{border-bottom:1px solid var(--line);padding:10px 14px;text-align:left;vertical-align:top}
+  th{background:#f3f6fb;color:#39404f;font-weight:600;white-space:nowrap}
+  td.num{font-variant-numeric:tabular-nums}
+  .note{
+    border-left:3px solid var(--amber);background:#fff9ec;padding:12px 16px;border-radius:0 10px 10px 0;
+    font-size:13.5px;color:#5b4a26;margin:14px 0
+  }
+  .note strong{color:#8a5b00}
+  ul.lim{margin:8px 0 0;padding-left:20px;font-size:13.5px;color:#3c4351}
+  ul.lim li{margin:6px 0}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  footer{border-top:1px solid var(--line);margin-top:44px;padding:26px 0 46px;color:var(--muted);font-size:13px}
+  a{color:var(--blue);text-decoration:none}
+  @media (max-width:860px){
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    .two{grid-template-columns:1fr}
+    .iframe-box{height:560px}
+    h1{font-size:24px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="tag">毕业设计 · 第四阶段</div>
+    <h1>交通事故道路平面空间建模与二维场景重建</h1>
+    <p class="sub">
+      从第三阶段的融合场景（VLM 语义理解 + YOLO 目标检测 + 多源知识图谱）出发，
+      用四个道路控制点求解单应性变换，把交通参与者从图像像素坐标投影到统一的道路局部平面坐标系，
+      计算道路平面距离，重建二维道路场景，并把道路坐标写回知识图谱。
+    </p>
+    <div class="meta">案例：ACCIDENT_001 ｜ 坐标单位：local_unit（局部坐标单位，非米制实测）</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <div class="kpis">
+      <div class="kpi b"><div class="v">15</div><div class="u">objects</div><div class="k">统一场景对象（O1–O15）</div></div>
+      <div class="kpi g"><div class="v">50.0%</div><div class="u">projection</div><div class="k">有效地面目标投影成功率（6/12）</div></div>
+      <div class="kpi r"><div class="v">5.38</div><div class="u">local_unit</div><div class="k">事故对 O1—接触→O2 的道路平面距离</div></div>
+      <div class="kpi a"><div class="v">18 / 48</div><div class="u">nodes / edges</div><div class="k">含道路坐标系的知识图谱规模</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="dot"></span>① 原始图片与道路标定</h2>
+    <p class="lead">蓝=车辆、绿=行人、紫=道路交通设施、灰=背景对象；红圈是检测框底边中点（近似地面接触点）；黄色梯形是四点标定出的道路平面范围。</p>
+    <div class="card">
+      <img src="outputs/ACCIDENT_001/_stage4_overlay.png" alt="检测框与标定四边形叠加图"/>
+      <div class="cap">四个控制点全部取自两条车道白线：近端两点是白线在画面底边的实测中心，远端两点由白线直线方程外推到被车辆遮挡的行。</div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="dot"></span>② 道路平面二维场景重建</h2>
+    <p class="lead">把每个交通参与者的地面锚点经单应性矩阵变换到道路平面后，按真实相对位置重绘的俯视图。</p>
+    <div class="card">
+      <img src="outputs/ACCIDENT_001/scene_topdown.png" alt="道路平面二维场景重建图"/>
+      <div class="cap">实心=标定区内投影（O2、O8、O9）；半透明=外推投影（O1、O3、O4）；超出标定范围的对象不给坐标，只在右侧清单里列出。</div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="dot"></span>③ 含道路坐标的交互式知识图谱</h2>
+    <p class="lead">二维布局三维化：拖拽旋转、滚轮缩放、悬停查看详情。新增「道路局部坐标系」节点与蓝色点线（L4 道路平面坐标引用）。</p>
+    <div class="card">
+      <iframe class="iframe-box" src="outputs/ACCIDENT_001/interactive_graph_spatial.html" title="交互式知识图谱"></iframe>
+      <div class="cap">如果上方为空白，可直接打开 <a href="outputs/ACCIDENT_001/interactive_graph_spatial.html" target="_blank" rel="noopener">interactive_graph_spatial.html</a> 单独查看。</div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="dot"></span>④ 标定参数与投影结果</h2>
+    <div class="two">
+      <div class="card">
+        <table>
+          <tr><th>控制点</th><th>角色</th><th>图像坐标 (u, v)</th><th>道路坐标 (X, Y)</th></tr>
+          <tr><td>P1</td><td>near_left</td><td class="num">(365, 764)</td><td class="num">(0.0, 0.0)</td></tr>
+          <tr><td>P2</td><td>near_right</td><td class="num">(1212, 764)</td><td class="num">(8.0, 0.0)</td></tr>
+          <tr><td>P3</td><td>far_right</td><td class="num">(1170, 620)</td><td class="num">(8.0, 3.0)</td></tr>
+          <tr><td>P4</td><td>far_left</td><td class="num">(612, 620)</td><td class="num">(0.0, 3.0)</td></tr>
+        </table>
+        <div class="cap">原点=近端左侧控制点；X=道路横向（向右为正）；Y=道路纵向（向远端为正）；假设标定矩形 8 × 3。</div>
+      </div>
+      <div class="card">
+        <table>
+          <tr><th>投影状态</th><th>对象</th><th>是否给坐标</th></tr>
+          <tr><td>标定区内 projected</td><td>O2、O8、O9</td><td>是</td></tr>
+          <tr><td>外推 projected_extrapolated</td><td>O1、O3、O4</td><td>是（标注可靠性下降）</td></tr>
+          <tr><td>超出范围 outside</td><td>O5、O6、O10、O13、O14、O15</td><td>否</td></tr>
+          <tr><td>悬空设施排除</td><td>O7、O11、O12（信号灯）</td><td>否</td></tr>
+        </table>
+        <div class="cap">全场最近一对：O8—O9 = 1.25 local_unit（两名行人）；共计算 15 对道路平面距离。</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="dot"></span>⑤ 已知误差与表述边界</h2>
+    <div class="note">
+      <strong>坐标单位是 local_unit，不能写成“米”。</strong>
+      本案例没有实测道路尺寸，8 × 3 只是为了让坐标系可复现而假设的局部矩形。
+    </div>
+    <ul class="lim">
+      <li>四个控制点同时用于求解与检验，自洽性误差 0.0 只证明矩阵算对了，<strong>不能</strong>当作定位精度；要给出精度必须另留独立检验点。</li>
+      <li>远端两个控制点位于被车辆/行人遮挡的区域，由白线直线方程外推得到，是已记录的不确定性来源。</li>
+      <li>地面锚点用检测框底边中点近似轮胎/脚部接地点；对斜向停放的车辆（本案例被追尾的小汽车）会向车身一侧偏移，这也是 O1 被判为“外推”的原因。</li>
+      <li>标定矩形是局部坐标参考区，<strong>不是</strong>道路真实边界（当前没有道路多边形数据）。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="dot"></span>⑥ 技术路线</h2>
+    <table>
+      <tr><th>步骤</th><th>方法</th><th>产物</th></tr>
+      <tr><td>道路控制点标定</td><td>两条车道白线按行扫描取中心 + 直线拟合外推</td><td>image_control_points.json</td></tr>
+      <tr><td>单应性变换</td><td>cv2.findHomography（4 点 DLT）</td><td>calibration.json、3×3 矩阵 H</td></tr>
+      <tr><td>交通对象定位</td><td>bbox 底边中点 → perspectiveTransform</td><td>scene_model_spatial.json</td></tr>
+      <tr><td>空间距离分析</td><td>道路平面欧氏距离（15 对 + 语义关系对）</td><td>ground_distances.json</td></tr>
+      <tr><td>二维场景重建</td><td>matplotlib 俯视图（中文标注、状态区分）</td><td>scene_topdown.png</td></tr>
+      <tr><td>知识图谱扩展</td><td>多源 MultiDiGraph + CoordinateSystem 节点 + L4 边</td><td>knowledge_graph_spatial.json/.png/.html</td></tr>
+    </table>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    数据来源：本案例事故图片的 VLM 语义分析结果、YOLO 检测框、人工确认的对象映射，以及第四阶段的单应性变换计算。<br>
+    本页面为静态页面，所有图片与交互图谱均随仓库发布，无需运行后端即可查看。
+  </div>
+</footer>
+
+</body>
+</html>

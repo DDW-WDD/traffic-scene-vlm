@@ -1,0 +1,212 @@
+[
+  {
+    "subject": "O1",
+    "predicate": "bbox_overlap_candidate",
+    "object": "O10",
+    "source": "geometry",
+    "confidence": null,
+    "status": "candidate",
+    "horizontal_relation": "left_of",
+    "vertical_relation": "below",
+    "evidence": "检测框 IoU 0.111 > 0.05",
+    "metrics": {
+      "center_distance_normalized": 0.2138,
+      "iou": 0.1113
+    }
+  },
+  {
+    "subject": "O2",
+    "predicate": "bbox_overlap_candidate",
+    "object": "O9",
+    "source": "geometry",
+    "confidence": null,
+    "status": "candidate",
+    "horizontal_relation": "left_of",
+    "vertical_relation": "below",
+    "evidence": "检测框 IoU 0.107 > 0.05",
+    "metrics": {
+      "center_distance_normalized": 0.1475,
+      "iou": 0.1068
+    }
+  },
+  {
+    "subject": "O4",
+    "predicate": "bbox_overlap_candidate",
+    "object": "O6",
+    "source": "geometry",
+    "confidence": null,
+    "status": "candidate",
+    "horizontal_relation": "right_of",
+    "vertical_relation": "below",
+    "evidence": "检测框 IoU 0.420 > 0.05",
+    "metrics": {
+      "center_distance_normalized": 0.1292,
+      "iou": 0.4198
+    }
+  },
+  {
+    "subject": "O6",
+    "predicate": "near_candidate",
+    "object": "O8",
+    "source": "geometry",
+    "confidence": null,
+    "status": "candidate",
+    "horizontal_relation": "right_of",
+    "vertical_relation": "above",
+    "evidence": "归一化中心距离 0.111 < 0.12",
+    "metrics": {
+      "center_distance_normalized": 0.1113,
+      "iou": 0.0
+    }
+  },
+  {
+    "subject": "O6",
+    "predicate": "near_candidate",
+    "object": "O14",
+    "source": "geometry",
+    "confidence": null,
+    "status": "candidate",
+    "horizontal_relation": "right_of",
+    "vertical_relation": "below",
+    "evidence": "归一化中心距离 0.053 < 0.12",
+    "metrics": {
+      "center_distance_normalized": 0.053,
+      "iou": 0.2261
+    }
+  },
+  {
+    "subject": "O6",
+    "predicate": "bbox_overlap_candidate",
+    "object": "O14",
+    "source": "geometry",
+    "confidence": null,
+    "status": "candidate",
+    "horizontal_relation": "right_of",
+    "vertical_relation": "below",
+    "evidence": "检测框 IoU 0.226 > 0.05",
+    "metrics": {
+      "center_distance_normalized": 0.053,
+      "iou": 0.2261
+    }
+  },
+  {
+    "subject": "O7",
+    "predicate": "near_candidate",
+    "object": "O11",
+    "source": "geometry",
+    "confidence": null,
+    "status": "candidate",
+    "horizontal_relation": "right_of",
+    "vertical_relation": "below",
+    "evidence": "归一化中心距离 0.057 < 0.12",
+    "metrics": {
+      "center_distance_normalized": 0.0572,
+      "iou": 0.0
+    }
+  },
+  {
+    "subject": "O8",
+    "predicate": "near_candidate",
+    "object": "O9",
+    "source": "geometry",
+    "confidence": null,
+    "status": "candidate",
+    "horizontal_relation": "right_of",
+    "vertical_relation": "below",
+    "evidence": "归一化中心距离 0.052 < 0.12",
+    "metrics": {
+      "center_distance_normalized": 0.0516,
+      "iou": 0.2336
+    }
+  },
+  {
+    "subject": "O8",
+    "predicate": "bbox_overlap_candidate",
+    "object": "O9",
+    "source": "geometry",
+    "confidence": null,
+    "status": "candidate",
+    "horizontal_relation": "right_of",
+    "vertical_relation": "below",
+    "evidence": "检测框 IoU 0.234 > 0.05",
+    "metrics": {
+      "center_distance_normalized": 0.0516,
+      "iou": 0.2336
+    }
+  },
+  {
+    "subject": "O8",
+    "predicate": "near_candidate",
+    "object": "O14",
+    "source": "geometry",
+    "confidence": null,
+    "status": "candidate",
+    "horizontal_relation": "left_of",
+    "vertical_relation": "below",
+    "evidence": "归一化中心距离 0.086 < 0.12",
+    "metrics": {
+      "center_distance_normalized": 0.0863,
+      "iou": 0.0343
+    }
+  },
+  {
+    "subject": "O10",
+    "predicate": "near_candidate",
+    "object": "O13",
+    "source": "geometry",
+    "confidence": null,
+    "status": "candidate",
+    "horizontal_relation": "right_of",
+    "vertical_relation": "below",
+    "evidence": "归一化中心距离 0.097 < 0.12",
+    "metrics": {
+      "center_distance_normalized": 0.0974,
+      "iou": 0.0
+    }
+  },
+  {
+    "subject": "O10",
+    "predicate": "near_candidate",
+    "object": "O15",
+    "source": "geometry",
+    "confidence": null,
+    "status": "candidate",
+    "horizontal_relation": "left_of",
+    "vertical_relation": "below",
+    "evidence": "归一化中心距离 0.051 < 0.12",
+    "metrics": {
+      "center_distance_normalized": 0.0506,
+      "iou": 0.1087
+    }
+  },
+  {
+    "subject": "O10",
+    "predicate": "bbox_overlap_candidate",
+    "object": "O15",
+    "source": "geometry",
+    "confidence": null,
+    "status": "candidate",
+    "horizontal_relation": "left_of",
+    "vertical_relation": "below",
+    "evidence": "检测框 IoU 0.109 > 0.05",
+    "metrics": {
+      "center_distance_normalized": 0.0506,
+      "iou": 0.1087
+    }
+  },
+  {
+    "subject": "O13",
+    "predicate": "near_candidate",
+    "object": "O15",
+    "source": "geometry",
+    "confidence": null,
+    "status": "candidate",
+    "horizontal_relation": "left_of",
+    "vertical_relation": "above",
+    "evidence": "归一化中心距离 0.118 < 0.12",
+    "metrics": {
+      "center_distance_normalized": 0.118,
+      "iou": 0.0
+    }
+  }
+]

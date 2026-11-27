@@ -1,0 +1,323 @@
+{
+  "image_info": {
+    "width": 1365,
+    "height": 768
+  },
+  "detections": [
+    {
+      "id": "D1",
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "confidence": 0.919,
+      "bbox": [
+        94.5,
+        314.5,
+        704.4,
+        676.2
+      ],
+      "center": [
+        399.4,
+        495.4
+      ],
+      "image_position_normalized": [
+        0.2926,
+        0.645
+      ]
+    },
+    {
+      "id": "D2",
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "confidence": 0.841,
+      "bbox": [
+        679.6,
+        292.7,
+        1068.5,
+        630.4
+      ],
+      "center": [
+        874.0,
+        461.6
+      ],
+      "image_position_normalized": [
+        0.6403,
+        0.601
+      ]
+    },
+    {
+      "id": "D3",
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "confidence": 0.837,
+      "bbox": [
+        0.8,
+        581.8,
+        129.6,
+        765.9
+      ],
+      "center": [
+        65.2,
+        673.9
+      ],
+      "image_position_normalized": [
+        0.0478,
+        0.8774
+      ]
+    },
+    {
+      "id": "D4",
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "confidence": 0.737,
+      "bbox": [
+        1253.7,
+        344.9,
+        1364.7,
+        737.5
+      ],
+      "center": [
+        1309.2,
+        541.2
+      ],
+      "image_position_normalized": [
+        0.9591,
+        0.7047
+      ]
+    },
+    {
+      "id": "D5",
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "confidence": 0.729,
+      "bbox": [
+        0.4,
+        351.8,
+        141.8,
+        451.0
+      ],
+      "center": [
+        71.1,
+        401.4
+      ],
+      "image_position_normalized": [
+        0.0521,
+        0.5227
+      ]
+    },
+    {
+      "id": "D6",
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "confidence": 0.72,
+      "bbox": [
+        1216.4,
+        336.9,
+        1361.6,
+        548.5
+      ],
+      "center": [
+        1289.0,
+        442.7
+      ],
+      "image_position_normalized": [
+        0.9443,
+        0.5764
+      ]
+    },
+    {
+      "id": "D7",
+      "category": "traffic light",
+      "category_zh": "交通信号灯",
+      "object_group": "facility",
+      "confidence": 0.71,
+      "bbox": [
+        324.2,
+        58.0,
+        379.3,
+        197.5
+      ],
+      "center": [
+        351.7,
+        127.7
+      ],
+      "image_position_normalized": [
+        0.2577,
+        0.1663
+      ]
+    },
+    {
+      "id": "D8",
+      "category": "person",
+      "category_zh": "行人",
+      "object_group": "participant",
+      "confidence": 0.706,
+      "bbox": [
+        1084.7,
+        271.6,
+        1199.7,
+        657.8
+      ],
+      "center": [
+        1142.2,
+        464.7
+      ],
+      "image_position_normalized": [
+        0.8368,
+        0.6051
+      ]
+    },
+    {
+      "id": "D9",
+      "category": "person",
+      "category_zh": "行人",
+      "object_group": "participant",
+      "confidence": 0.676,
+      "bbox": [
+        1019.3,
+        281.7,
+        1130.2,
+        624.9
+      ],
+      "center": [
+        1074.7,
+        453.3
+      ],
+      "image_position_normalized": [
+        0.7874,
+        0.5903
+      ]
+    },
+    {
+      "id": "D10",
+      "category": "person",
+      "category_zh": "行人",
+      "object_group": "participant",
+      "confidence": 0.622,
+      "bbox": [
+        550.6,
+        277.3,
+        687.9,
+        497.5
+      ],
+      "center": [
+        619.2,
+        387.4
+      ],
+      "image_position_normalized": [
+        0.4537,
+        0.5045
+      ]
+    },
+    {
+      "id": "D11",
+      "category": "traffic light",
+      "category_zh": "交通信号灯",
+      "object_group": "facility",
+      "confidence": 0.54,
+      "bbox": [
+        243.9,
+        52.9,
+        304.1,
+        194.9
+      ],
+      "center": [
+        274.0,
+        123.9
+      ],
+      "image_position_normalized": [
+        0.2007,
+        0.1613
+      ]
+    },
+    {
+      "id": "D12",
+      "category": "traffic light",
+      "category_zh": "交通信号灯",
+      "object_group": "facility",
+      "confidence": 0.409,
+      "bbox": [
+        822.9,
+        257.3,
+        838.6,
+        296.6
+      ],
+      "center": [
+        830.8,
+        276.9
+      ],
+      "image_position_normalized": [
+        0.6086,
+        0.3606
+      ]
+    },
+    {
+      "id": "D13",
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "confidence": 0.343,
+      "bbox": [
+        473.4,
+        315.0,
+        547.3,
+        374.0
+      ],
+      "center": [
+        510.3,
+        344.5
+      ],
+      "image_position_normalized": [
+        0.3739,
+        0.4486
+      ]
+    },
+    {
+      "id": "D14",
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "confidence": 0.337,
+      "bbox": [
+        1186.7,
+        347.6,
+        1271.2,
+        492.1
+      ],
+      "center": [
+        1229.0,
+        419.8
+      ],
+      "image_position_normalized": [
+        0.9004,
+        0.5467
+      ]
+    },
+    {
+      "id": "D15",
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "confidence": 0.33,
+      "bbox": [
+        634.2,
+        328.8,
+        703.7,
+        392.0
+      ],
+      "center": [
+        669.0,
+        360.4
+      ],
+      "image_position_normalized": [
+        0.4901,
+        0.4693
+      ]
+    }
+  ]
+}

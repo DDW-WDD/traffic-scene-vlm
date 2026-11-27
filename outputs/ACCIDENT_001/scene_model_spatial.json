@@ -1,0 +1,887 @@
+{
+  "scene_id": "ACCIDENT_001",
+  "image_info": {
+    "width": 1365,
+    "height": 768
+  },
+  "objects": [
+    {
+      "id": "O1",
+      "detection_id": "D1",
+      "vlm_id": "V1",
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "bbox": [
+        94.5,
+        314.5,
+        704.4,
+        676.2
+      ],
+      "center": [
+        399.4,
+        495.4
+      ],
+      "confidence": 0.919,
+      "vlm_description": "银色双门微型车，车头右侧有明显碰撞凹陷和损坏，驾驶侧车门处于打开状态",
+      "vlm_image_position": "画面左侧前景",
+      "vlm_category": "车辆",
+      "semantic_match_status": "manually_confirmed",
+      "ground_anchor_image": [
+        399.45,
+        676.2
+      ],
+      "ground_position": {
+        "x": -1.385,
+        "y": 1.522,
+        "unit": "local_unit",
+        "status": "projected_extrapolated",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center"
+      }
+    },
+    {
+      "id": "O2",
+      "detection_id": "D2",
+      "vlm_id": "V2",
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "bbox": [
+        679.6,
+        292.7,
+        1068.5,
+        630.4
+      ],
+      "center": [
+        874.0,
+        461.6
+      ],
+      "confidence": 0.841,
+      "vlm_description": "灰色SUV，车尾保险杠及尾门区域有碰撞痕迹，红色尾灯亮起",
+      "vlm_image_position": "画面中间偏右前景",
+      "vlm_category": "车辆",
+      "semantic_match_status": "manually_confirmed",
+      "ground_anchor_image": [
+        874.05,
+        630.4
+      ],
+      "ground_position": {
+        "x": 3.868,
+        "y": 2.683,
+        "unit": "local_unit",
+        "status": "projected",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center"
+      }
+    },
+    {
+      "id": "O3",
+      "detection_id": "D3",
+      "vlm_id": null,
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "bbox": [
+        0.8,
+        581.8,
+        129.6,
+        765.9
+      ],
+      "center": [
+        65.2,
+        673.9
+      ],
+      "confidence": 0.837,
+      "vlm_description": "",
+      "vlm_image_position": "",
+      "vlm_category": "",
+      "semantic_match_status": "unmatched_detection",
+      "ground_anchor_image": [
+        65.2,
+        765.9
+      ],
+      "ground_position": {
+        "x": -2.788,
+        "y": -0.026,
+        "unit": "local_unit",
+        "status": "projected_extrapolated",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center"
+      }
+    },
+    {
+      "id": "O4",
+      "detection_id": "D4",
+      "vlm_id": null,
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "bbox": [
+        1253.7,
+        344.9,
+        1364.7,
+        737.5
+      ],
+      "center": [
+        1309.2,
+        541.2
+      ],
+      "confidence": 0.737,
+      "vlm_description": "",
+      "vlm_image_position": "",
+      "vlm_category": "",
+      "semantic_match_status": "unmatched_detection",
+      "ground_anchor_image": [
+        1309.2,
+        737.5
+      ],
+      "ground_position": {
+        "x": 9.057,
+        "y": 0.388,
+        "unit": "local_unit",
+        "status": "projected_extrapolated",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center"
+      }
+    },
+    {
+      "id": "O5",
+      "detection_id": "D5",
+      "vlm_id": null,
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "bbox": [
+        0.4,
+        351.8,
+        141.8,
+        451.0
+      ],
+      "center": [
+        71.1,
+        401.4
+      ],
+      "confidence": 0.729,
+      "vlm_description": "",
+      "vlm_image_position": "",
+      "vlm_category": "",
+      "semantic_match_status": "unmatched_detection",
+      "ground_anchor_image": [
+        71.1,
+        451.0
+      ],
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "outside_calibration_region",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center",
+        "rejected_projection": {
+          "x": -30.372,
+          "y": 16.628,
+          "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
+        }
+      }
+    },
+    {
+      "id": "O6",
+      "detection_id": "D6",
+      "vlm_id": null,
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "bbox": [
+        1216.4,
+        336.9,
+        1361.6,
+        548.5
+      ],
+      "center": [
+        1289.0,
+        442.7
+      ],
+      "confidence": 0.72,
+      "vlm_description": "",
+      "vlm_image_position": "",
+      "vlm_category": "",
+      "semantic_match_status": "unmatched_detection",
+      "ground_anchor_image": [
+        1289.0,
+        548.5
+      ],
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "outside_calibration_region",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center",
+        "rejected_projection": {
+          "x": 10.699,
+          "y": 6.044,
+          "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
+        }
+      }
+    },
+    {
+      "id": "O7",
+      "detection_id": "D7",
+      "vlm_id": null,
+      "category": "traffic light",
+      "category_zh": "交通信号灯",
+      "object_group": "facility",
+      "bbox": [
+        324.2,
+        58.0,
+        379.3,
+        197.5
+      ],
+      "center": [
+        351.7,
+        127.7
+      ],
+      "confidence": 0.71,
+      "vlm_description": "",
+      "vlm_image_position": "",
+      "vlm_category": "",
+      "semantic_match_status": "unmatched_detection",
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "excluded_non_ground_object",
+        "method": "none",
+        "reason": "悬空道路交通设施，无地面接触点"
+      }
+    },
+    {
+      "id": "O8",
+      "detection_id": "D8",
+      "vlm_id": "P1",
+      "category": "person",
+      "category_zh": "行人",
+      "object_group": "participant",
+      "bbox": [
+        1084.7,
+        271.6,
+        1199.7,
+        657.8
+      ],
+      "center": [
+        1142.2,
+        464.7
+      ],
+      "confidence": 0.706,
+      "vlm_description": "身穿深蓝色羽绒服和牛仔裤的男性，正举着相机或手机对着两车碰撞部位拍照",
+      "vlm_image_position": "画面右侧，V2车辆右后方",
+      "vlm_category": "行人",
+      "semantic_match_status": "manually_confirmed",
+      "ground_anchor_image": [
+        1142.2,
+        657.8
+      ],
+      "ground_position": {
+        "x": 7.51,
+        "y": 1.948,
+        "unit": "local_unit",
+        "status": "projected",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center"
+      }
+    },
+    {
+      "id": "O9",
+      "detection_id": "D9",
+      "vlm_id": "P2",
+      "category": "person",
+      "category_zh": "行人",
+      "object_group": "participant",
+      "bbox": [
+        1019.3,
+        281.7,
+        1130.2,
+        624.9
+      ],
+      "center": [
+        1074.7,
+        453.3
+      ],
+      "confidence": 0.676,
+      "vlm_description": "身穿深色外套和牛仔裤的男性，正面向P1，似乎在交谈或查看情况",
+      "vlm_image_position": "画面右侧，P1左侧",
+      "vlm_category": "行人",
+      "semantic_match_status": "manually_confirmed",
+      "ground_anchor_image": [
+        1074.75,
+        624.9
+      ],
+      "ground_position": {
+        "x": 6.638,
+        "y": 2.848,
+        "unit": "local_unit",
+        "status": "projected",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center"
+      }
+    },
+    {
+      "id": "O10",
+      "detection_id": "D10",
+      "vlm_id": "P3",
+      "category": "person",
+      "category_zh": "行人",
+      "object_group": "participant",
+      "bbox": [
+        550.6,
+        277.3,
+        687.9,
+        497.5
+      ],
+      "center": [
+        619.2,
+        387.4
+      ],
+      "confidence": 0.622,
+      "vlm_description": "身穿深色外套的男性，站在V1打开的驾驶座车门旁",
+      "vlm_image_position": "画面中间偏左，V1车辆旁边",
+      "vlm_category": "行人",
+      "semantic_match_status": "manually_confirmed",
+      "ground_anchor_image": [
+        619.25,
+        497.5
+      ],
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "outside_calibration_region",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center",
+        "rejected_projection": {
+          "x": -5.199,
+          "y": 9.925,
+          "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
+        }
+      }
+    },
+    {
+      "id": "O11",
+      "detection_id": "D11",
+      "vlm_id": null,
+      "category": "traffic light",
+      "category_zh": "交通信号灯",
+      "object_group": "facility",
+      "bbox": [
+        243.9,
+        52.9,
+        304.1,
+        194.9
+      ],
+      "center": [
+        274.0,
+        123.9
+      ],
+      "confidence": 0.54,
+      "vlm_description": "",
+      "vlm_image_position": "",
+      "vlm_category": "",
+      "semantic_match_status": "unmatched_detection",
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "excluded_non_ground_object",
+        "method": "none",
+        "reason": "悬空道路交通设施，无地面接触点"
+      }
+    },
+    {
+      "id": "O12",
+      "detection_id": "D12",
+      "vlm_id": null,
+      "category": "traffic light",
+      "category_zh": "交通信号灯",
+      "object_group": "facility",
+      "bbox": [
+        822.9,
+        257.3,
+        838.6,
+        296.6
+      ],
+      "center": [
+        830.8,
+        276.9
+      ],
+      "confidence": 0.409,
+      "vlm_description": "",
+      "vlm_image_position": "",
+      "vlm_category": "",
+      "semantic_match_status": "unmatched_detection",
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "excluded_non_ground_object",
+        "method": "none",
+        "reason": "悬空道路交通设施，无地面接触点"
+      }
+    },
+    {
+      "id": "O13",
+      "detection_id": "D13",
+      "vlm_id": null,
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "bbox": [
+        473.4,
+        315.0,
+        547.3,
+        374.0
+      ],
+      "center": [
+        510.3,
+        344.5
+      ],
+      "confidence": 0.343,
+      "vlm_description": "",
+      "vlm_image_position": "",
+      "vlm_category": "",
+      "semantic_match_status": "unmatched_detection",
+      "ground_anchor_image": [
+        510.35,
+        374.0
+      ],
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "outside_calibration_region",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center",
+        "rejected_projection": {
+          "x": -65.154,
+          "y": 70.518,
+          "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
+        }
+      }
+    },
+    {
+      "id": "O14",
+      "detection_id": "D14",
+      "vlm_id": null,
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "bbox": [
+        1186.7,
+        347.6,
+        1271.2,
+        492.1
+      ],
+      "center": [
+        1229.0,
+        419.8
+      ],
+      "confidence": 0.337,
+      "vlm_description": "",
+      "vlm_image_position": "",
+      "vlm_category": "",
+      "semantic_match_status": "unmatched_detection",
+      "ground_anchor_image": [
+        1228.95,
+        492.1
+      ],
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "outside_calibration_region",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center",
+        "rejected_projection": {
+          "x": 10.556,
+          "y": 10.49,
+          "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
+        }
+      }
+    },
+    {
+      "id": "O15",
+      "detection_id": "D15",
+      "vlm_id": null,
+      "category": "car",
+      "category_zh": "小汽车",
+      "object_group": "participant",
+      "bbox": [
+        634.2,
+        328.8,
+        703.7,
+        392.0
+      ],
+      "center": [
+        669.0,
+        360.4
+      ],
+      "confidence": 0.33,
+      "vlm_description": "",
+      "vlm_image_position": "",
+      "vlm_category": "",
+      "semantic_match_status": "unmatched_detection",
+      "ground_anchor_image": [
+        668.95,
+        392.0
+      ],
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "outside_calibration_region",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center",
+        "rejected_projection": {
+          "x": -26.62,
+          "y": 43.066,
+          "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
+        }
+      }
+    }
+  ],
+  "semantic_relations": [
+    {
+      "subject": "O1",
+      "predicate": "接触",
+      "object": "O2",
+      "source": "vlm",
+      "confidence": null,
+      "status": "observed",
+      "evidence": "V1的车头右侧紧密抵住V2的车尾左侧，接触区域有明显的物理形变，且两车之间的路面上散落着黑色的车辆碎片。",
+      "ground_distance": {
+        "value": 5.38,
+        "unit": "local_unit",
+        "source": "homography_distance"
+      }
+    }
+  ],
+  "geometry_relations": [
+    {
+      "subject": "O1",
+      "predicate": "bbox_overlap_candidate",
+      "object": "O10",
+      "source": "geometry",
+      "confidence": null,
+      "status": "candidate",
+      "horizontal_relation": "left_of",
+      "vertical_relation": "below",
+      "evidence": "检测框 IoU 0.111 > 0.05",
+      "metrics": {
+        "center_distance_normalized": 0.2138,
+        "iou": 0.1113
+      }
+    },
+    {
+      "subject": "O2",
+      "predicate": "bbox_overlap_candidate",
+      "object": "O9",
+      "source": "geometry",
+      "confidence": null,
+      "status": "candidate",
+      "horizontal_relation": "left_of",
+      "vertical_relation": "below",
+      "evidence": "检测框 IoU 0.107 > 0.05",
+      "metrics": {
+        "center_distance_normalized": 0.1475,
+        "iou": 0.1068
+      }
+    },
+    {
+      "subject": "O4",
+      "predicate": "bbox_overlap_candidate",
+      "object": "O6",
+      "source": "geometry",
+      "confidence": null,
+      "status": "candidate",
+      "horizontal_relation": "right_of",
+      "vertical_relation": "below",
+      "evidence": "检测框 IoU 0.420 > 0.05",
+      "metrics": {
+        "center_distance_normalized": 0.1292,
+        "iou": 0.4198
+      }
+    },
+    {
+      "subject": "O6",
+      "predicate": "near_candidate",
+      "object": "O8",
+      "source": "geometry",
+      "confidence": null,
+      "status": "candidate",
+      "horizontal_relation": "right_of",
+      "vertical_relation": "above",
+      "evidence": "归一化中心距离 0.111 < 0.12",
+      "metrics": {
+        "center_distance_normalized": 0.1113,
+        "iou": 0.0
+      }
+    },
+    {
+      "subject": "O6",
+      "predicate": "near_candidate",
+      "object": "O14",
+      "source": "geometry",
+      "confidence": null,
+      "status": "candidate",
+      "horizontal_relation": "right_of",
+      "vertical_relation": "below",
+      "evidence": "归一化中心距离 0.053 < 0.12",
+      "metrics": {
+        "center_distance_normalized": 0.053,
+        "iou": 0.2261
+      }
+    },
+    {
+      "subject": "O6",
+      "predicate": "bbox_overlap_candidate",
+      "object": "O14",
+      "source": "geometry",
+      "confidence": null,
+      "status": "candidate",
+      "horizontal_relation": "right_of",
+      "vertical_relation": "below",
+      "evidence": "检测框 IoU 0.226 > 0.05",
+      "metrics": {
+        "center_distance_normalized": 0.053,
+        "iou": 0.2261
+      }
+    },
+    {
+      "subject": "O7",
+      "predicate": "near_candidate",
+      "object": "O11",
+      "source": "geometry",
+      "confidence": null,
+      "status": "candidate",
+      "horizontal_relation": "right_of",
+      "vertical_relation": "below",
+      "evidence": "归一化中心距离 0.057 < 0.12",
+      "metrics": {
+        "center_distance_normalized": 0.0572,
+        "iou": 0.0
+      }
+    },
+    {
+      "subject": "O8",
+      "predicate": "near_candidate",
+      "object": "O9",
+      "source": "geometry",
+      "confidence": null,
+      "status": "candidate",
+      "horizontal_relation": "right_of",
+      "vertical_relation": "below",
+      "evidence": "归一化中心距离 0.052 < 0.12",
+      "metrics": {
+        "center_distance_normalized": 0.0516,
+        "iou": 0.2336
+      }
+    },
+    {
+      "subject": "O8",
+      "predicate": "bbox_overlap_candidate",
+      "object": "O9",
+      "source": "geometry",
+      "confidence": null,
+      "status": "candidate",
+      "horizontal_relation": "right_of",
+      "vertical_relation": "below",
+      "evidence": "检测框 IoU 0.234 > 0.05",
+      "metrics": {
+        "center_distance_normalized": 0.0516,
+        "iou": 0.2336
+      }
+    },
+    {
+      "subject": "O8",
+      "predicate": "near_candidate",
+      "object": "O14",
+      "source": "geometry",
+      "confidence": null,
+      "status": "candidate",
+      "horizontal_relation": "left_of",
+      "vertical_relation": "below",
+      "evidence": "归一化中心距离 0.086 < 0.12",
+      "metrics": {
+        "center_distance_normalized": 0.0863,
+        "iou": 0.0343
+      }
+    },
+    {
+      "subject": "O10",
+      "predicate": "near_candidate",
+      "object": "O13",
+      "source": "geometry",
+      "confidence": null,
+      "status": "candidate",
+      "horizontal_relation": "right_of",
+      "vertical_relation": "below",
+      "evidence": "归一化中心距离 0.097 < 0.12",
+      "metrics": {
+        "center_distance_normalized": 0.0974,
+        "iou": 0.0
+      }
+    },
+    {
+      "subject": "O10",
+      "predicate": "near_candidate",
+      "object": "O15",
+      "source": "geometry",
+      "confidence": null,
+      "status": "candidate",
+      "horizontal_relation": "left_of",
+      "vertical_relation": "below",
+      "evidence": "归一化中心距离 0.051 < 0.12",
+      "metrics": {
+        "center_distance_normalized": 0.0506,
+        "iou": 0.1087
+      }
+    },
+    {
+      "subject": "O10",
+      "predicate": "bbox_overlap_candidate",
+      "object": "O15",
+      "source": "geometry",
+      "confidence": null,
+      "status": "candidate",
+      "horizontal_relation": "left_of",
+      "vertical_relation": "below",
+      "evidence": "检测框 IoU 0.109 > 0.05",
+      "metrics": {
+        "center_distance_normalized": 0.0506,
+        "iou": 0.1087
+      }
+    },
+    {
+      "subject": "O13",
+      "predicate": "near_candidate",
+      "object": "O15",
+      "source": "geometry",
+      "confidence": null,
+      "status": "candidate",
+      "horizontal_relation": "left_of",
+      "vertical_relation": "above",
+      "evidence": "归一化中心距离 0.118 < 0.12",
+      "metrics": {
+        "center_distance_normalized": 0.118,
+        "iou": 0.0
+      }
+    }
+  ],
+  "unresolved_relations": [],
+  "accident_event": {
+    "type": "追尾碰撞",
+    "confidence": "高",
+    "evidence": "V1（微型车）的车头部位与V2（SUV）的车尾部位直接接触并受损，这是典型的追尾碰撞形态。",
+    "source": "vlm",
+    "status": "inferred"
+  },
+  "road_environment": {
+    "road_type": "城市多车道道路",
+    "visible_facilities": [
+      "交通信号灯（显示红灯）",
+      "路灯",
+      "车道标线",
+      "交通标志牌"
+    ]
+  },
+  "road_plane": {
+    "coordinate_system": "local_road_plane",
+    "unit": "local_unit",
+    "origin_description": "近端左侧控制点：左侧车道白线在画面底边（y=764）的中心位置",
+    "axis_description": {
+      "X": "道路横向，由近端左侧白线指向近端右侧白线",
+      "Y": "道路纵向，由近端（画面下方）指向远端（画面上方）"
+    },
+    "image_points": [
+      [
+        365.0,
+        764.0
+      ],
+      [
+        1212.0,
+        764.0
+      ],
+      [
+        1170.0,
+        620.0
+      ],
+      [
+        612.0,
+        620.0
+      ]
+    ],
+    "ground_points": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        8.0,
+        0.0
+      ],
+      [
+        8.0,
+        3.0
+      ],
+      [
+        0.0,
+        3.0
+      ]
+    ],
+    "homography_matrix": [
+      [
+        -0.011657,
+        -0.019994,
+        19.530336
+      ],
+      [
+        0.0,
+        0.016939,
+        -12.941029
+      ],
+      [
+        0.0,
+        -0.002924,
+        1.0
+      ]
+    ],
+    "ground_extent": {
+      "x_min": 0.0,
+      "x_max": 8.0,
+      "y_min": 0.0,
+      "y_max": 3.0
+    },
+    "assumptions": {
+      "road_width_local_unit": 8.0,
+      "visible_depth_local_unit": 3.0,
+      "statement": "本案例无实测道路尺寸，8.0 x 3.0 为假设的局部矩形尺寸，仅用于建立可复现的局部坐标系，不代表真实米制尺寸。该长宽比与由两条白线灭点推出的纵深尺度基本一致（约 3.0-3.6 单位），用于减小俯视图的纵横比例失真。"
+    },
+    "extrapolation_margin_ratio": 0.35,
+    "calibration_status": "manually_selected_unverified_metric"
+  },
+  "projection_summary": {
+    "eligible_ground_objects": 12,
+    "projected": 3,
+    "projected_extrapolated": 3,
+    "outside_calibration_region": 6,
+    "excluded_non_ground_object": 3,
+    "no_bbox_available": 0,
+    "success_rate_percent": 50.0,
+    "unit": "local_unit",
+    "self_consistency_error": {
+      "reprojection_error_max": 0.0,
+      "reprojection_error_mean": 0.0,
+      "note": "控制点同时用于求解与自洽性检查，误差接近 0 只说明求解正确，不代表真实定位精度。"
+    }
+  }
+}

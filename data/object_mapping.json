@@ -1,0 +1,8 @@
+{
+  "_comment": "人工确认的 VLM 对象 ↔ YOLO 检测对象匹配表。key 为 VLM 输出中的对象 id，value 为 YOLO 检测 D 编号。请在带编号图 detection_visualization.png 上逐一复核。",
+  "V1": "D1",
+  "V2": "D2",
+  "P1": "D8",
+  "P2": "D9",
+  "P3": "D10"
+}

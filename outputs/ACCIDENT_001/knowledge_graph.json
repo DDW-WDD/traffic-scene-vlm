@@ -1,0 +1,392 @@
+{
+  "nodes": [
+    {
+      "id": "ACCIDENT_001",
+      "node_type": "Scene",
+      "label": "ACCIDENT_001"
+    },
+    {
+      "id": "O1",
+      "node_type": "Vehicle",
+      "label": "银色双门微型车，车头右侧有明",
+      "category": "car",
+      "confidence": 0.919,
+      "match_status": "manually_confirmed"
+    },
+    {
+      "id": "O2",
+      "node_type": "Vehicle",
+      "label": "灰色SUV，车尾保险杠及尾门",
+      "category": "car",
+      "confidence": 0.841,
+      "match_status": "manually_confirmed"
+    },
+    {
+      "id": "O3",
+      "node_type": "Vehicle",
+      "label": "小汽车",
+      "category": "car",
+      "confidence": 0.837,
+      "match_status": "unmatched_detection"
+    },
+    {
+      "id": "O4",
+      "node_type": "Vehicle",
+      "label": "小汽车",
+      "category": "car",
+      "confidence": 0.737,
+      "match_status": "unmatched_detection"
+    },
+    {
+      "id": "O5",
+      "node_type": "Vehicle",
+      "label": "小汽车",
+      "category": "car",
+      "confidence": 0.729,
+      "match_status": "unmatched_detection"
+    },
+    {
+      "id": "O6",
+      "node_type": "Vehicle",
+      "label": "小汽车",
+      "category": "car",
+      "confidence": 0.72,
+      "match_status": "unmatched_detection"
+    },
+    {
+      "id": "O7",
+      "node_type": "Facility",
+      "label": "交通信号灯",
+      "category": "traffic light",
+      "confidence": 0.71,
+      "match_status": "unmatched_detection"
+    },
+    {
+      "id": "O8",
+      "node_type": "Pedestrian",
+      "label": "身穿深蓝色羽绒服和牛仔裤的男",
+      "category": "person",
+      "confidence": 0.706,
+      "match_status": "manually_confirmed"
+    },
+    {
+      "id": "O9",
+      "node_type": "Pedestrian",
+      "label": "身穿深色外套和牛仔裤的男性，",
+      "category": "person",
+      "confidence": 0.676,
+      "match_status": "manually_confirmed"
+    },
+    {
+      "id": "O10",
+      "node_type": "Pedestrian",
+      "label": "身穿深色外套的男性，站在V1",
+      "category": "person",
+      "confidence": 0.622,
+      "match_status": "manually_confirmed"
+    },
+    {
+      "id": "O11",
+      "node_type": "Facility",
+      "label": "交通信号灯",
+      "category": "traffic light",
+      "confidence": 0.54,
+      "match_status": "unmatched_detection"
+    },
+    {
+      "id": "O12",
+      "node_type": "Facility",
+      "label": "交通信号灯",
+      "category": "traffic light",
+      "confidence": 0.409,
+      "match_status": "unmatched_detection"
+    },
+    {
+      "id": "O13",
+      "node_type": "Vehicle",
+      "label": "小汽车",
+      "category": "car",
+      "confidence": 0.343,
+      "match_status": "unmatched_detection"
+    },
+    {
+      "id": "O14",
+      "node_type": "Vehicle",
+      "label": "小汽车",
+      "category": "car",
+      "confidence": 0.337,
+      "match_status": "unmatched_detection"
+    },
+    {
+      "id": "O15",
+      "node_type": "Vehicle",
+      "label": "小汽车",
+      "category": "car",
+      "confidence": 0.33,
+      "match_status": "unmatched_detection"
+    },
+    {
+      "id": "ACCIDENT_EVENT",
+      "node_type": "AccidentEvent",
+      "label": "事故事件：追尾碰撞",
+      "confidence": "高",
+      "source": "vlm"
+    }
+  ],
+  "edges": [
+    {
+      "source": "O1",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O1",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "vlm",
+      "target": "O2",
+      "relation": "接触",
+      "status": "observed",
+      "evidence": "V1的车头右侧紧密抵住V2的车尾左侧，接触区域有明显的物理形变，且两车之间的路面上散落着黑色的车辆碎片。"
+    },
+    {
+      "source": "geometry",
+      "target": "O10",
+      "relation": "bbox_overlap_candidate",
+      "status": "candidate",
+      "evidence": "检测框 IoU 0.111 > 0.05",
+      "iou": 0.1113
+    },
+    {
+      "source": "O2",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O2",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "geometry",
+      "target": "O9",
+      "relation": "bbox_overlap_candidate",
+      "status": "candidate",
+      "evidence": "检测框 IoU 0.107 > 0.05",
+      "iou": 0.1068
+    },
+    {
+      "source": "O3",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O3",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "O4",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O4",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "geometry",
+      "target": "O6",
+      "relation": "bbox_overlap_candidate",
+      "status": "candidate",
+      "evidence": "检测框 IoU 0.420 > 0.05",
+      "iou": 0.4198
+    },
+    {
+      "source": "O5",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O5",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "O6",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O6",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "geometry",
+      "target": "O8",
+      "relation": "near_candidate",
+      "status": "candidate",
+      "evidence": "归一化中心距离 0.111 < 0.12",
+      "iou": 0.0
+    },
+    {
+      "source": "geometry",
+      "target": "O14",
+      "relation": "near_candidate",
+      "status": "candidate",
+      "evidence": "归一化中心距离 0.053 < 0.12",
+      "iou": 0.2261
+    },
+    {
+      "source": "geometry",
+      "target": "O14",
+      "relation": "bbox_overlap_candidate",
+      "status": "candidate",
+      "evidence": "检测框 IoU 0.226 > 0.05",
+      "iou": 0.2261
+    },
+    {
+      "source": "O7",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "geometry",
+      "target": "O11",
+      "relation": "near_candidate",
+      "status": "candidate",
+      "evidence": "归一化中心距离 0.057 < 0.12",
+      "iou": 0.0
+    },
+    {
+      "source": "O8",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O8",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "geometry",
+      "target": "O9",
+      "relation": "near_candidate",
+      "status": "candidate",
+      "evidence": "归一化中心距离 0.052 < 0.12",
+      "iou": 0.2336
+    },
+    {
+      "source": "geometry",
+      "target": "O9",
+      "relation": "bbox_overlap_candidate",
+      "status": "candidate",
+      "evidence": "检测框 IoU 0.234 > 0.05",
+      "iou": 0.2336
+    },
+    {
+      "source": "geometry",
+      "target": "O14",
+      "relation": "near_candidate",
+      "status": "candidate",
+      "evidence": "归一化中心距离 0.086 < 0.12",
+      "iou": 0.0343
+    },
+    {
+      "source": "O9",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O9",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "O10",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O10",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "geometry",
+      "target": "O13",
+      "relation": "near_candidate",
+      "status": "candidate",
+      "evidence": "归一化中心距离 0.097 < 0.12",
+      "iou": 0.0
+    },
+    {
+      "source": "geometry",
+      "target": "O15",
+      "relation": "near_candidate",
+      "status": "candidate",
+      "evidence": "归一化中心距离 0.051 < 0.12",
+      "iou": 0.1087
+    },
+    {
+      "source": "geometry",
+      "target": "O15",
+      "relation": "bbox_overlap_candidate",
+      "status": "candidate",
+      "evidence": "检测框 IoU 0.109 > 0.05",
+      "iou": 0.1087
+    },
+    {
+      "source": "O11",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O12",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O13",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O13",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "geometry",
+      "target": "O15",
+      "relation": "near_candidate",
+      "status": "candidate",
+      "evidence": "归一化中心距离 0.118 < 0.12",
+      "iou": 0.0
+    },
+    {
+      "source": "O14",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O14",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "O15",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O15",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    }
+  ]
+}

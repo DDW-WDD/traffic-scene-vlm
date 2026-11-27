@@ -1,0 +1,176 @@
+{
+  "unit": "local_unit",
+  "source": "homography_distance",
+  "note": "距离为道路局部坐标下的欧氏距离，单位 local_unit，不可表述为米制精度。",
+  "pair_count": 15,
+  "pairs": [
+    {
+      "a": "O8",
+      "b": "O9",
+      "distance": 1.253,
+      "unit": "local_unit",
+      "a_status": "projected",
+      "b_status": "projected",
+      "source": "homography_distance",
+      "status": "computed"
+    },
+    {
+      "a": "O1",
+      "b": "O3",
+      "distance": 2.089,
+      "unit": "local_unit",
+      "a_status": "projected_extrapolated",
+      "b_status": "projected_extrapolated",
+      "source": "homography_distance",
+      "status": "computed"
+    },
+    {
+      "a": "O4",
+      "b": "O8",
+      "distance": 2.197,
+      "unit": "local_unit",
+      "a_status": "projected_extrapolated",
+      "b_status": "projected",
+      "source": "homography_distance",
+      "status": "computed"
+    },
+    {
+      "a": "O2",
+      "b": "O9",
+      "distance": 2.775,
+      "unit": "local_unit",
+      "a_status": "projected",
+      "b_status": "projected",
+      "source": "homography_distance",
+      "status": "computed"
+    },
+    {
+      "a": "O4",
+      "b": "O9",
+      "distance": 3.45,
+      "unit": "local_unit",
+      "a_status": "projected_extrapolated",
+      "b_status": "projected",
+      "source": "homography_distance",
+      "status": "computed"
+    },
+    {
+      "a": "O2",
+      "b": "O8",
+      "distance": 3.715,
+      "unit": "local_unit",
+      "a_status": "projected",
+      "b_status": "projected",
+      "source": "homography_distance",
+      "status": "computed"
+    },
+    {
+      "a": "O1",
+      "b": "O2",
+      "distance": 5.38,
+      "unit": "local_unit",
+      "a_status": "projected_extrapolated",
+      "b_status": "projected",
+      "source": "homography_distance",
+      "status": "computed"
+    },
+    {
+      "a": "O2",
+      "b": "O4",
+      "distance": 5.674,
+      "unit": "local_unit",
+      "a_status": "projected",
+      "b_status": "projected_extrapolated",
+      "source": "homography_distance",
+      "status": "computed"
+    },
+    {
+      "a": "O2",
+      "b": "O3",
+      "distance": 7.186,
+      "unit": "local_unit",
+      "a_status": "projected",
+      "b_status": "projected_extrapolated",
+      "source": "homography_distance",
+      "status": "computed"
+    },
+    {
+      "a": "O1",
+      "b": "O9",
+      "distance": 8.132,
+      "unit": "local_unit",
+      "a_status": "projected_extrapolated",
+      "b_status": "projected",
+      "source": "homography_distance",
+      "status": "computed"
+    },
+    {
+      "a": "O1",
+      "b": "O8",
+      "distance": 8.905,
+      "unit": "local_unit",
+      "a_status": "projected_extrapolated",
+      "b_status": "projected",
+      "source": "homography_distance",
+      "status": "computed"
+    },
+    {
+      "a": "O3",
+      "b": "O9",
+      "distance": 9.854,
+      "unit": "local_unit",
+      "a_status": "projected_extrapolated",
+      "b_status": "projected",
+      "source": "homography_distance",
+      "status": "computed"
+    },
+    {
+      "a": "O3",
+      "b": "O8",
+      "distance": 10.485,
+      "unit": "local_unit",
+      "a_status": "projected_extrapolated",
+      "b_status": "projected",
+      "source": "homography_distance",
+      "status": "computed"
+    },
+    {
+      "a": "O1",
+      "b": "O4",
+      "distance": 10.503,
+      "unit": "local_unit",
+      "a_status": "projected_extrapolated",
+      "b_status": "projected_extrapolated",
+      "source": "homography_distance",
+      "status": "computed"
+    },
+    {
+      "a": "O3",
+      "b": "O4",
+      "distance": 11.852,
+      "unit": "local_unit",
+      "a_status": "projected_extrapolated",
+      "b_status": "projected_extrapolated",
+      "source": "homography_distance",
+      "status": "computed"
+    }
+  ],
+  "nearest_pair": {
+    "a": "O8",
+    "b": "O9",
+    "distance": 1.253,
+    "unit": "local_unit",
+    "a_status": "projected",
+    "b_status": "projected",
+    "source": "homography_distance",
+    "status": "computed"
+  },
+  "semantic_relation_distances": [
+    {
+      "relation": "接触",
+      "subject": "O1",
+      "object": "O2",
+      "distance": 5.38
+    }
+  ]
+}

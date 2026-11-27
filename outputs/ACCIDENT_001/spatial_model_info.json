@@ -1,0 +1,91 @@
+{
+  "stage": "stage4_road_plane_projection",
+  "method": "planar homography (4 control points, DLT)",
+  "unit": "local_unit",
+  "calibration": {
+    "image_points": [
+      [
+        365.0,
+        764.0
+      ],
+      [
+        1212.0,
+        764.0
+      ],
+      [
+        1170.0,
+        620.0
+      ],
+      [
+        612.0,
+        620.0
+      ]
+    ],
+    "ground_points": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        8.0,
+        0.0
+      ],
+      [
+        8.0,
+        3.0
+      ],
+      [
+        0.0,
+        3.0
+      ]
+    ],
+    "calibration_status": "manually_selected_unverified_metric",
+    "assumptions": {
+      "road_width_local_unit": 8.0,
+      "visible_depth_local_unit": 3.0,
+      "statement": "本案例无实测道路尺寸，8.0 x 3.0 为假设的局部矩形尺寸，仅用于建立可复现的局部坐标系，不代表真实米制尺寸。该长宽比与由两条白线灭点推出的纵深尺度基本一致（约 3.0-3.6 单位），用于减小俯视图的纵横比例失真。"
+    }
+  },
+  "homography_matrix": [
+    [
+      -0.011657,
+      -0.019994,
+      19.530336
+    ],
+    [
+      0.0,
+      0.016939,
+      -12.941029
+    ],
+    [
+      0.0,
+      -0.002924,
+      1.0
+    ]
+  ],
+  "anchor_rule": {
+    "vehicle": "bbox 底边中点近似轮胎接地点",
+    "pedestrian": "bbox 底边中点近似脚部位置",
+    "facility": "悬空设施排除，不参与地面投影"
+  },
+  "counts": {
+    "projected": 3,
+    "projected_extrapolated": 3,
+    "outside_calibration_region": 6,
+    "excluded_non_ground_object": 3,
+    "no_bbox_available": 0
+  },
+  "success_rate_percent": 50.0,
+  "self_consistency": {
+    "reprojection_error_max": 0.0,
+    "reprojection_error_mean": 0.0,
+    "note": "控制点同时用于求解与自洽性检查，误差接近 0 只说明求解正确，不代表真实定位精度。"
+  },
+  "limitations": [
+    "仅有 4 个控制点，全部用于求解单应性矩阵，没有独立检验点，因此只能验证求解自洽性，不能给出独立的定位精度。",
+    "两条车道白线只在实际可见的近端区间（y≈668-764）被密集采样，标定四边形远端边界位于被车辆/行人遮挡的区域，由直线方程外推得到。",
+    "车辆与行人遮挡了大部分路面，标定区域外的对象只能外推并标记为 projected_extrapolated，外推距离过大者直接标记 outside_calibration_region 而不给坐标。",
+    "单位是 local_unit，任何距离都不能表述为米制精度。",
+    "目标地面锚点使用检测框底边中点近似，对斜向停放的车辆（如本案例被追尾的小汽车）该近似点会偏向车身一侧，属于已知误差来源。"
+  ]
+}

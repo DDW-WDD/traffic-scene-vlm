@@ -1,0 +1,20 @@
+{
+  "image_path": "outputs/ACCIDENT_001/original.jpg",
+  "image_width": 1365,
+  "image_height": 768,
+  "point_order": [
+    "near_left",
+    "near_right",
+    "far_right",
+    "far_left"
+  ],
+  "image_points": [
+    [365, 764],
+    [1212, 764],
+    [1170, 620],
+    [612, 620]
+  ],
+  "selection_note": "四个控制点均取自两条车道白线：近端两点为白线在画面底边 y=764 的实测中心；远端两点由白线直线方程外推到 y=620（该行被车辆与行人遮挡）。选择道路标线而非车身角点，是为了保证控制点严格位于道路平面内。",
+  "how_points_were_obtained": "先用 opencv 按行扫描近白像素得到 y=764/740/716/692/668 五行的白线中心，再拟合直线；随后用 3x3 中值滤波 + BGR 灰度/饱和度分类生成路面可视图，确认标定带内白线两侧均为沥青，最后用叠加图目视复核。",
+  "manual_pick_tool": "tools/pick_control_points.py（如需重新手工点选，可运行该工具按 S 保存）"
+}

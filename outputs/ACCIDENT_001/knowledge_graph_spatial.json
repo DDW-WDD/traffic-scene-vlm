@@ -1,0 +1,650 @@
+{
+  "nodes": [
+    {
+      "id": "ACCIDENT_001",
+      "node_type": "Scene",
+      "label": "ACCIDENT_001"
+    },
+    {
+      "id": "O1",
+      "node_type": "Vehicle",
+      "label": "银色双门微型车，车头右侧有明",
+      "category": "car",
+      "category_zh": "小汽车",
+      "confidence": 0.919,
+      "match_status": "manually_confirmed",
+      "ground_position": {
+        "x": -1.385,
+        "y": 1.522,
+        "unit": "local_unit",
+        "status": "projected_extrapolated",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center"
+      },
+      "ground_status": "projected_extrapolated"
+    },
+    {
+      "id": "O2",
+      "node_type": "Vehicle",
+      "label": "灰色SUV，车尾保险杠及尾门",
+      "category": "car",
+      "category_zh": "小汽车",
+      "confidence": 0.841,
+      "match_status": "manually_confirmed",
+      "ground_position": {
+        "x": 3.868,
+        "y": 2.683,
+        "unit": "local_unit",
+        "status": "projected",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center"
+      },
+      "ground_status": "projected"
+    },
+    {
+      "id": "O3",
+      "node_type": "Vehicle",
+      "label": "小汽车",
+      "category": "car",
+      "category_zh": "小汽车",
+      "confidence": 0.837,
+      "match_status": "unmatched_detection",
+      "ground_position": {
+        "x": -2.788,
+        "y": -0.026,
+        "unit": "local_unit",
+        "status": "projected_extrapolated",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center"
+      },
+      "ground_status": "projected_extrapolated"
+    },
+    {
+      "id": "O4",
+      "node_type": "Vehicle",
+      "label": "小汽车",
+      "category": "car",
+      "category_zh": "小汽车",
+      "confidence": 0.737,
+      "match_status": "unmatched_detection",
+      "ground_position": {
+        "x": 9.057,
+        "y": 0.388,
+        "unit": "local_unit",
+        "status": "projected_extrapolated",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center"
+      },
+      "ground_status": "projected_extrapolated"
+    },
+    {
+      "id": "O5",
+      "node_type": "Vehicle",
+      "label": "小汽车",
+      "category": "car",
+      "category_zh": "小汽车",
+      "confidence": 0.729,
+      "match_status": "unmatched_detection",
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "outside_calibration_region",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center",
+        "rejected_projection": {
+          "x": -30.372,
+          "y": 16.628,
+          "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
+        }
+      },
+      "ground_status": "outside_calibration_region"
+    },
+    {
+      "id": "O6",
+      "node_type": "Vehicle",
+      "label": "小汽车",
+      "category": "car",
+      "category_zh": "小汽车",
+      "confidence": 0.72,
+      "match_status": "unmatched_detection",
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "outside_calibration_region",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center",
+        "rejected_projection": {
+          "x": 10.699,
+          "y": 6.044,
+          "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
+        }
+      },
+      "ground_status": "outside_calibration_region"
+    },
+    {
+      "id": "O7",
+      "node_type": "Facility",
+      "label": "交通信号灯",
+      "category": "traffic light",
+      "category_zh": "交通信号灯",
+      "confidence": 0.71,
+      "match_status": "unmatched_detection",
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "excluded_non_ground_object",
+        "method": "none",
+        "reason": "悬空道路交通设施，无地面接触点"
+      },
+      "ground_status": "excluded_non_ground_object"
+    },
+    {
+      "id": "O8",
+      "node_type": "Pedestrian",
+      "label": "身穿深蓝色羽绒服和牛仔裤的男",
+      "category": "person",
+      "category_zh": "行人",
+      "confidence": 0.706,
+      "match_status": "manually_confirmed",
+      "ground_position": {
+        "x": 7.51,
+        "y": 1.948,
+        "unit": "local_unit",
+        "status": "projected",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center"
+      },
+      "ground_status": "projected"
+    },
+    {
+      "id": "O9",
+      "node_type": "Pedestrian",
+      "label": "身穿深色外套和牛仔裤的男性，",
+      "category": "person",
+      "category_zh": "行人",
+      "confidence": 0.676,
+      "match_status": "manually_confirmed",
+      "ground_position": {
+        "x": 6.638,
+        "y": 2.848,
+        "unit": "local_unit",
+        "status": "projected",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center"
+      },
+      "ground_status": "projected"
+    },
+    {
+      "id": "O10",
+      "node_type": "Pedestrian",
+      "label": "身穿深色外套的男性，站在V1",
+      "category": "person",
+      "category_zh": "行人",
+      "confidence": 0.622,
+      "match_status": "manually_confirmed",
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "outside_calibration_region",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center",
+        "rejected_projection": {
+          "x": -5.199,
+          "y": 9.925,
+          "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
+        }
+      },
+      "ground_status": "outside_calibration_region"
+    },
+    {
+      "id": "O11",
+      "node_type": "Facility",
+      "label": "交通信号灯",
+      "category": "traffic light",
+      "category_zh": "交通信号灯",
+      "confidence": 0.54,
+      "match_status": "unmatched_detection",
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "excluded_non_ground_object",
+        "method": "none",
+        "reason": "悬空道路交通设施，无地面接触点"
+      },
+      "ground_status": "excluded_non_ground_object"
+    },
+    {
+      "id": "O12",
+      "node_type": "Facility",
+      "label": "交通信号灯",
+      "category": "traffic light",
+      "category_zh": "交通信号灯",
+      "confidence": 0.409,
+      "match_status": "unmatched_detection",
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "excluded_non_ground_object",
+        "method": "none",
+        "reason": "悬空道路交通设施，无地面接触点"
+      },
+      "ground_status": "excluded_non_ground_object"
+    },
+    {
+      "id": "O13",
+      "node_type": "Vehicle",
+      "label": "小汽车",
+      "category": "car",
+      "category_zh": "小汽车",
+      "confidence": 0.343,
+      "match_status": "unmatched_detection",
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "outside_calibration_region",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center",
+        "rejected_projection": {
+          "x": -65.154,
+          "y": 70.518,
+          "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
+        }
+      },
+      "ground_status": "outside_calibration_region"
+    },
+    {
+      "id": "O14",
+      "node_type": "Vehicle",
+      "label": "小汽车",
+      "category": "car",
+      "category_zh": "小汽车",
+      "confidence": 0.337,
+      "match_status": "unmatched_detection",
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "outside_calibration_region",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center",
+        "rejected_projection": {
+          "x": 10.556,
+          "y": 10.49,
+          "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
+        }
+      },
+      "ground_status": "outside_calibration_region"
+    },
+    {
+      "id": "O15",
+      "node_type": "Vehicle",
+      "label": "小汽车",
+      "category": "car",
+      "category_zh": "小汽车",
+      "confidence": 0.33,
+      "match_status": "unmatched_detection",
+      "ground_position": {
+        "x": null,
+        "y": null,
+        "unit": "local_unit",
+        "status": "outside_calibration_region",
+        "method": "homography",
+        "anchor_rule": "bbox_bottom_center",
+        "rejected_projection": {
+          "x": -26.62,
+          "y": 43.066,
+          "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
+        }
+      },
+      "ground_status": "outside_calibration_region"
+    },
+    {
+      "id": "local_road_plane",
+      "node_type": "CoordinateSystem",
+      "label": "道路局部坐标系",
+      "unit": "local_unit",
+      "homography_matrix": [
+        [
+          -0.011657,
+          -0.019994,
+          19.530336
+        ],
+        [
+          0.0,
+          0.016939,
+          -12.941029
+        ],
+        [
+          0.0,
+          -0.002924,
+          1.0
+        ]
+      ],
+      "calibration_status": "manually_selected_unverified_metric"
+    },
+    {
+      "id": "ACCIDENT_EVENT",
+      "node_type": "AccidentEvent",
+      "label": "事故事件：追尾碰撞",
+      "confidence": "高",
+      "source": "vlm"
+    }
+  ],
+  "edges": [
+    {
+      "source": "O1",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "homography",
+      "target": "local_road_plane",
+      "relation": "position_in_coordinate_system",
+      "status": "projected_extrapolated",
+      "ground_x": -1.385,
+      "ground_y": 1.522,
+      "unit": "local_unit"
+    },
+    {
+      "source": "O1",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "vlm",
+      "target": "O2",
+      "relation": "接触",
+      "status": "observed",
+      "evidence": "V1的车头右侧紧密抵住V2的车尾左侧，接触区域有明显的物理形变，且两车之间的路面上散落着黑色的车辆碎片。"
+    },
+    {
+      "source": "geometry",
+      "target": "O10",
+      "relation": "bbox_overlap_candidate",
+      "status": "candidate",
+      "evidence": "检测框 IoU 0.111 > 0.05",
+      "iou": 0.1113
+    },
+    {
+      "source": "O2",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "homography",
+      "target": "local_road_plane",
+      "relation": "position_in_coordinate_system",
+      "status": "projected",
+      "ground_x": 3.868,
+      "ground_y": 2.683,
+      "unit": "local_unit"
+    },
+    {
+      "source": "O2",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "geometry",
+      "target": "O9",
+      "relation": "bbox_overlap_candidate",
+      "status": "candidate",
+      "evidence": "检测框 IoU 0.107 > 0.05",
+      "iou": 0.1068
+    },
+    {
+      "source": "O3",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "homography",
+      "target": "local_road_plane",
+      "relation": "position_in_coordinate_system",
+      "status": "projected_extrapolated",
+      "ground_x": -2.788,
+      "ground_y": -0.026,
+      "unit": "local_unit"
+    },
+    {
+      "source": "O3",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "O4",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "homography",
+      "target": "local_road_plane",
+      "relation": "position_in_coordinate_system",
+      "status": "projected_extrapolated",
+      "ground_x": 9.057,
+      "ground_y": 0.388,
+      "unit": "local_unit"
+    },
+    {
+      "source": "O4",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "geometry",
+      "target": "O6",
+      "relation": "bbox_overlap_candidate",
+      "status": "candidate",
+      "evidence": "检测框 IoU 0.420 > 0.05",
+      "iou": 0.4198
+    },
+    {
+      "source": "O5",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O5",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "O6",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O6",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "geometry",
+      "target": "O8",
+      "relation": "near_candidate",
+      "status": "candidate",
+      "evidence": "归一化中心距离 0.111 < 0.12",
+      "iou": 0.0
+    },
+    {
+      "source": "geometry",
+      "target": "O14",
+      "relation": "near_candidate",
+      "status": "candidate",
+      "evidence": "归一化中心距离 0.053 < 0.12",
+      "iou": 0.2261
+    },
+    {
+      "source": "geometry",
+      "target": "O14",
+      "relation": "bbox_overlap_candidate",
+      "status": "candidate",
+      "evidence": "检测框 IoU 0.226 > 0.05",
+      "iou": 0.2261
+    },
+    {
+      "source": "O7",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "geometry",
+      "target": "O11",
+      "relation": "near_candidate",
+      "status": "candidate",
+      "evidence": "归一化中心距离 0.057 < 0.12",
+      "iou": 0.0
+    },
+    {
+      "source": "O8",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "homography",
+      "target": "local_road_plane",
+      "relation": "position_in_coordinate_system",
+      "status": "projected",
+      "ground_x": 7.51,
+      "ground_y": 1.948,
+      "unit": "local_unit"
+    },
+    {
+      "source": "O8",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "geometry",
+      "target": "O9",
+      "relation": "near_candidate",
+      "status": "candidate",
+      "evidence": "归一化中心距离 0.052 < 0.12",
+      "iou": 0.2336
+    },
+    {
+      "source": "geometry",
+      "target": "O9",
+      "relation": "bbox_overlap_candidate",
+      "status": "candidate",
+      "evidence": "检测框 IoU 0.234 > 0.05",
+      "iou": 0.2336
+    },
+    {
+      "source": "geometry",
+      "target": "O14",
+      "relation": "near_candidate",
+      "status": "candidate",
+      "evidence": "归一化中心距离 0.086 < 0.12",
+      "iou": 0.0343
+    },
+    {
+      "source": "O9",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "homography",
+      "target": "local_road_plane",
+      "relation": "position_in_coordinate_system",
+      "status": "projected",
+      "ground_x": 6.638,
+      "ground_y": 2.848,
+      "unit": "local_unit"
+    },
+    {
+      "source": "O9",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "O10",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O10",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "geometry",
+      "target": "O13",
+      "relation": "near_candidate",
+      "status": "candidate",
+      "evidence": "归一化中心距离 0.097 < 0.12",
+      "iou": 0.0
+    },
+    {
+      "source": "geometry",
+      "target": "O15",
+      "relation": "near_candidate",
+      "status": "candidate",
+      "evidence": "归一化中心距离 0.051 < 0.12",
+      "iou": 0.1087
+    },
+    {
+      "source": "geometry",
+      "target": "O15",
+      "relation": "bbox_overlap_candidate",
+      "status": "candidate",
+      "evidence": "检测框 IoU 0.109 > 0.05",
+      "iou": 0.1087
+    },
+    {
+      "source": "O11",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O12",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O13",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O13",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "geometry",
+      "target": "O15",
+      "relation": "near_candidate",
+      "status": "candidate",
+      "evidence": "归一化中心距离 0.118 < 0.12",
+      "iou": 0.0
+    },
+    {
+      "source": "O14",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O14",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    },
+    {
+      "source": "O15",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "O15",
+      "target": "ACCIDENT_EVENT",
+      "relation": "accident_involves"
+    }
+  ]
+}
