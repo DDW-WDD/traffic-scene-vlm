@@ -2,7 +2,7 @@
 
 > 毕业设计项目：从单张交通事故图片出发，依次完成「视觉语义分析 → 目标检测与几何定位 → 多源融合与知识图谱 → 道路平面空间建模与二维场景重建」四个阶段，最终输出一个可交互的网页系统。
 
-**在线可视化（静态页面，任何人可直接打开）**：`https://WDD-DDW.github.io/<repo>/`（Pages 开通后填成实际地址，页面源在 [`docs/index.html`](docs/index.html)）
+**在线可视化（静态页面，任何人可直接打开）**：`https://ddw-wdd.github.io/traffic-scene-vlm/`（Pages 开通后填成实际地址，页面源在 [`docs/index.html`](docs/index.html)）
 
 ---
 
