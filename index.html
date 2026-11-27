@@ -2,70 +2,108 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="theme-color" content="#1d2b45"/>
+<meta name="description" content="交通事故语义场景建模第四阶段：基于四点单应性变换的道路平面定位与二维场景重建"/>
 <title>交通事故语义场景建模 · 第四阶段 道路平面重建</title>
 <style>
   :root{
     --ink:#141821; --muted:#5c6577; --line:#e3e7ef;
     --bg:#f5f7fb; --card:#ffffff;
     --blue:#2f6fd0; --green:#3f9d63; --red:#d2483b; --amber:#c9871f;
+    --pad:20px;
   }
   *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
   body{
     margin:0; background:var(--bg); color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif;
     line-height:1.7; -webkit-font-smoothing:antialiased;
+    -webkit-tap-highlight-color:transparent;
+    overflow-x:hidden;
   }
-  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  .wrap{
+    max-width:1120px;margin:0 auto;
+    padding-left:max(var(--pad), env(safe-area-inset-left));
+    padding-right:max(var(--pad), env(safe-area-inset-right));
+  }
   header{
     background:linear-gradient(135deg,#1d2b45 0%,#2f6fd0 100%);
     color:#fff;padding:52px 0 44px;
   }
-  header .wrap{display:block}
   .tag{
     display:inline-block;font-size:13px;letter-spacing:.5px;
     background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);
     padding:4px 12px;border-radius:999px;margin-bottom:14px;
   }
-  h1{margin:0 0 10px;font-size:30px;letter-spacing:.5px;font-weight:700}
-  .sub{opacity:.9;font-size:15px;max-width:780px}
-  .meta{margin-top:18px;font-size:13px;opacity:.8}
-  section{margin:34px 0}
-  h2{font-size:19px;margin:0 0 6px;display:flex;align-items:center;gap:10px}
-  h2 span.dot{width:8px;height:8px;border-radius:50%;background:var(--blue);display:inline-block}
-  .lead{color:var(--muted);font-size:14px;margin:0 0 16px}
+  h1{margin:0 0 10px;font-size:clamp(21px,4.6vw,30px);letter-spacing:.5px;font-weight:700;line-height:1.35}
+  .sub{opacity:.9;font-size:clamp(13.5px,3.4vw,15px);max-width:780px;margin:0}
+  .meta{margin-top:16px;font-size:clamp(11.5px,3vw,13px);opacity:.8}
+  section{margin:clamp(24px,4vw,34px) 0}
+  h2{
+    font-size:clamp(16px,4vw,19px);margin:0 0 6px;
+    display:flex;align-items:flex-start;gap:9px;line-height:1.5;
+  }
+  h2 span.dot{width:8px;height:8px;border-radius:50%;background:var(--blue);display:inline-block;flex:0 0 auto;margin-top:.55em}
+  .lead{color:var(--muted);font-size:clamp(12.5px,3.2vw,14px);margin:0 0 14px;overflow-wrap:anywhere}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
         box-shadow:0 4px 18px rgba(20,24,33,.05);overflow:hidden}
   .card img{display:block;width:100%;height:auto}
-  .cap{padding:12px 16px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);background:#fbfcfe}
+  .cap{padding:11px 14px;font-size:clamp(12px,3vw,13px);color:var(--muted);
+       border-top:1px solid var(--line);background:#fbfcfe;overflow-wrap:anywhere}
+  .cap a{white-space:nowrap}
+  .zoom{display:flex;justify-content:space-between;align-items:center;gap:10px}
+
   .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 18px 14px;
-       box-shadow:0 4px 18px rgba(20,24,33,.05)}
-  .kpi .v{font-size:26px;font-weight:700;letter-spacing:.5px}
-  .kpi .u{font-size:12px;color:var(--muted);margin-top:2px}
-  .kpi .k{font-size:13px;color:var(--muted);margin-top:8px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;
+       padding:16px 16px 13px;box-shadow:0 4px 18px rgba(20,24,33,.05)}
+  .kpi .v{font-size:clamp(20px,5vw,26px);font-weight:700;letter-spacing:.5px;line-height:1.2}
+  .kpi .u{font-size:11.5px;color:var(--muted);margin-top:2px}
+  .kpi .k{font-size:clamp(12px,3vw,13px);color:var(--muted);margin-top:7px;line-height:1.55}
   .kpi.b .v{color:var(--blue)} .kpi.g .v{color:var(--green)}
   .kpi.r .v{color:var(--red)}  .kpi.a .v{color:var(--amber)}
+
   .iframe-box{border:0;width:100%;height:780px;display:block;background:#fff}
-  table{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff}
-  th,td{border-bottom:1px solid var(--line);padding:10px 14px;text-align:left;vertical-align:top}
+
+  /* 表格：窄屏横向滑动，不挤压 */
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .table-wrap table{min-width:520px}
+  table{width:100%;border-collapse:collapse;font-size:clamp(12.5px,3vw,13.5px);background:#fff}
+  th,td{border-bottom:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
   th{background:#f3f6fb;color:#39404f;font-weight:600;white-space:nowrap}
-  td.num{font-variant-numeric:tabular-nums}
+  td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+  .scroll-hint{display:none;font-size:11.5px;color:var(--muted);padding:7px 12px 0}
+
   .note{
-    border-left:3px solid var(--amber);background:#fff9ec;padding:12px 16px;border-radius:0 10px 10px 0;
-    font-size:13.5px;color:#5b4a26;margin:14px 0
+    border-left:3px solid var(--amber);background:#fff9ec;padding:11px 14px;border-radius:0 10px 10px 0;
+    font-size:clamp(12.5px,3.1vw,13.5px);color:#5b4a26;margin:12px 0
   }
   .note strong{color:#8a5b00}
-  ul.lim{margin:8px 0 0;padding-left:20px;font-size:13.5px;color:#3c4351}
-  ul.lim li{margin:6px 0}
+  ul.lim{margin:8px 0 0;padding-left:19px;font-size:clamp(12.5px,3.1vw,13.5px);color:#3c4351}
+  ul.lim li{margin:7px 0;overflow-wrap:anywhere}
   .two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-  footer{border-top:1px solid var(--line);margin-top:44px;padding:26px 0 46px;color:var(--muted);font-size:13px}
+  footer{border-top:1px solid var(--line);margin-top:36px;padding:22px 0 40px;
+         color:var(--muted);font-size:12.5px;line-height:1.75}
   a{color:var(--blue);text-decoration:none}
+
   @media (max-width:860px){
-    .kpis{grid-template-columns:repeat(2,1fr)}
-    .two{grid-template-columns:1fr}
-    .iframe-box{height:560px}
-    h1{font-size:24px}
+    :root{--pad:16px}
+    header{padding:34px 0 28px}
+    .tag{font-size:12px;margin-bottom:10px;padding:3px 10px}
+    .kpis{grid-template-columns:repeat(2,1fr);gap:10px}
+    .kpi{padding:13px 13px 11px;border-radius:12px}
+    .two{grid-template-columns:1fr;gap:14px}
+    .iframe-box{height:720px}
+    .card{border-radius:12px}
+    .scroll-hint{display:block}
+    .table-wrap table{min-width:480px}
+    section:first-of-type{margin-top:20px}
+    footer{margin-top:28px;padding:18px 0 34px}
+  }
+
+  @media (max-width:400px){
+    .kpis{grid-template-columns:1fr 1fr}
+    .kpi .v{font-size:19px}
   }
 </style>
 </head>
@@ -99,8 +137,13 @@
     <h2><span class="dot"></span>① 原始图片与道路标定</h2>
     <p class="lead">蓝=车辆、绿=行人、紫=道路交通设施、灰=背景对象；红圈是检测框底边中点（近似地面接触点）；黄色梯形是四点标定出的道路平面范围。</p>
     <div class="card">
-      <img src="outputs/ACCIDENT_001/_stage4_overlay.png" alt="检测框与标定四边形叠加图"/>
-      <div class="cap">四个控制点全部取自两条车道白线：近端两点是白线在画面底边的实测中心，远端两点由白线直线方程外推到被车辆遮挡的行。</div>
+      <a href="outputs/ACCIDENT_001/_stage4_overlay.png" target="_blank" rel="noopener">
+        <img src="outputs/ACCIDENT_001/_stage4_overlay.png" alt="检测框与标定四边形叠加图" loading="lazy"/>
+      </a>
+      <div class="cap zoom">
+        <span>四个控制点全部取自两条车道白线：近端两点是白线在画面底边的实测中心，远端两点由白线直线方程外推到被车辆遮挡的行。</span>
+        <a href="outputs/ACCIDENT_001/_stage4_overlay.png" target="_blank" rel="noopener">查看原图 ↗</a>
+      </div>
     </div>
   </section>
 
@@ -108,17 +151,22 @@
     <h2><span class="dot"></span>② 道路平面二维场景重建</h2>
     <p class="lead">把每个交通参与者的地面锚点经单应性矩阵变换到道路平面后，按真实相对位置重绘的俯视图。</p>
     <div class="card">
-      <img src="outputs/ACCIDENT_001/scene_topdown.png" alt="道路平面二维场景重建图"/>
-      <div class="cap">实心=标定区内投影（O2、O8、O9）；半透明=外推投影（O1、O3、O4）；超出标定范围的对象不给坐标，只在右侧清单里列出。</div>
+      <a href="outputs/ACCIDENT_001/scene_topdown.png" target="_blank" rel="noopener">
+        <img src="outputs/ACCIDENT_001/scene_topdown.png" alt="道路平面二维场景重建图" loading="lazy"/>
+      </a>
+      <div class="cap zoom">
+        <span>实心=标定区内投影（O2、O8、O9）；半透明=外推投影（O1、O3、O4）；超出标定范围的对象不给坐标，只在右侧清单里列出。</span>
+        <a href="outputs/ACCIDENT_001/scene_topdown.png" target="_blank" rel="noopener">查看原图 ↗</a>
+      </div>
     </div>
   </section>
 
   <section>
     <h2><span class="dot"></span>③ 含道路坐标的交互式知识图谱</h2>
-    <p class="lead">二维布局三维化：拖拽旋转、滚轮缩放、悬停查看详情。新增「道路局部坐标系」节点与蓝色点线（L4 道路平面坐标引用）。</p>
+    <p class="lead">二维布局三维化：拖动旋转、双指缩放、点按查看详情。新增「道路局部坐标系」节点与蓝色点线（L4 道路平面坐标引用）。</p>
     <div class="card">
-      <iframe class="iframe-box" src="outputs/ACCIDENT_001/interactive_graph_spatial.html" title="交互式知识图谱"></iframe>
-      <div class="cap">如果上方为空白，可直接打开 <a href="outputs/ACCIDENT_001/interactive_graph_spatial.html" target="_blank" rel="noopener">interactive_graph_spatial.html</a> 单独查看。</div>
+      <iframe class="iframe-box" src="outputs/ACCIDENT_001/interactive_graph_spatial.html" title="交互式知识图谱" loading="lazy"></iframe>
+      <div class="cap">如果上方为空白或想全屏查看，可直接打开 <a href="outputs/ACCIDENT_001/interactive_graph_spatial.html" target="_blank" rel="noopener">interactive_graph_spatial.html</a>。</div>
     </div>
   </section>
 
@@ -126,23 +174,29 @@
     <h2><span class="dot"></span>④ 标定参数与投影结果</h2>
     <div class="two">
       <div class="card">
-        <table>
-          <tr><th>控制点</th><th>角色</th><th>图像坐标 (u, v)</th><th>道路坐标 (X, Y)</th></tr>
-          <tr><td>P1</td><td>near_left</td><td class="num">(365, 764)</td><td class="num">(0.0, 0.0)</td></tr>
-          <tr><td>P2</td><td>near_right</td><td class="num">(1212, 764)</td><td class="num">(8.0, 0.0)</td></tr>
-          <tr><td>P3</td><td>far_right</td><td class="num">(1170, 620)</td><td class="num">(8.0, 3.0)</td></tr>
-          <tr><td>P4</td><td>far_left</td><td class="num">(612, 620)</td><td class="num">(0.0, 3.0)</td></tr>
-        </table>
+        <div class="scroll-hint">← 左右滑动查看完整表格 →</div>
+        <div class="table-wrap">
+          <table>
+            <tr><th>控制点</th><th>角色</th><th>图像坐标 (u, v)</th><th>道路坐标 (X, Y)</th></tr>
+            <tr><td>P1</td><td>near_left</td><td class="num">(365, 764)</td><td class="num">(0.0, 0.0)</td></tr>
+            <tr><td>P2</td><td>near_right</td><td class="num">(1212, 764)</td><td class="num">(8.0, 0.0)</td></tr>
+            <tr><td>P3</td><td>far_right</td><td class="num">(1170, 620)</td><td class="num">(8.0, 3.0)</td></tr>
+            <tr><td>P4</td><td>far_left</td><td class="num">(612, 620)</td><td class="num">(0.0, 3.0)</td></tr>
+          </table>
+        </div>
         <div class="cap">原点=近端左侧控制点；X=道路横向（向右为正）；Y=道路纵向（向远端为正）；假设标定矩形 8 × 3。</div>
       </div>
       <div class="card">
-        <table>
-          <tr><th>投影状态</th><th>对象</th><th>是否给坐标</th></tr>
-          <tr><td>标定区内 projected</td><td>O2、O8、O9</td><td>是</td></tr>
-          <tr><td>外推 projected_extrapolated</td><td>O1、O3、O4</td><td>是（标注可靠性下降）</td></tr>
-          <tr><td>超出范围 outside</td><td>O5、O6、O10、O13、O14、O15</td><td>否</td></tr>
-          <tr><td>悬空设施排除</td><td>O7、O11、O12（信号灯）</td><td>否</td></tr>
-        </table>
+        <div class="scroll-hint">← 左右滑动查看完整表格 →</div>
+        <div class="table-wrap">
+          <table>
+            <tr><th>投影状态</th><th>对象</th><th>是否给坐标</th></tr>
+            <tr><td>标定区内 projected</td><td>O2、O8、O9</td><td>是</td></tr>
+            <tr><td>外推 projected_extrapolated</td><td>O1、O3、O4</td><td>是（标注可靠性下降）</td></tr>
+            <tr><td>超出范围 outside</td><td>O5、O6、O10、O13、O14、O15</td><td>否</td></tr>
+            <tr><td>悬空设施排除</td><td>O7、O11、O12（信号灯）</td><td>否</td></tr>
+          </table>
+        </div>
         <div class="cap">全场最近一对：O8—O9 = 1.25 local_unit（两名行人）；共计算 15 对道路平面距离。</div>
       </div>
     </div>
@@ -164,15 +218,20 @@
 
   <section>
     <h2><span class="dot"></span>⑥ 技术路线</h2>
-    <table>
-      <tr><th>步骤</th><th>方法</th><th>产物</th></tr>
-      <tr><td>道路控制点标定</td><td>两条车道白线按行扫描取中心 + 直线拟合外推</td><td>image_control_points.json</td></tr>
-      <tr><td>单应性变换</td><td>cv2.findHomography（4 点 DLT）</td><td>calibration.json、3×3 矩阵 H</td></tr>
-      <tr><td>交通对象定位</td><td>bbox 底边中点 → perspectiveTransform</td><td>scene_model_spatial.json</td></tr>
-      <tr><td>空间距离分析</td><td>道路平面欧氏距离（15 对 + 语义关系对）</td><td>ground_distances.json</td></tr>
-      <tr><td>二维场景重建</td><td>matplotlib 俯视图（中文标注、状态区分）</td><td>scene_topdown.png</td></tr>
-      <tr><td>知识图谱扩展</td><td>多源 MultiDiGraph + CoordinateSystem 节点 + L4 边</td><td>knowledge_graph_spatial.json/.png/.html</td></tr>
-    </table>
+    <div class="card">
+      <div class="scroll-hint">← 左右滑动查看完整表格 →</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>步骤</th><th>方法</th><th>产物</th></tr>
+          <tr><td>道路控制点标定</td><td>两条车道白线按行扫描取中心 + 直线拟合外推</td><td>image_control_points.json</td></tr>
+          <tr><td>单应性变换</td><td>cv2.findHomography（4 点 DLT）</td><td>calibration.json、3×3 矩阵 H</td></tr>
+          <tr><td>交通对象定位</td><td>bbox 底边中点 → perspectiveTransform</td><td>scene_model_spatial.json</td></tr>
+          <tr><td>空间距离分析</td><td>道路平面欧氏距离（15 对 + 语义关系对）</td><td>ground_distances.json</td></tr>
+          <tr><td>二维场景重建</td><td>matplotlib 俯视图（中文标注、状态区分）</td><td>scene_topdown.png</td></tr>
+          <tr><td>知识图谱扩展</td><td>多源 MultiDiGraph + CoordinateSystem 节点 + L4 边</td><td>knowledge_graph_spatial.json/.png/.html</td></tr>
+        </table>
+      </div>
+    </div>
   </section>
 
 </div>
@@ -183,6 +242,29 @@
     本页面为静态页面，所有图片与交互图谱均随仓库发布，无需运行后端即可查看。
   </div>
 </footer>
+
+<script>
+  // Plotly 3D 图在 iframe 中不会随父页面宽度变化自动重排，这里主动触发一次 resize
+  (function () {
+    var frame = document.querySelector('.iframe-box');
+    if (!frame) return;
+    var timer = null;
+    function refit() {
+      try {
+        frame.contentWindow.dispatchEvent(new Event('resize'));
+      } catch (e) { /* 跨源（file:// 直接打开）时忽略 */ }
+    }
+    frame.addEventListener('load', function () { setTimeout(refit, 350); });
+    window.addEventListener('resize', function () {
+      clearTimeout(timer);
+      timer = setTimeout(refit, 300);
+    });
+    window.addEventListener('orientationchange', function () {
+      clearTimeout(timer);
+      timer = setTimeout(refit, 500);
+    });
+  })();
+</script>
 
 </body>
 </html>
