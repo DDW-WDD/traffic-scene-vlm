@@ -1,0 +1,64 @@
+{
+  "scene_id": "ACCIDENT_001",
+  "coordinate_system": "image_pixel",
+  "image_size": [1365, 768],
+  "annotation_method": "人工在坐标网格叠加图上判读；车道白线另用逐行亮度扫描取中心点后拟合",
+  "annotated_by": "人工标注（未做外业测量）",
+  "quality": {
+    "type": "manual_approximate",
+    "position_tolerance_px": 15,
+    "verified": false,
+    "note": "所有坐标都是原图像素；被车辆遮挡的路段按可见段直线延伸，属于近似，不代表实测道路几何。"
+  },
+  "road_polygon": [[0, 768], [1262, 768], [1285, 620], [450, 620]],
+  "road_boundaries": [
+    {
+      "id": "RB_R",
+      "name": "右侧路缘（停车带）边界",
+      "points": [[1262, 768], [1296, 608]],
+      "visibility": "visible",
+      "quality": "approximate",
+      "note": "位于右侧车道白线与右侧停放车辆之间，按可见沥青边缘判读"
+    }
+  ],
+  "lane_lines": [
+    {
+      "id": "L1",
+      "name": "左侧车道分界线（事故车道左边界）",
+      "type": "solid",
+      "measured_points": [
+        [372, 764], [391, 752], [411.5, 740], [430.5, 728], [450, 716],
+        [469.5, 704], [489.5, 692], [509.5, 680], [529.5, 668]
+      ],
+      "visible_row_range": [668, 768],
+      "extrapolated_to_row": 620,
+      "extrapolation_reason": "y<668 被失控小汽车（O1）与灰色 SUV（O2）车身遮挡，按已测点直线外推",
+      "quality": "measured_line_scan"
+    },
+    {
+      "id": "L2",
+      "name": "右侧车道分界线（事故车道右边界）",
+      "type": "solid",
+      "measured_points": [
+        [1212, 764], [1208.5, 752], [1205.5, 740], [1201, 728], [1198, 716],
+        [1195, 704], [1191, 692], [1187.5, 680], [1184, 668]
+      ],
+      "visible_row_range": [668, 768],
+      "extrapolated_to_row": 620,
+      "extrapolation_reason": "y<668 被右侧行人（O8、O9）与停放车辆遮挡，按已测点直线外推",
+      "quality": "measured_line_scan"
+    }
+  ],
+  "stop_lines": [],
+  "crosswalks": [],
+  "absent_features": {
+    "stop_lines": "本案例画面内未见停止线（路口停止线在画面外或不存在）",
+    "crosswalks": "本案例画面内未见人行横道，故不标注，避免臆造"
+  },
+  "occlusion_note": "画面为贴地视角，y<608 的路面几乎全部被车辆遮挡；道路多边形上边界与远端车道线均由可见段推断",
+  "notes": [
+    "车道线之所以能作为标定控制点，是因为它们与实际道路平面近似共面；建筑立面、车顶、灯杆顶端不能作为控制点。",
+    "道路多边形只表示画面内可见的沥青范围，不是测绘意义上的道路边界。",
+    "本案例无法判定车道数量：两条白线之间宽 8 local_unit，但缺少实测尺度与中间虚线信息。"
+  ]
+}
