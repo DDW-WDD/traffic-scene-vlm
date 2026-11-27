@@ -21,7 +21,17 @@
         "method": "homography",
         "anchor_rule": "bbox_bottom_center"
       },
-      "ground_status": "projected_extrapolated"
+      "ground_status": "projected_extrapolated",
+      "ground_x": -1.385,
+      "ground_y": 1.522,
+      "coordinate_unit": "local_unit",
+      "projection_status": "projected_extrapolated",
+      "coordinate_source": "homography_4pt",
+      "ground_anchor_image": [
+        399.45,
+        676.2
+      ],
+      "position_text": "X=-1.39, Y=1.52 local_unit"
     },
     {
       "id": "O2",
@@ -39,7 +49,17 @@
         "method": "homography",
         "anchor_rule": "bbox_bottom_center"
       },
-      "ground_status": "projected"
+      "ground_status": "projected",
+      "ground_x": 3.868,
+      "ground_y": 2.683,
+      "coordinate_unit": "local_unit",
+      "projection_status": "projected",
+      "coordinate_source": "homography_4pt",
+      "ground_anchor_image": [
+        874.05,
+        630.4
+      ],
+      "position_text": "X=3.87, Y=2.68 local_unit"
     },
     {
       "id": "O3",
@@ -57,7 +77,17 @@
         "method": "homography",
         "anchor_rule": "bbox_bottom_center"
       },
-      "ground_status": "projected_extrapolated"
+      "ground_status": "projected_extrapolated",
+      "ground_x": -2.788,
+      "ground_y": -0.026,
+      "coordinate_unit": "local_unit",
+      "projection_status": "projected_extrapolated",
+      "coordinate_source": "homography_4pt",
+      "ground_anchor_image": [
+        65.2,
+        765.9
+      ],
+      "position_text": "X=-2.79, Y=-0.03 local_unit"
     },
     {
       "id": "O4",
@@ -75,7 +105,17 @@
         "method": "homography",
         "anchor_rule": "bbox_bottom_center"
       },
-      "ground_status": "projected_extrapolated"
+      "ground_status": "projected_extrapolated",
+      "ground_x": 9.057,
+      "ground_y": 0.388,
+      "coordinate_unit": "local_unit",
+      "projection_status": "projected_extrapolated",
+      "coordinate_source": "homography_4pt",
+      "ground_anchor_image": [
+        1309.2,
+        737.5
+      ],
+      "position_text": "X=9.06, Y=0.39 local_unit"
     },
     {
       "id": "O5",
@@ -98,7 +138,17 @@
           "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
         }
       },
-      "ground_status": "outside_calibration_region"
+      "ground_status": "outside_calibration_region",
+      "ground_x": null,
+      "ground_y": null,
+      "coordinate_unit": null,
+      "projection_status": "outside_calibration_region",
+      "coordinate_source": null,
+      "ground_anchor_image": [
+        71.1,
+        451.0
+      ],
+      "position_text": "未给出道路坐标（outside_calibration_region）"
     },
     {
       "id": "O6",
@@ -121,7 +171,17 @@
           "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
         }
       },
-      "ground_status": "outside_calibration_region"
+      "ground_status": "outside_calibration_region",
+      "ground_x": null,
+      "ground_y": null,
+      "coordinate_unit": null,
+      "projection_status": "outside_calibration_region",
+      "coordinate_source": null,
+      "ground_anchor_image": [
+        1289.0,
+        548.5
+      ],
+      "position_text": "未给出道路坐标（outside_calibration_region）"
     },
     {
       "id": "O7",
@@ -139,7 +199,14 @@
         "method": "none",
         "reason": "悬空道路交通设施，无地面接触点"
       },
-      "ground_status": "excluded_non_ground_object"
+      "ground_status": "excluded_non_ground_object",
+      "ground_x": null,
+      "ground_y": null,
+      "coordinate_unit": null,
+      "projection_status": "excluded_non_ground_object",
+      "coordinate_source": null,
+      "ground_anchor_image": null,
+      "position_text": "未给出道路坐标（excluded_non_ground_object）"
     },
     {
       "id": "O8",
@@ -157,7 +224,17 @@
         "method": "homography",
         "anchor_rule": "bbox_bottom_center"
       },
-      "ground_status": "projected"
+      "ground_status": "projected",
+      "ground_x": 7.51,
+      "ground_y": 1.948,
+      "coordinate_unit": "local_unit",
+      "projection_status": "projected",
+      "coordinate_source": "homography_4pt",
+      "ground_anchor_image": [
+        1142.2,
+        657.8
+      ],
+      "position_text": "X=7.51, Y=1.95 local_unit"
     },
     {
       "id": "O9",
@@ -175,7 +252,17 @@
         "method": "homography",
         "anchor_rule": "bbox_bottom_center"
       },
-      "ground_status": "projected"
+      "ground_status": "projected",
+      "ground_x": 6.638,
+      "ground_y": 2.848,
+      "coordinate_unit": "local_unit",
+      "projection_status": "projected",
+      "coordinate_source": "homography_4pt",
+      "ground_anchor_image": [
+        1074.75,
+        624.9
+      ],
+      "position_text": "X=6.64, Y=2.85 local_unit"
     },
     {
       "id": "O10",
@@ -198,7 +285,17 @@
           "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
         }
       },
-      "ground_status": "outside_calibration_region"
+      "ground_status": "outside_calibration_region",
+      "ground_x": null,
+      "ground_y": null,
+      "coordinate_unit": null,
+      "projection_status": "outside_calibration_region",
+      "coordinate_source": null,
+      "ground_anchor_image": [
+        619.25,
+        497.5
+      ],
+      "position_text": "未给出道路坐标（outside_calibration_region）"
     },
     {
       "id": "O11",
@@ -216,7 +313,14 @@
         "method": "none",
         "reason": "悬空道路交通设施，无地面接触点"
       },
-      "ground_status": "excluded_non_ground_object"
+      "ground_status": "excluded_non_ground_object",
+      "ground_x": null,
+      "ground_y": null,
+      "coordinate_unit": null,
+      "projection_status": "excluded_non_ground_object",
+      "coordinate_source": null,
+      "ground_anchor_image": null,
+      "position_text": "未给出道路坐标（excluded_non_ground_object）"
     },
     {
       "id": "O12",
@@ -234,7 +338,14 @@
         "method": "none",
         "reason": "悬空道路交通设施，无地面接触点"
       },
-      "ground_status": "excluded_non_ground_object"
+      "ground_status": "excluded_non_ground_object",
+      "ground_x": null,
+      "ground_y": null,
+      "coordinate_unit": null,
+      "projection_status": "excluded_non_ground_object",
+      "coordinate_source": null,
+      "ground_anchor_image": null,
+      "position_text": "未给出道路坐标（excluded_non_ground_object）"
     },
     {
       "id": "O13",
@@ -257,7 +368,17 @@
           "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
         }
       },
-      "ground_status": "outside_calibration_region"
+      "ground_status": "outside_calibration_region",
+      "ground_x": null,
+      "ground_y": null,
+      "coordinate_unit": null,
+      "projection_status": "outside_calibration_region",
+      "coordinate_source": null,
+      "ground_anchor_image": [
+        510.35,
+        374.0
+      ],
+      "position_text": "未给出道路坐标（outside_calibration_region）"
     },
     {
       "id": "O14",
@@ -280,7 +401,17 @@
           "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
         }
       },
-      "ground_status": "outside_calibration_region"
+      "ground_status": "outside_calibration_region",
+      "ground_x": null,
+      "ground_y": null,
+      "coordinate_unit": null,
+      "projection_status": "outside_calibration_region",
+      "coordinate_source": null,
+      "ground_anchor_image": [
+        1228.95,
+        492.1
+      ],
+      "position_text": "未给出道路坐标（outside_calibration_region）"
     },
     {
       "id": "O15",
@@ -303,7 +434,17 @@
           "reason": "外推距离超过标定矩形的允许容差，坐标不可信"
         }
       },
-      "ground_status": "outside_calibration_region"
+      "ground_status": "outside_calibration_region",
+      "ground_x": null,
+      "ground_y": null,
+      "coordinate_unit": null,
+      "projection_status": "outside_calibration_region",
+      "coordinate_source": null,
+      "ground_anchor_image": [
+        668.95,
+        392.0
+      ],
+      "position_text": "未给出道路坐标（outside_calibration_region）"
     },
     {
       "id": "local_road_plane",
@@ -328,6 +469,72 @@
         ]
       ],
       "calibration_status": "manually_selected_unverified_metric"
+    },
+    {
+      "id": "ROAD_AREA",
+      "node_type": "RoadArea",
+      "label": "路面区域（人工标注）",
+      "unit": "local_unit",
+      "quality": "manual_approximate",
+      "point_count": 4,
+      "source": "manual_annotation"
+    },
+    {
+      "id": "L1",
+      "node_type": "LaneLine",
+      "label": "左侧车道分界线（事故车道左边界）",
+      "line_type": "solid",
+      "fit": {
+        "x_of_y_slope": -1.6396,
+        "x_of_y_intercept": 1624.27,
+        "fit_max_residual_px": 0.52,
+        "measured_rows": [
+          764,
+          752,
+          740,
+          728,
+          716,
+          704,
+          692,
+          680,
+          668
+        ]
+      },
+      "point_count": 2,
+      "source": "manual_annotation"
+    },
+    {
+      "id": "L2",
+      "node_type": "LaneLine",
+      "label": "右侧车道分界线（事故车道右边界）",
+      "line_type": "solid",
+      "fit": {
+        "x_of_y_slope": 0.2917,
+        "x_of_y_intercept": 989.22,
+        "fit_max_residual_px": 0.56,
+        "measured_rows": [
+          764,
+          752,
+          740,
+          728,
+          716,
+          704,
+          692,
+          680,
+          668
+        ]
+      },
+      "point_count": 2,
+      "source": "manual_annotation"
+    },
+    {
+      "id": "RB_R",
+      "node_type": "RoadBoundary",
+      "label": "右侧路缘（停车带）边界",
+      "visibility": "visible",
+      "quality": "approximate",
+      "point_count": 2,
+      "source": "manual_annotation"
     },
     {
       "id": "ACCIDENT_EVENT",
@@ -645,6 +852,50 @@
       "source": "O15",
       "target": "ACCIDENT_EVENT",
       "relation": "accident_involves"
+    },
+    {
+      "source": "ROAD_AREA",
+      "target": "ACCIDENT_001",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "homography",
+      "target": "local_road_plane",
+      "relation": "position_in_coordinate_system",
+      "status": "projected"
+    },
+    {
+      "source": "L1",
+      "target": "ROAD_AREA",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "homography",
+      "target": "local_road_plane",
+      "relation": "position_in_coordinate_system",
+      "status": "projected"
+    },
+    {
+      "source": "L2",
+      "target": "ROAD_AREA",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "homography",
+      "target": "local_road_plane",
+      "relation": "position_in_coordinate_system",
+      "status": "projected"
+    },
+    {
+      "source": "RB_R",
+      "target": "ROAD_AREA",
+      "relation": "belongs_to"
+    },
+    {
+      "source": "homography",
+      "target": "local_road_plane",
+      "relation": "position_in_coordinate_system",
+      "status": "projected"
     }
   ]
 }
