@@ -41,6 +41,8 @@ DEFAULT_FILES = [
     "README.md",
     "第四阶段_使用说明.md",
     # 代码
+    "app_stage4.py",
+    "push_github.py",
     "run_stage4.py",
     "build_site.py",
     "rebuild_graph_html.py",
