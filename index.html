@@ -4,57 +4,36 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <meta name="theme-color" content="#1d2b45"/>
-<meta name="description" content="交通事故语义场景建模第四阶段：基于四点单应性变换的道路平面定位与二维场景重建"/>
-<title>交通事故语义场景建模 · 第四阶段 道路平面重建</title>
+<meta name="description" content="交通事故语义场景建模第四阶段：道路结构重建、单应性投影与多视图场景呈现"/>
+<title>交通事故语义场景建模 · 第四阶段 道路平面场景重建</title>
 <style>
   :root{
     --ink:#141821; --muted:#5c6577; --line:#e3e7ef;
     --bg:#f5f7fb; --card:#ffffff;
-    --blue:#2f6fd0; --green:#3f9d63; --red:#d2483b; --amber:#c9871f;
+    --blue:#2f6fd0; --green:#3f9d63; --red:#d2483b; --amber:#c9871f; --violet:#7c5cd6;
     --pad:20px;
   }
   *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
   body{
     margin:0; background:var(--bg); color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif;
     line-height:1.7; -webkit-font-smoothing:antialiased;
-    -webkit-tap-highlight-color:transparent;
-    overflow-x:hidden;
+    -webkit-tap-highlight-color:transparent; overflow-x:hidden;
   }
   .wrap{
-    max-width:1120px;margin:0 auto;
+    max-width:1180px;margin:0 auto;
     padding-left:max(var(--pad), env(safe-area-inset-left));
     padding-right:max(var(--pad), env(safe-area-inset-right));
   }
-  header{
-    background:linear-gradient(135deg,#1d2b45 0%,#2f6fd0 100%);
-    color:#fff;padding:52px 0 44px;
-  }
-  .tag{
-    display:inline-block;font-size:13px;letter-spacing:.5px;
-    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);
-    padding:4px 12px;border-radius:999px;margin-bottom:14px;
-  }
+  header{background:linear-gradient(135deg,#1d2b45 0%,#2f6fd0 100%);color:#fff;padding:52px 0 44px}
+  .tag{display:inline-block;font-size:13px;letter-spacing:.5px;background:rgba(255,255,255,.16);
+        border:1px solid rgba(255,255,255,.28);padding:4px 12px;border-radius:999px;margin-bottom:14px}
   h1{margin:0 0 10px;font-size:clamp(21px,4.6vw,30px);letter-spacing:.5px;font-weight:700;line-height:1.35}
-  .sub{opacity:.9;font-size:clamp(13.5px,3.4vw,15px);max-width:780px;margin:0}
-  .meta{margin-top:16px;font-size:clamp(11.5px,3vw,13px);opacity:.8}
-  section{margin:clamp(24px,4vw,34px) 0}
-  h2{
-    font-size:clamp(16px,4vw,19px);margin:0 0 6px;
-    display:flex;align-items:flex-start;gap:9px;line-height:1.5;
-  }
-  h2 span.dot{width:8px;height:8px;border-radius:50%;background:var(--blue);display:inline-block;flex:0 0 auto;margin-top:.55em}
-  .lead{color:var(--muted);font-size:clamp(12.5px,3.2vw,14px);margin:0 0 14px;overflow-wrap:anywhere}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
-        box-shadow:0 4px 18px rgba(20,24,33,.05);overflow:hidden}
-  .card img{display:block;width:100%;height:auto}
-  .cap{padding:11px 14px;font-size:clamp(12px,3vw,13px);color:var(--muted);
-       border-top:1px solid var(--line);background:#fbfcfe;overflow-wrap:anywhere}
-  .cap a{white-space:nowrap}
-  .zoom{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .sub{opacity:.92;font-size:clamp(13.5px,3.4vw,15px);max-width:820px;margin:0}
+  .meta{margin-top:16px;font-size:clamp(11.5px,3vw,13px);opacity:.82}
 
-  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:clamp(22px,4vw,30px) 0}
   .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;
        padding:16px 16px 13px;box-shadow:0 4px 18px rgba(20,24,33,.05)}
   .kpi .v{font-size:clamp(20px,5vw,26px);font-weight:700;letter-spacing:.5px;line-height:1.2}
@@ -63,30 +42,77 @@
   .kpi.b .v{color:var(--blue)} .kpi.g .v{color:var(--green)}
   .kpi.r .v{color:var(--red)}  .kpi.a .v{color:var(--amber)}
 
-  .iframe-box{border:0;width:100%;height:780px;display:block;background:#fff}
+  /* 视图切换 */
+  .tabs{position:sticky;top:0;z-index:30;background:rgba(245,247,251,.94);
+        backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+        border-bottom:1px solid var(--line);margin:0 0 clamp(18px,3vw,26px)}
+  .tabbar{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;
+          padding:10px max(var(--pad), env(safe-area-inset-left)) 10px max(var(--pad), env(safe-area-inset-right));
+          max-width:1180px;margin:0 auto;scrollbar-width:none}
+  .tabbar::-webkit-scrollbar{display:none}
+  .tab{flex:0 0 auto;border:1px solid var(--line);background:#fff;color:#39404f;
+        border-radius:999px;padding:8px 15px;font-size:clamp(12.5px,3vw,13.5px);
+        cursor:pointer;white-space:nowrap;font-family:inherit;line-height:1.4}
+  .tab[aria-selected="true"]{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+  .panel[hidden]{display:none}
 
-  /* 表格：窄屏横向滑动，不挤压 */
+  h2{font-size:clamp(16px,4vw,19px);margin:0 0 6px;display:flex;align-items:flex-start;gap:9px;line-height:1.5}
+  h2 span.dot{width:8px;height:8px;border-radius:50%;background:var(--blue);display:inline-block;flex:0 0 auto;margin-top:.55em}
+  h3{font-size:clamp(14px,3.4vw,15.5px);margin:22px 0 8px;color:#2b3242}
+  .lead{color:var(--muted);font-size:clamp(12.5px,3.2vw,14px);margin:0 0 14px;overflow-wrap:anywhere}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+        box-shadow:0 4px 18px rgba(20,24,33,.05);overflow:hidden;margin-bottom:18px}
+  .card img{display:block;width:100%;height:auto}
+  .cap{padding:11px 14px;font-size:clamp(12px,3vw,13px);color:var(--muted);
+       border-top:1px solid var(--line);background:#fbfcfe;overflow-wrap:anywhere}
+  .cap a{white-space:nowrap}
+  .zoom{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+
+  .iframe-box{border:0;width:100%;height:520px;display:block;background:#fff}
+  .graph-box{border:0;width:100%;height:700px;display:block;background:#fff}
+  .scroll-media{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .scroll-media > *{min-width:940px;display:block}
+  .only-mobile{display:none}
+
+  /* 表格 */
   .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .table-wrap table{min-width:520px}
+  .table-wrap table{min-width:560px}
   table{width:100%;border-collapse:collapse;font-size:clamp(12.5px,3vw,13.5px);background:#fff}
   th,td{border-bottom:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
   th{background:#f3f6fb;color:#39404f;font-weight:600;white-space:nowrap}
   td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
   td.nowrap{white-space:nowrap}
+  td.desc{color:#4b5464;font-size:12.5px}
   .scroll-hint{display:none;font-size:11.5px;color:var(--muted);padding:7px 12px 0}
-  .only-mobile{display:none}
 
-  .note{
-    border-left:3px solid var(--amber);background:#fff9ec;padding:11px 14px;border-radius:0 10px 10px 0;
-    font-size:clamp(12.5px,3.1vw,13.5px);color:#5b4a26;margin:12px 0
-  }
+  .pill{display:inline-block;font-size:11.5px;padding:2px 9px;border-radius:999px;
+         border:1px solid transparent;white-space:nowrap;line-height:1.6}
+  .pill.b{background:#e7f0fd;color:#1e5cb3;border-color:#c8dbf7}
+  .pill.g{background:#e8f6ec;color:#2c7a48;border-color:#c7e6d2}
+  .pill.a{background:#fff5e3;color:#8a5b00;border-color:#f2ddb6}
+  .pill.r{background:#fdecea;color:#a63023;border-color:#f6cfc9}
+  .pill.m{background:#f1f0fa;color:#54459b;border-color:#ddd9f2}
+  tr.obj-row{cursor:pointer}
+  tr.obj-row:hover td{background:#f7f9fe}
+  tr.obj-row.flash td{background:#fff4d6;transition:background .2s}
+  tr.obj-row.sel td{background:#e7f0fd}
+
+  .detail{display:none;margin:14px 0 0;padding:14px 16px;border:1px solid #c8dbf7;border-radius:12px;
+           background:#f7faff;font-size:13px;color:#2b3242}
+  .detail.on{display:block}
+  .detail b{color:#14478f}
+
+  .note{border-left:3px solid var(--amber);background:#fff9ec;padding:11px 14px;border-radius:0 10px 10px 0;
+        font-size:clamp(12.5px,3.1vw,13.5px);color:#5b4a26;margin:12px 0}
   .note strong{color:#8a5b00}
+  .note.red{border-left-color:var(--red);background:#fdf1ef;color:#6b2b23}
+  .note.red strong{color:#a63023}
   ul.lim{margin:8px 0 0;padding-left:19px;font-size:clamp(12.5px,3.1vw,13.5px);color:#3c4351}
   ul.lim li{margin:7px 0;overflow-wrap:anywhere}
   .two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-  footer{border-top:1px solid var(--line);margin-top:36px;padding:22px 0 40px;
-         color:var(--muted);font-size:12.5px;line-height:1.75}
+  footer{border-top:1px solid var(--line);margin-top:30px;padding:22px 0 42px;color:var(--muted);font-size:12.5px;line-height:1.75}
   a{color:var(--blue);text-decoration:none}
+  code{background:#eef2f8;padding:1px 5px;border-radius:4px;font-size:12px}
 
   @media (max-width:860px){
     :root{--pad:16px}
@@ -95,18 +121,14 @@
     .kpis{grid-template-columns:repeat(2,1fr);gap:10px}
     .kpi{padding:13px 13px 11px;border-radius:12px}
     .two{grid-template-columns:1fr;gap:14px}
-    .iframe-box{height:720px}
+    .iframe-box{height:440px}
+    .graph-box{height:600px}
     .card{border-radius:12px}
     .scroll-hint{display:block}
     .only-mobile{display:block;margin-top:6px;color:#8a5b00}
-    .table-wrap table{min-width:480px}
-    section:first-of-type{margin-top:20px}
-    footer{margin-top:28px;padding:18px 0 34px}
-  }
-
-  @media (max-width:400px){
-    .kpis{grid-template-columns:1fr 1fr}
-    .kpi .v{font-size:19px}
+    .table-wrap table{min-width:520px}
+    .col-desc, td.desc{display:none}   /* 手机上隐藏长描述列，点行看详情卡，避免表格被撑得过高 */
+    footer{margin-top:24px;padding:18px 0 34px}
   }
 </style>
 </head>
@@ -115,162 +137,377 @@
 <header>
   <div class="wrap">
     <div class="tag">毕业设计 · 第四阶段</div>
-    <h1>交通事故道路平面空间建模与二维场景重建</h1>
+    <h1>交通事故道路平面场景重建<br>与多视图联动</h1>
     <p class="sub">
-      从第三阶段的融合场景（VLM 语义理解 + YOLO 目标检测 + 多源知识图谱）出发，
-      用四个道路控制点求解单应性变换，把交通参与者从图像像素坐标投影到统一的道路局部平面坐标系，
-      计算道路平面距离，重建二维道路场景，并把道路坐标写回知识图谱。
+      第三阶段给出"画面里有什么、谁和谁可能有关"；第四阶段回答"它们各自在路面的什么位置"。
+      用四个道路控制点求解单应性变换，把车辆与行人的地面锚点投到统一的道路局部平面，
+      重建路面几何（车道线、路缘），再用俯视场景、对象表、关系面板与知识图谱四种视图交叉呈现。
     </p>
-    <div class="meta">案例：ACCIDENT_001 ｜ 坐标单位：local_unit（局部坐标单位，非米制实测）</div>
+    <div class="meta">案例：ACCIDENT_001 ｜ 坐标单位：local_unit（局部坐标单位，<b>非米制实测</b>）｜ 道路结构：2 条车道线 + 1 条路缘/边界</div>
   </div>
 </header>
 
 <div class="wrap">
+  <div class="kpis">
+    <div class="kpi b"><div class="v">15</div><div class="u">objects</div><div class="k">统一场景对象（O1–O15）</div></div>
+    <div class="kpi g"><div class="v">3</div><div class="u">projected</div><div class="k">标定区内投影，坐标可用于测量</div></div>
+    <div class="kpi a"><div class="v">3</div><div class="u">reliable pairs</div><div class="k">可靠距离对，最近 O8—O9 = 1.25</div></div>
+    <div class="kpi r"><div class="v">22 / 56</div><div class="u">nodes / edges</div><div class="k">含道路结构与道路坐标的知识图谱</div></div>
+  </div>
+</div>
 
-  <section>
-    <div class="kpis">
-      <div class="kpi b"><div class="v">15</div><div class="u">objects</div><div class="k">统一场景对象（O1–O15）</div></div>
-      <div class="kpi g"><div class="v">50.0%</div><div class="u">projection</div><div class="k">有效地面目标投影成功率（6/12）</div></div>
-      <div class="kpi r"><div class="v">5.38</div><div class="u">local_unit</div><div class="k">事故对 O1—接触→O2 的道路平面距离</div></div>
-      <div class="kpi a"><div class="v">18 / 48</div><div class="u">nodes / edges</div><div class="k">含道路坐标系的知识图谱规模</div></div>
-    </div>
-  </section>
+<div class="tabs">
+  <div class="tabbar" role="tablist" aria-label="视图切换">
+    <button class="tab" role="tab" data-view="scene" aria-selected="true">② 俯视道路场景</button>
+    <button class="tab" role="tab" data-view="image" aria-selected="false">① 原始图像与标定</button>
+    <button class="tab" role="tab" data-view="table" aria-selected="false">③ 对象表与距离</button>
+    <button class="tab" role="tab" data-view="graph" aria-selected="false">④ 知识图谱</button>
+    <button class="tab" role="tab" data-view="method" aria-selected="false">⑤ 方法与误差</button>
+  </div>
+</div>
 
-  <section>
-    <h2><span class="dot"></span>① 原始图片与道路标定</h2>
-    <p class="lead">蓝=车辆、绿=行人、紫=道路交通设施、灰=背景对象；红圈是检测框底边中点（近似地面接触点）；黄色梯形是四点标定出的道路平面范围。</p>
-    <div class="card">
-      <a href="outputs/ACCIDENT_001/_stage4_overlay.png" target="_blank" rel="noopener">
-        <img src="outputs/ACCIDENT_001/_stage4_overlay.png" alt="检测框与标定四边形叠加图"/>
-      </a>
-      <div class="cap zoom">
-        <span>四个控制点全部取自两条车道白线：近端两点是白线在画面底边的实测中心，远端两点由白线直线方程外推到被车辆遮挡的行。</span>
-        <a href="outputs/ACCIDENT_001/_stage4_overlay.png" target="_blank" rel="noopener">查看原图 ↗</a>
-      </div>
-    </div>
-  </section>
+<div class="wrap">
 
-  <section>
-    <h2><span class="dot"></span>② 道路平面二维场景重建</h2>
-    <p class="lead">把每个交通参与者的地面锚点经单应性矩阵变换到道路平面后，按真实相对位置重绘的俯视图。</p>
-    <div class="card">
+<!-- ============ ② 俯视道路场景 ============ -->
+<div class="panel" id="panel-scene" role="tabpanel">
+  <h2><span class="dot"></span>道路平面二维场景重建</h2>
+  <p class="lead">
+    底图是把原图中"确实是沥青、且没被车辆挡住"的像素做透视变换后铺出来的，缺失处留白；
+    两种标记区分可靠性：<b>实心</b>=标定区内投影，<b>空心虚线框</b>=外推投影（画出来但不参与测量）。
+    红色连线只连接<strong>双方都在标定区内</strong>的对象。
+  </p>
+  <div class="card">
+    <div class="scroll-media">
       <a href="outputs/ACCIDENT_001/scene_topdown.png" target="_blank" rel="noopener">
         <img src="outputs/ACCIDENT_001/scene_topdown.png" alt="道路平面二维场景重建图"/>
       </a>
-      <div class="cap zoom">
-        <span>实心=标定区内投影（O2、O8、O9）；半透明=外推投影（O1、O3、O4）；超出标定范围的对象不给坐标，只在右侧清单里列出。</span>
-        <a href="outputs/ACCIDENT_001/scene_topdown.png" target="_blank" rel="noopener">查看原图 ↗</a>
-      </div>
     </div>
-  </section>
+    <div class="cap zoom">
+      <span>斜线区＝路面纹理被车辆遮挡，只能按道路几何推断；比例尺 1 local_unit 未标定为米。</span>
+      <a href="outputs/ACCIDENT_001/scene_topdown.png" target="_blank" rel="noopener">查看原图 ↗</a>
+    </div>
+  </div>
 
-  <section>
-    <h2><span class="dot"></span>③ 含道路坐标的交互式知识图谱</h2>
-    <p class="lead">二维布局三维化：拖动旋转、双指缩放、点按查看详情。新增「道路局部坐标系」节点与蓝色点线（L4 道路平面坐标引用）。</p>
-    <div class="card">
-      <iframe class="iframe-box" src="outputs/ACCIDENT_001/interactive_graph_spatial.html" title="交互式知识图谱"></iframe>
-      <div class="cap">
-        单指拖动旋转、双指或滚轮缩放、点按节点看详情。
-        <span class="only-mobile">手机竖屏下图形会被两侧裁掉一部分，<strong>横屏</strong>观看最完整。</span>
-        也可直接打开 <a href="outputs/ACCIDENT_001/interactive_graph_spatial.html" target="_blank" rel="noopener">interactive_graph_spatial.html</a>（可双指放大）。
-      </div>
+  <h3>可点击的交互版</h3>
+  <p class="lead">点击场景中的任一对象，页面会自动跳到「对象表」并高亮对应行，实现场景—表格联动。</p>
+  <div class="card">
+    <div class="scroll-media">
+      <iframe class="iframe-box" id="frame-scene" src="outputs/ACCIDENT_001/scene_topdown.html" title="交互式道路平面场景" loading="lazy"></iframe>
     </div>
-  </section>
+    <div class="cap">
+      拖动平移、滚轮缩放、悬浮看详情。
+      <span class="only-mobile">手机上可在框内左右滑动查看完整宽度。</span>
+      也可单独打开 <a href="outputs/ACCIDENT_001/scene_topdown.html" target="_blank" rel="noopener">scene_topdown.html</a>。
+    </div>
+  </div>
 
-  <section>
-    <h2><span class="dot"></span>④ 标定参数与投影结果</h2>
-    <div class="two">
-      <div class="card">
-        <div class="scroll-hint">← 左右滑动查看完整表格 →</div>
-        <div class="table-wrap">
-          <table>
-            <tr><th>控制点</th><th>角色</th><th>图像坐标 (u, v)</th><th>道路坐标 (X, Y)</th></tr>
-            <tr><td>P1</td><td>near_left</td><td class="num">(365, 764)</td><td class="num">(0.0, 0.0)</td></tr>
-            <tr><td>P2</td><td>near_right</td><td class="num">(1212, 764)</td><td class="num">(8.0, 0.0)</td></tr>
-            <tr><td>P3</td><td>far_right</td><td class="num">(1170, 620)</td><td class="num">(8.0, 3.0)</td></tr>
-            <tr><td>P4</td><td>far_left</td><td class="num">(612, 620)</td><td class="num">(0.0, 3.0)</td></tr>
-          </table>
-        </div>
-        <div class="cap">原点=近端左侧控制点；X=道路横向（向右为正）；Y=道路纵向（向远端为正）；假设标定矩形 8 × 3。</div>
-      </div>
-      <div class="card">
-        <div class="scroll-hint">← 左右滑动查看完整表格 →</div>
-        <div class="table-wrap">
-          <table>
-            <tr><th>投影状态</th><th>对象</th><th>是否给坐标</th></tr>
-            <tr><td>标定区内 projected</td><td>O2、O8、O9</td><td>是</td></tr>
-            <tr><td>外推 projected_extrapolated</td><td>O1、O3、O4</td><td>是（标注可靠性下降）</td></tr>
-            <tr><td>超出范围 outside</td><td>O5、O6、O10、O13、O14、O15</td><td>否</td></tr>
-            <tr><td>悬空设施排除</td><td>O7、O11、O12（信号灯）</td><td>否</td></tr>
-          </table>
-        </div>
-        <div class="cap">全场最近一对：O8—O9 = 1.25 local_unit（两名行人）；共计算 15 对道路平面距离。</div>
-      </div>
-    </div>
-  </section>
+  <h3>这张图看什么</h3>
+  <ul class="lim">
+    <li><b>位置关系</b>：O2 在道路中部偏左，O8、O9 两名行人位于右侧靠边，O8 更靠近车行道。</li>
+    <li><b>车道结构</b>：L1（左分界线）与 L2（右分界线）在道路坐标中宽约 8 local_unit，两线之间未见虚线，<strong>无法判定车道数</strong>。</li>
+    <li><b>诚实性标注</b>：O1、O3、O4 是外推结果，图上以半透明呈现并明确写"不参与可靠距离"；O5、O6、O10、O13、O14、O15 没有坐标，只列清单——不把标定区外的点硬拉回矩形内。</li>
+  </ul>
+</div>
 
-  <section>
-    <h2><span class="dot"></span>⑤ 已知误差与表述边界</h2>
-    <div class="note">
-      <strong>坐标单位是 local_unit，不能写成“米”。</strong>
-      本案例没有实测道路尺寸，8 × 3 只是为了让坐标系可复现而假设的局部矩形。
+<!-- ============ ① 原始图像与标定 ============ -->
+<div class="panel" id="panel-image" role="tabpanel" hidden>
+  <h2><span class="dot"></span>原始图像与道路标定</h2>
+  <p class="lead">蓝=车辆、绿=行人、紫=道路设施；红点是检测框底边中点（近似地面接触点）；黄色梯形是四点标定出的道路平面范围。</p>
+  <div class="card">
+    <a href="outputs/ACCIDENT_001/_stage4_overlay.png" target="_blank" rel="noopener">
+      <img src="outputs/ACCIDENT_001/_stage4_overlay.png" alt="检测框与标定四边形叠加图"/>
+    </a>
+    <div class="cap zoom">
+      <span>四个控制点全部取自两条车道白线：近端两点是白线在画面底边的实测中心，远端两点由白线直线方程外推到被车辆遮挡的行。</span>
+      <a href="outputs/ACCIDENT_001/_stage4_overlay.png" target="_blank" rel="noopener">查看原图 ↗</a>
     </div>
-    <ul class="lim">
-      <li>四个控制点同时用于求解与检验，自洽性误差 0.0 只证明矩阵算对了，<strong>不能</strong>当作定位精度；要给出精度必须另留独立检验点。</li>
-      <li>远端两个控制点位于被车辆/行人遮挡的区域，由白线直线方程外推得到，是已记录的不确定性来源。</li>
-      <li>地面锚点用检测框底边中点近似轮胎/脚部接地点；对斜向停放的车辆（本案例被追尾的小汽车）会向车身一侧偏移，这也是 O1 被判为“外推”的原因。</li>
-      <li>标定矩形是局部坐标参考区，<strong>不是</strong>道路真实边界（当前没有道路多边形数据）。</li>
-    </ul>
-  </section>
+  </div>
+  <div class="card">
+    <div class="scroll-hint">← 左右滑动查看完整表格 →</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>控制点</th><th>图像坐标 (u, v)</th><th>道路坐标 (X, Y)</th></tr>
+        <tr><td class="nowrap">P1 近左</td><td class="num">(365, 764)</td><td class="num">(0.0, 0.0)</td></tr><tr><td class="nowrap">P2 近右</td><td class="num">(1212, 764)</td><td class="num">(8.0, 0.0)</td></tr><tr><td class="nowrap">P3 远右</td><td class="num">(1170, 620)</td><td class="num">(8.0, 3.0)</td></tr><tr><td class="nowrap">P4 远左</td><td class="num">(612, 620)</td><td class="num">(0.0, 3.0)</td></tr>
+      </table>
+    </div>
+    <div class="cap">原点=近端左侧控制点；X=道路横向（右为正）；Y=道路纵向（远端为正）；标定矩形人为设定 8 × 3 local_unit。</div>
+  </div>
+  <div class="note">
+    <strong>为什么控制点取白线而不取车道中心？</strong>
+    白线边缘清晰、可逐行扫描取中心，比"车道中心"更容易复核；代价是标定矩形描述的是"两条白线之间的区域"，
+    而不是整条道路的边界，所以页面只称它为"标定区域"。
+  </div>
+</div>
 
-  <section>
-    <h2><span class="dot"></span>⑥ 技术路线</h2>
-    <div class="card">
-      <div class="scroll-hint">← 左右滑动查看完整表格 →</div>
-      <div class="table-wrap">
-        <table>
-          <tr><th>步骤</th><th>方法</th><th>产物</th></tr>
-          <tr><td class="nowrap">道路控制点标定</td><td>两条车道白线按行扫描取中心 + 直线拟合外推</td><td>image_control_points.json</td></tr>
-          <tr><td class="nowrap">单应性变换</td><td>cv2.findHomography（4 点 DLT）</td><td>calibration.json、3×3 矩阵 H</td></tr>
-          <tr><td class="nowrap">交通对象定位</td><td>bbox 底边中点 → perspectiveTransform</td><td>scene_model_spatial.json</td></tr>
-          <tr><td class="nowrap">空间距离分析</td><td>道路平面欧氏距离（15 对 + 语义关系对）</td><td>ground_distances.json</td></tr>
-          <tr><td class="nowrap">二维场景重建</td><td>matplotlib 俯视图（中文标注、状态区分）</td><td>scene_topdown.png</td></tr>
-          <tr><td class="nowrap">知识图谱扩展</td><td>多源 MultiDiGraph + CoordinateSystem 节点 + L4 边</td><td>knowledge_graph_spatial.json/.png/.html</td></tr>
-        </table>
-      </div>
+<!-- ============ ③ 对象表与距离 ============ -->
+<div class="panel" id="panel-table" role="tabpanel" hidden>
+  <h2><span class="dot"></span>对象表与距离面板</h2>
+  <p class="lead">点任意一行可展开该对象的锚点、坐标与语义描述；从场景图或知识图谱点击对象也会自动跳到并高亮对应行。</p>
+  <div class="card">
+    <div class="scroll-hint">← 左右滑动查看完整表格 →</div>
+    <div class="table-wrap">
+      <table id="obj-table">
+        <tr><th>编号</th><th>类别</th><th>道路坐标 (X, Y)</th><th>投影状态</th><th>锚点像素</th><th class="col-desc">VLM 描述</th></tr>
+        <tr data-oid="O1" class="obj-row"><td class="nowrap"><b>O1</b></td><td class="nowrap">小汽车</td><td class="num">-1.39, 1.52</td><td><span class="pill a">外推投影</span></td><td class="num">399, 676</td><td class="desc">银色双门微型车，车头右侧有明显碰撞凹陷和损坏，驾驶侧车门处于打开状态</td></tr><tr data-oid="O2" class="obj-row"><td class="nowrap"><b>O2</b></td><td class="nowrap">小汽车</td><td class="num">3.87, 2.68</td><td><span class="pill b">区内投影</span></td><td class="num">874, 630</td><td class="desc">灰色SUV，车尾保险杠及尾门区域有碰撞痕迹，红色尾灯亮起</td></tr><tr data-oid="O3" class="obj-row"><td class="nowrap"><b>O3</b></td><td class="nowrap">小汽车</td><td class="num">-2.79, -0.03</td><td><span class="pill a">外推投影</span></td><td class="num">65, 766</td><td class="desc"></td></tr><tr data-oid="O4" class="obj-row"><td class="nowrap"><b>O4</b></td><td class="nowrap">小汽车</td><td class="num">9.06, 0.39</td><td><span class="pill a">外推投影</span></td><td class="num">1309, 738</td><td class="desc"></td></tr><tr data-oid="O5" class="obj-row"><td class="nowrap"><b>O5</b></td><td class="nowrap">小汽车</td><td class="num">—</td><td><span class="pill r">超出标定范围</span></td><td class="num">71, 451</td><td class="desc"></td></tr><tr data-oid="O6" class="obj-row"><td class="nowrap"><b>O6</b></td><td class="nowrap">小汽车</td><td class="num">—</td><td><span class="pill r">超出标定范围</span></td><td class="num">1289, 548</td><td class="desc"></td></tr><tr data-oid="O7" class="obj-row"><td class="nowrap"><b>O7</b></td><td class="nowrap">交通信号灯</td><td class="num">—</td><td><span class="pill m">悬空设施（排除）</span></td><td class="num">—</td><td class="desc"></td></tr><tr data-oid="O8" class="obj-row"><td class="nowrap"><b>O8</b></td><td class="nowrap">行人</td><td class="num">7.51, 1.95</td><td><span class="pill b">区内投影</span></td><td class="num">1142, 658</td><td class="desc">身穿深蓝色羽绒服和牛仔裤的男性，正举着相机或手机对着两车碰撞部位拍照</td></tr><tr data-oid="O9" class="obj-row"><td class="nowrap"><b>O9</b></td><td class="nowrap">行人</td><td class="num">6.64, 2.85</td><td><span class="pill b">区内投影</span></td><td class="num">1075, 625</td><td class="desc">身穿深色外套和牛仔裤的男性，正面向P1，似乎在交谈或查看情况</td></tr><tr data-oid="O10" class="obj-row"><td class="nowrap"><b>O10</b></td><td class="nowrap">行人</td><td class="num">—</td><td><span class="pill r">超出标定范围</span></td><td class="num">619, 498</td><td class="desc">身穿深色外套的男性，站在V1打开的驾驶座车门旁</td></tr><tr data-oid="O11" class="obj-row"><td class="nowrap"><b>O11</b></td><td class="nowrap">交通信号灯</td><td class="num">—</td><td><span class="pill m">悬空设施（排除）</span></td><td class="num">—</td><td class="desc"></td></tr><tr data-oid="O12" class="obj-row"><td class="nowrap"><b>O12</b></td><td class="nowrap">交通信号灯</td><td class="num">—</td><td><span class="pill m">悬空设施（排除）</span></td><td class="num">—</td><td class="desc"></td></tr><tr data-oid="O13" class="obj-row"><td class="nowrap"><b>O13</b></td><td class="nowrap">小汽车</td><td class="num">—</td><td><span class="pill r">超出标定范围</span></td><td class="num">510, 374</td><td class="desc"></td></tr><tr data-oid="O14" class="obj-row"><td class="nowrap"><b>O14</b></td><td class="nowrap">小汽车</td><td class="num">—</td><td><span class="pill r">超出标定范围</span></td><td class="num">1229, 492</td><td class="desc"></td></tr><tr data-oid="O15" class="obj-row"><td class="nowrap"><b>O15</b></td><td class="nowrap">小汽车</td><td class="num">—</td><td><span class="pill r">超出标定范围</span></td><td class="num">669, 392</td><td class="desc"></td></tr>
+      </table>
     </div>
-  </section>
+    <div class="cap">共 15 个对象：区内投影 3、外推 3、超范围 6、悬空设施 3。</div>
+  </div>
+  <div class="detail" id="obj-detail"></div>
+
+  <h3>可靠距离（双方均在标定区内）</h3>
+  <div class="card">
+    <div class="scroll-hint">← 左右滑动查看完整表格 →</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>对象对</th><th>距离</th><th>单位</th><th>可靠性依据</th></tr>
+        <tr><td class="nowrap"><b>O8 — O9</b></td><td class="num">1.25</td><td>local_unit</td><td>双方均在标定区内</td></tr><tr><td class="nowrap"><b>O2 — O9</b></td><td class="num">2.77</td><td>local_unit</td><td>双方均在标定区内</td></tr><tr><td class="nowrap"><b>O2 — O8</b></td><td class="num">3.71</td><td>local_unit</td><td>双方均在标定区内</td></tr>
+      </table>
+    </div>
+    <div class="cap">只列出 3 对可靠距离；其余 12 对含外推对象，数值保留在 JSON 里供追溯，页面不展示、不作为结论。</div>
+  </div>
+
+  <h3>语义关系与其距离（VLM 观察层）</h3>
+  <div class="card">
+    <div class="scroll-hint">← 左右滑动查看完整表格 →</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>关系</th><th>VLM 证据</th><th>道路平面距离</th><th>是否可用于结论</th></tr>
+        <tr><td class="nowrap">O1 —接触→ O2</td><td>V1的车头右侧紧密抵住V2的车尾左侧，接触区域有明显的物理形变，且两车之间的路面上散落着黑色的车辆碎片。</td><td>约 5.38 local_unit（仅追溯）</td><td><span class="pill a">不可靠</span></td></tr>
+      </table>
+    </div>
+    <div class="cap">
+      VLM 说"接触"是语义判断，不是碰撞事实；距离只在双方都投影到标定区内时给出数值。
+      VLM 记为"接触"的 O1—O2 对，地面距离约 5.38 local_unit；但其中一方是外推结果，该值只作追溯，不能写成“两车相距该数值”的结论。
+    </div>
+  </div>
+</div>
+
+<!-- ============ ④ 知识图谱 ============ -->
+<div class="panel" id="panel-graph" role="tabpanel" hidden>
+  <h2><span class="dot"></span>含道路结构与道路坐标的知识图谱</h2>
+  <p class="lead">
+    图谱新增两类内容：<b>道路结构节点</b>（路面区域、L1/L2 车道线、RB_R 路缘）与<b>对象坐标属性</b>
+    （ground_x / ground_y / coordinate_unit / projection_status / coordinate_source）。
+    点击节点会自动跳到对象表并高亮。
+  </p>
+  <div class="card">
+    <div class="scroll-media">
+      <iframe class="graph-box" id="frame-graph" src="outputs/ACCIDENT_001/interactive_graph_spatial.html" title="交互式知识图谱" loading="lazy"></iframe>
+    </div>
+    <div class="cap">
+      单指拖动旋转、双指或滚轮缩放、点按节点看详情。
+      <span class="only-mobile">手机竖屏下图形会被两侧裁掉一部分，<strong>横屏</strong>观看最完整。</span>
+      也可单独打开 <a href="outputs/ACCIDENT_001/interactive_graph_spatial.html" target="_blank" rel="noopener">interactive_graph_spatial.html</a>。
+    </div>
+  </div>
+  <div class="card">
+    <a href="outputs/ACCIDENT_001/knowledge_graph_spatial.png" target="_blank" rel="noopener">
+      <img src="outputs/ACCIDENT_001/knowledge_graph_spatial.png" alt="含道路坐标的知识图谱（2D 静态版）"/>
+    </a>
+    <div class="cap zoom">
+      <span>静态版便于放进论文：蓝点线为 road coordinate 引用，橙点线为 L2 几何候选，红实线为 L3 语义关系。</span>
+      <a href="outputs/ACCIDENT_001/knowledge_graph_spatial.png" target="_blank" rel="noopener">查看原图 ↗</a>
+    </div>
+  </div>
+  <div class="note">
+    <strong>图谱里的坐标不是"摆位"。</strong>
+    3D 视图的节点位置由 spring_layout 决定，只表示关系结构，<b>不代表真实道路位置</b>；
+    真实坐标写在节点属性与 JSON 边属性里（<code>ground_x</code>、<code>ground_y</code>、<code>unit</code>）。
+  </div>
+</div>
+
+<!-- ============ ⑤ 方法与误差 ============ -->
+<div class="panel" id="panel-method" role="tabpanel" hidden>
+  <h2><span class="dot"></span>投影质量与方法边界</h2>
+  <p class="lead">
+    四点单应性只有 4 组对应点、恰好确定 8 个自由度，<b>不存在留一交叉验证</b>（去掉一点后方程数不足）。
+    因此这里用三类与标定四边形无关的检查来量化可信度，而不是伪造一个 LOO 误差。
+  </p>
+
+  <h3>1. 几何一致性（车道线在道路坐标中的表现）</h3>
+  <div class="card">
+    <div class="scroll-hint">← 左右滑动查看完整表格 →</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>车道线</th><th>斜率 dX/dY</th><th>偏离竖直</th><th>拟合残差</th><th>参与拟合点数</th></tr>
+        <tr><td class="nowrap">L1 左侧车道分界线（事故车道左边界）</td><td class="num">-0.0406</td><td class="num">2.32°</td><td class="num">0.0057</td><td class="num">9</td></tr><tr><td class="nowrap">L2 右侧车道分界线（事故车道右边界）</td><td class="num">+0.0000</td><td class="num">0.00°</td><td class="num">0.0058</td><td class="num">9</td></tr>
+      </table>
+    </div>
+    <div class="cap">
+      两线夹角 2.32°、间距从 Y=0 的 7.939 变到 Y=3 的 8.061 local_unit。
+      斜率接近 0 说明标定矩形的纵向轴与车道方向基本一致。
+    </div>
+  </div>
+
+  <h3>2. 锚点敏感度（像素误差放大成多少局部单位）</h3>
+  <div class="note">
+    锚点标注抖动 <b>5 px</b>，在道路坐标中平均造成
+    <b>0.137 local_unit</b> 的位移，最大 0.167 local_unit。
+    远处（Y 大）同样的像素误差代价更高——这正是"越远越不准"的定量表述。
+  </div>
+
+  <h3>3. 尺度歧义（为什么不能写"米"）</h3>
+  <div class="note red">
+    <strong>标定矩形被设为 8×3 local_unit。若真实道路横向宽度为 W 米，则 1 local_unit = W/8 米；W 未实测，因此任何 local_unit 数值都不能写成米。论文中应表述为'局部单位'，并说明该单位由人为设定的标定矩形定义。</strong>
+  </div>
+
+  <h3>4. 自洽性与已知局限</h3>
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <tr><th>项目</th><th>结果</th><th>说明</th></tr>
+        <tr><td>四点回代误差</td><td class="num">0.000000 local_unit</td><td>只证明 DLT 求解闭合，不代表标定精度</td></tr>
+        <tr><td>投影成功率</td><td class="num">50.0%</td><td>6/12 个地面目标得到可用坐标</td></tr>
+        <tr><td>路面纹理覆盖</td><td class="num">10.1%</td><td>其余路面被车辆遮挡，底图只能按几何推断</td></tr>
+        <tr><td>两线夹角</td><td class="num">2.32°</td><td>平行度良好，说明标定与道路方向基本对齐</td></tr>
+      </table>
+    </div>
+    <div class="cap">上述数值全部来自 calibration_check.json，可在仓库中复核。</div>
+  </div>
+
+  <ul class="lim">
+    <li><strong>不能写米。</strong>1 local_unit = 标定矩形宽度 ÷ 8，而矩形宽度未实测。</li>
+    <li><strong>不能写"碰撞"。</strong>VLM 的"接触"是语义观察；几何上只能给"双方都在标定区内时的平面距离"。</li>
+    <li><strong>符号不代表实测尺寸。</strong>车辆矩形 0.26 × 0.58 local_unit、行人圆点 r=0.075 只是示意，不代表车身尺寸与朝向。</li>
+    <li><strong>外推不参与测量。</strong>含 projected_extrapolated 的距离一律降级，只在 JSON 里保留追溯值。</li>
+    <li><strong>3D 图谱位置不是坐标。</strong>spring_layout 只表达关系结构。</li>
+  </ul>
+
+  <h3>5. 技术路线</h3>
+  <div class="card">
+    <div class="scroll-hint">← 左右滑动查看完整表格 →</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>步骤</th><th>方法</th><th>产物</th></tr>
+        <tr><td class="nowrap">道路控制点标定</td><td>车道白线逐行扫描取中心 + 直线拟合外推</td><td>image_control_points.json / calibration.json</td></tr>
+        <tr><td class="nowrap">道路几何标注</td><td>人工判读网格 + 亮度扫描复核车道线</td><td>road_geometry.json</td></tr>
+        <tr><td class="nowrap">几何逐点投影</td><td>同一 H 变换，逐点标注 inside/outside</td><td>road_geometry_local.json</td></tr>
+        <tr><td class="nowrap">路面俯视底图</td><td>HSV 沥青掩膜 ∩ 道路多边形 − 对象框，warpPerspective</td><td>road_surface_topdown.png</td></tr>
+        <tr><td class="nowrap">对象定位与距离</td><td>bbox 底边中点 → perspectiveTransform → 欧氏距离（仅区内可算）</td><td>scene_model_spatial.json / ground_distances.json</td></tr>
+        <tr><td class="nowrap">投影质量评估</td><td>几何一致性 + 锚点敏感度 + 尺度歧义</td><td>calibration_check.json</td></tr>
+        <tr><td class="nowrap">场景重建</td><td>matplotlib 静态图 + Plotly 交互图（共用同一数据）</td><td>scene_topdown.png / .html</td></tr>
+        <tr><td class="nowrap">知识图谱扩展</td><td>MultiDiGraph + 道路结构节点 + 坐标属性 + 点击联动</td><td>knowledge_graph_spatial.json/.png/.html</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
 
 </div>
 
 <footer>
   <div class="wrap">
-    数据来源：本案例事故图片的 VLM 语义分析结果、YOLO 检测框、人工确认的对象映射，以及第四阶段的单应性变换计算。<br>
-    本页面为静态页面，所有图片与交互图谱均随仓库发布，无需运行后端即可查看。
+    数据来源：事故图片的 VLM 语义分析、YOLO 检测框、人工确认的对象映射、道路几何人工标注与单应性变换计算。<br>
+    本页面为静态页面，所有图片与交互视图随仓库发布，无需运行后端即可查看。
   </div>
 </footer>
 
 <script>
-  // Plotly 3D 图在 iframe 中不会随父页面宽度变化自动重排，这里主动触发一次 resize
-  (function () {
-    var frame = document.querySelector('.iframe-box');
-    if (!frame) return;
-    var timer = null;
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var panels = {
+    scene: document.getElementById('panel-scene'),
+    image: document.getElementById('panel-image'),
+    table: document.getElementById('panel-table'),
+    graph: document.getElementById('panel-graph'),
+    method: document.getElementById('panel-method'),
+  };
+
+  function showView(name, opts) {
+    opts = opts || {};
+    if (!panels[name]) name = 'scene';
+    tabs.forEach(function (t) {
+      var on = t.dataset.view === name;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    Object.keys(panels).forEach(function (k) {
+      if (panels[k]) panels[k].hidden = (k !== name);
+    });
+    if (!opts.silent) history.replaceState(null, '', '#' + name);
+  }
+
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () { showView(t.dataset.view); });
+  });
+
+  var hash = (location.hash || '').replace('#', '');
+  showView(hash || 'scene', {silent: true});
+
+  // 直接改地址栏 hash 或分享带 #view 的链接时同步切换视图
+  window.addEventListener('hashchange', function () {
+    var h = (location.hash || '').replace('#', '');
+    if (h && panels[h]) showView(h, {silent: true});
+  });
+
+  // ---------------- 对象表联动 ----------------
+  var rows = Array.prototype.slice.call(document.querySelectorAll('#obj-table tr[data-oid]'));
+  var detail = document.getElementById('obj-detail');
+  var data = {"O1": {"cat": "小汽车", "status": "projected_extrapolated", "x": -1.385, "y": 1.522, "anchor": [399.45, 676.2], "conf": 0.919, "desc": "银色双门微型车，车头右侧有明显碰撞凹陷和损坏，驾驶侧车门处于打开状态", "bbox": [94.5, 314.5, 704.4, 676.2]}, "O2": {"cat": "小汽车", "status": "projected", "x": 3.868, "y": 2.683, "anchor": [874.05, 630.4], "conf": 0.841, "desc": "灰色SUV，车尾保险杠及尾门区域有碰撞痕迹，红色尾灯亮起", "bbox": [679.6, 292.7, 1068.5, 630.4]}, "O3": {"cat": "小汽车", "status": "projected_extrapolated", "x": -2.788, "y": -0.026, "anchor": [65.2, 765.9], "conf": 0.837, "desc": "", "bbox": [0.8, 581.8, 129.6, 765.9]}, "O4": {"cat": "小汽车", "status": "projected_extrapolated", "x": 9.057, "y": 0.388, "anchor": [1309.2, 737.5], "conf": 0.737, "desc": "", "bbox": [1253.7, 344.9, 1364.7, 737.5]}, "O5": {"cat": "小汽车", "status": "outside_calibration_region", "x": null, "y": null, "anchor": [71.1, 451.0], "conf": 0.729, "desc": "", "bbox": [0.4, 351.8, 141.8, 451.0]}, "O6": {"cat": "小汽车", "status": "outside_calibration_region", "x": null, "y": null, "anchor": [1289.0, 548.5], "conf": 0.72, "desc": "", "bbox": [1216.4, 336.9, 1361.6, 548.5]}, "O7": {"cat": "交通信号灯", "status": "excluded_non_ground_object", "x": null, "y": null, "anchor": null, "conf": 0.71, "desc": "", "bbox": [324.2, 58.0, 379.3, 197.5]}, "O8": {"cat": "行人", "status": "projected", "x": 7.51, "y": 1.948, "anchor": [1142.2, 657.8], "conf": 0.706, "desc": "身穿深蓝色羽绒服和牛仔裤的男性，正举着相机或手机对着两车碰撞部位拍照", "bbox": [1084.7, 271.6, 1199.7, 657.8]}, "O9": {"cat": "行人", "status": "projected", "x": 6.638, "y": 2.848, "anchor": [1074.75, 624.9], "conf": 0.676, "desc": "身穿深色外套和牛仔裤的男性，正面向P1，似乎在交谈或查看情况", "bbox": [1019.3, 281.7, 1130.2, 624.9]}, "O10": {"cat": "行人", "status": "outside_calibration_region", "x": null, "y": null, "anchor": [619.25, 497.5], "conf": 0.622, "desc": "身穿深色外套的男性，站在V1打开的驾驶座车门旁", "bbox": [550.6, 277.3, 687.9, 497.5]}, "O11": {"cat": "交通信号灯", "status": "excluded_non_ground_object", "x": null, "y": null, "anchor": null, "conf": 0.54, "desc": "", "bbox": [243.9, 52.9, 304.1, 194.9]}, "O12": {"cat": "交通信号灯", "status": "excluded_non_ground_object", "x": null, "y": null, "anchor": null, "conf": 0.409, "desc": "", "bbox": [822.9, 257.3, 838.6, 296.6]}, "O13": {"cat": "小汽车", "status": "outside_calibration_region", "x": null, "y": null, "anchor": [510.35, 374.0], "conf": 0.343, "desc": "", "bbox": [473.4, 315.0, 547.3, 374.0]}, "O14": {"cat": "小汽车", "status": "outside_calibration_region", "x": null, "y": null, "anchor": [1228.95, 492.1], "conf": 0.337, "desc": "", "bbox": [1186.7, 347.6, 1271.2, 492.1]}, "O15": {"cat": "小汽车", "status": "outside_calibration_region", "x": null, "y": null, "anchor": [668.95, 392.0], "conf": 0.33, "desc": "", "bbox": [634.2, 328.8, 703.7, 392.0]}};
+
+  function statusText(s) {
+    return ({projected:'区内投影（坐标可用）',
+             projected_extrapolated:'外推投影（不参与可靠距离）',
+             outside_calibration_region:'超出标定范围（不给坐标）',
+             excluded_non_ground_object:'悬空设施（不参与地面投影）'})[s] || s;
+  }
+
+  function highlight(id, scroll) {
+    var row = null;
+    rows.forEach(function (r) {
+      r.classList.toggle('sel', r.dataset.oid === id);
+      if (r.dataset.oid === id) row = r;
+    });
+    if (!row) return;
+    if (scroll && row.scrollIntoView) row.scrollIntoView({block: 'center', behavior: 'smooth'});
+    row.classList.add('flash');
+    setTimeout(function () { row.classList.remove('flash'); }, 1600);
+  }
+
+  function showDetail(id) {
+    var d = data[id];
+    if (!d || !detail) return;
+    var pos = (d.x === null || d.x === undefined) ? '未给出道路坐标' : ('X=' + d.x.toFixed(2) + '，Y=' + d.y.toFixed(2) + ' local_unit');
+    detail.innerHTML =
+      '<b>' + id + ' ' + d.cat + '</b><br>' +
+      '投影状态：' + statusText(d.status) + '<br>' +
+      '道路坐标：' + pos + '<br>' +
+      '地面锚点（像素）：' + (d.anchor ? '(' + d.anchor[0].toFixed(0) + ', ' + d.anchor[1].toFixed(0) + ')' : '—') +
+      '　锚点规则：检测框底边中点' + '<br>' +
+      (d.conf !== null && d.conf !== undefined ? 'YOLO 置信度：' + d.conf + '<br>' : '') +
+      (d.desc ? 'VLM 描述：' + d.desc : '');
+    detail.classList.add('on');
+  }
+
+  rows.forEach(function (r) {
+    r.addEventListener('click', function () {
+      highlight(r.dataset.oid, false);
+      showDetail(r.dataset.oid);
+    });
+  });
+
+  // ---------------- iframe 点击联动 ----------------
+  window.addEventListener('message', function (e) {
+    var d = e.data || {};
+    if (d.type !== 'scene-object' && d.type !== 'graph-node') return;
+    var id = String(d.id || '');
+    if (!id) return;
+    showView('table');
+    highlight(id, true);
+    showDetail(id);
+  });
+
+  // Plotly iframe 自适应
+  ['frame-scene', 'frame-graph'].forEach(function (fid) {
+    var f = document.getElementById(fid);
+    if (!f) return;
     function refit() {
-      try {
-        frame.contentWindow.dispatchEvent(new Event('resize'));
-      } catch (e) { /* 跨源（file:// 直接打开）时忽略 */ }
+      try { f.contentWindow.dispatchEvent(new Event('resize')); } catch (e) {}
     }
-    frame.addEventListener('load', function () { setTimeout(refit, 350); });
-    window.addEventListener('resize', function () {
-      clearTimeout(timer);
-      timer = setTimeout(refit, 300);
-    });
-    window.addEventListener('orientationchange', function () {
-      clearTimeout(timer);
-      timer = setTimeout(refit, 500);
-    });
-  })();
+    f.addEventListener('load', function () { setTimeout(refit, 380); });
+    window.addEventListener('resize', function () { setTimeout(refit, 320); });
+    window.addEventListener('orientationchange', function () { setTimeout(refit, 520); });
+  });
+})();
 </script>
 
 </body>
