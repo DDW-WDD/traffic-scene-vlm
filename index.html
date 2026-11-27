@@ -72,6 +72,7 @@
   th,td{border-bottom:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
   th{background:#f3f6fb;color:#39404f;font-weight:600;white-space:nowrap}
   td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+  td.nowrap{white-space:nowrap}
   .scroll-hint{display:none;font-size:11.5px;color:var(--muted);padding:7px 12px 0}
   .only-mobile{display:none}
 
@@ -140,7 +141,7 @@
     <p class="lead">蓝=车辆、绿=行人、紫=道路交通设施、灰=背景对象；红圈是检测框底边中点（近似地面接触点）；黄色梯形是四点标定出的道路平面范围。</p>
     <div class="card">
       <a href="outputs/ACCIDENT_001/_stage4_overlay.png" target="_blank" rel="noopener">
-        <img src="outputs/ACCIDENT_001/_stage4_overlay.png" alt="检测框与标定四边形叠加图" loading="lazy"/>
+        <img src="outputs/ACCIDENT_001/_stage4_overlay.png" alt="检测框与标定四边形叠加图"/>
       </a>
       <div class="cap zoom">
         <span>四个控制点全部取自两条车道白线：近端两点是白线在画面底边的实测中心，远端两点由白线直线方程外推到被车辆遮挡的行。</span>
@@ -154,7 +155,7 @@
     <p class="lead">把每个交通参与者的地面锚点经单应性矩阵变换到道路平面后，按真实相对位置重绘的俯视图。</p>
     <div class="card">
       <a href="outputs/ACCIDENT_001/scene_topdown.png" target="_blank" rel="noopener">
-        <img src="outputs/ACCIDENT_001/scene_topdown.png" alt="道路平面二维场景重建图" loading="lazy"/>
+        <img src="outputs/ACCIDENT_001/scene_topdown.png" alt="道路平面二维场景重建图"/>
       </a>
       <div class="cap zoom">
         <span>实心=标定区内投影（O2、O8、O9）；半透明=外推投影（O1、O3、O4）；超出标定范围的对象不给坐标，只在右侧清单里列出。</span>
@@ -167,7 +168,7 @@
     <h2><span class="dot"></span>③ 含道路坐标的交互式知识图谱</h2>
     <p class="lead">二维布局三维化：拖动旋转、双指缩放、点按查看详情。新增「道路局部坐标系」节点与蓝色点线（L4 道路平面坐标引用）。</p>
     <div class="card">
-      <iframe class="iframe-box" src="outputs/ACCIDENT_001/interactive_graph_spatial.html" title="交互式知识图谱" loading="lazy"></iframe>
+      <iframe class="iframe-box" src="outputs/ACCIDENT_001/interactive_graph_spatial.html" title="交互式知识图谱"></iframe>
       <div class="cap">
         单指拖动旋转、双指或滚轮缩放、点按节点看详情。
         <span class="only-mobile">手机竖屏下图形会被两侧裁掉一部分，<strong>横屏</strong>观看最完整。</span>
@@ -229,12 +230,12 @@
       <div class="table-wrap">
         <table>
           <tr><th>步骤</th><th>方法</th><th>产物</th></tr>
-          <tr><td>道路控制点标定</td><td>两条车道白线按行扫描取中心 + 直线拟合外推</td><td>image_control_points.json</td></tr>
-          <tr><td>单应性变换</td><td>cv2.findHomography（4 点 DLT）</td><td>calibration.json、3×3 矩阵 H</td></tr>
-          <tr><td>交通对象定位</td><td>bbox 底边中点 → perspectiveTransform</td><td>scene_model_spatial.json</td></tr>
-          <tr><td>空间距离分析</td><td>道路平面欧氏距离（15 对 + 语义关系对）</td><td>ground_distances.json</td></tr>
-          <tr><td>二维场景重建</td><td>matplotlib 俯视图（中文标注、状态区分）</td><td>scene_topdown.png</td></tr>
-          <tr><td>知识图谱扩展</td><td>多源 MultiDiGraph + CoordinateSystem 节点 + L4 边</td><td>knowledge_graph_spatial.json/.png/.html</td></tr>
+          <tr><td class="nowrap">道路控制点标定</td><td>两条车道白线按行扫描取中心 + 直线拟合外推</td><td>image_control_points.json</td></tr>
+          <tr><td class="nowrap">单应性变换</td><td>cv2.findHomography（4 点 DLT）</td><td>calibration.json、3×3 矩阵 H</td></tr>
+          <tr><td class="nowrap">交通对象定位</td><td>bbox 底边中点 → perspectiveTransform</td><td>scene_model_spatial.json</td></tr>
+          <tr><td class="nowrap">空间距离分析</td><td>道路平面欧氏距离（15 对 + 语义关系对）</td><td>ground_distances.json</td></tr>
+          <tr><td class="nowrap">二维场景重建</td><td>matplotlib 俯视图（中文标注、状态区分）</td><td>scene_topdown.png</td></tr>
+          <tr><td class="nowrap">知识图谱扩展</td><td>多源 MultiDiGraph + CoordinateSystem 节点 + L4 边</td><td>knowledge_graph_spatial.json/.png/.html</td></tr>
         </table>
       </div>
     </div>
