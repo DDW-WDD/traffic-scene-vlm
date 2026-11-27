@@ -311,9 +311,23 @@ def build_scene_figure(spatial_scene_path, road_geometry_local_path,
         "车道线由逐行扫描拟合；只有双方都在标定区内时才给出道路平面距离。",
         fontsize=7.2, color="#868e96")
 
+    # 副标题随案例与实际几何动态生成，不再硬编码 ACCIDENT_001
+    case_label = scene.get("scene_id") or "未命名案例"
+    n_lanes = len(geom.get("lane_lines", []))
+    n_bounds = len(geom.get("road_boundaries", []))
+    if n_lanes == 0 and n_bounds == 0:
+        geom_desc = "道路几何：标定四边形（无车道线/路缘标注）"
+    else:
+        parts = []
+        if n_lanes:
+            parts.append(f"{n_lanes} 条车道线")
+        if n_bounds:
+            parts.append(f"{n_bounds} 条路缘线")
+        geom_desc = "道路几何：" + " + ".join(parts)
+
     fig.text(0.048, 0.985, title, fontsize=15, color=INK, va="top")
     fig.text(0.048, 0.925,
-             f"案例 ACCIDENT_001 ｜ 四点单应性标定 ｜ 道路几何：2 条车道线 + 1 条路缘线 ｜ 单位 {unit}",
+             f"案例 {case_label} ｜ 四点单应性标定 ｜ {geom_desc} ｜ 单位 {unit}",
              fontsize=8.6, color=MUTED)
 
     fig.savefig(output_path, bbox_inches="tight", facecolor="white")
