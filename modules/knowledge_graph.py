@@ -40,6 +40,9 @@ def _node_color(node_type):
         "VLMROnly": "#e0e0e0",
         "AccidentEvent": "#ff8787",
         "CoordinateSystem": "#74c0fc",
+        "RoadArea": "#dee2e6",
+        "LaneLine": "#ced4da",
+        "RoadBoundary": "#ffe066",
     }.get(node_type, "#cccccc")
 
 
@@ -66,6 +69,18 @@ def build_fused_knowledge_graph(scene):
             # 第四阶段：道路平面坐标（未投影时保留状态，不伪造坐标）
             ground_position=gp,
             ground_status=gp.get("status"),
+            # 第四阶段：把坐标平铺成可查询属性，便于按属性筛选/检索
+            ground_x=gp.get("x"),
+            ground_y=gp.get("y"),
+            coordinate_unit=gp.get("unit") if gp.get("x") is not None else None,
+            projection_status=gp.get("status"),
+            coordinate_source=("homography_4pt" if gp.get("x") is not None else None),
+            ground_anchor_image=obj.get("ground_anchor_image"),
+            position_text=(
+                f"X={gp['x']:.2f}, Y={gp['y']:.2f} {gp.get('unit', '')}"
+                if gp.get("x") is not None else
+                f"未给出道路坐标（{gp.get('status')}）"
+            ),
         )
         G.add_edge(obj["id"], scene_id, relation="belongs_to")
 
@@ -99,6 +114,53 @@ def build_fused_knowledge_graph(scene):
                 ground_y=gp.get("y"),
                 unit=gp.get("unit"),
             )
+
+    # 第四阶段：道路结构要素入图（人工标注 + 单应性投影，属场景几何层）
+    road_geom = scene.get("road_geometry")
+    if road_geom:
+        G.add_node(
+            "ROAD_AREA",
+            node_type="RoadArea",
+            label="路面区域（人工标注）",
+            unit=road_geom.get("unit"),
+            quality=road_geom.get("quality", {}).get("type"),
+            point_count=len(road_geom.get("road_polygon", [])),
+            source="manual_annotation",
+        )
+        G.add_edge("ROAD_AREA", scene_id, relation="belongs_to")
+        G.add_edge("ROAD_AREA", road_plane.get("coordinate_system", "ROAD_PLANE_001"),
+                   relation="position_in_coordinate_system",
+                   source="homography", status="projected")
+
+        for lane in road_geom.get("lane_lines", []):
+            G.add_node(
+                lane["id"],
+                node_type="LaneLine",
+                label=lane.get("name", lane["id"]),
+                line_type=lane.get("type"),
+                fit=lane.get("fit"),
+                point_count=len(lane.get("points_local", [])),
+                source="manual_annotation",
+            )
+            G.add_edge(lane["id"], "ROAD_AREA", relation="belongs_to")
+            G.add_edge(lane["id"], road_plane.get("coordinate_system", "ROAD_PLANE_001"),
+                       relation="position_in_coordinate_system",
+                       source="homography", status="projected")
+
+        for b in road_geom.get("road_boundaries", []):
+            G.add_node(
+                b["id"],
+                node_type="RoadBoundary",
+                label=b.get("name", b["id"]),
+                visibility=b.get("visibility"),
+                quality=b.get("quality"),
+                point_count=len(b.get("points_local", [])),
+                source="manual_annotation",
+            )
+            G.add_edge(b["id"], "ROAD_AREA", relation="belongs_to")
+            G.add_edge(b["id"], road_plane.get("coordinate_system", "ROAD_PLANE_001"),
+                       relation="position_in_coordinate_system",
+                       source="homography", status="projected")
 
     # 事故事件节点
     accident = scene.get("accident_event", {})
@@ -146,20 +208,32 @@ def visualize_fused_graph(graph: nx.MultiDiGraph) -> Image.Image:
     plt.rcParams["font.sans-serif"] = ["Microsoft YaHei", "SimHei", "DejaVu Sans"]
     plt.rcParams["axes.unicode_minus"] = False
 
-    fig, ax = plt.subplots(figsize=(13, 9))
-    pos = nx.spring_layout(graph, seed=42, k=2.4)
+    fig, ax = plt.subplots(figsize=(15.5, 10.5))
+    pos = nx.spring_layout(graph, seed=42, k=2.9)
 
     # 节点
     node_colors = [_node_color(graph.nodes[n].get("node_type")) for n in graph.nodes]
     nx.draw_networkx_nodes(
-        graph, pos, node_size=2600, node_color=node_colors,
+        graph, pos, node_size=3600, node_color=node_colors,
         edgecolors="#333333", linewidths=1.2, ax=ax,
     )
-    labels = {n: graph.nodes[n].get("label", n) for n in graph.nodes}
-    nx.draw_networkx_labels(graph, pos, labels=labels, font_size=9, ax=ax)
+    labels = {}
+    id_types = ("Vehicle", "Pedestrian", "Facility")
+    for n in graph.nodes:
+        text = graph.nodes[n].get("label", n)
+        if graph.nodes[n].get("node_type") in id_types and not n.startswith("ROAD"):
+            # 静态图里必须能看到对象编号，否则无法与表格/场景图对照
+            text = f"{n} {text}"
+        if len(text) > 16:
+            text = text[:15] + "…"
+        if len(text) > 7 and any("\u4e00" <= ch <= "\u9fff" for ch in text):
+            # 中文长描述折成两行，避免横向撑破圆形节点
+            text = text[:7] + "\n" + text[7:]
+        labels[n] = text
+    nx.draw_networkx_labels(graph, pos, labels=labels, font_size=7.6, ax=ax)
 
     # 边按来源分组绘制
-    vlm_edges, geo_edges, belongs_edges, acc_edges = [], [], [], []
+    vlm_edges, geo_edges, belongs_edges, acc_edges, pos_edges = [], [], [], [], []
     edge_labels = {}
     for u, v, data in graph.edges(data=True):
         rel = data["relation"]
@@ -167,6 +241,9 @@ def visualize_fused_graph(graph: nx.MultiDiGraph) -> Image.Image:
             belongs_edges.append((u, v))
         elif rel == "accident_involves":
             acc_edges.append((u, v))
+        elif rel == "position_in_coordinate_system":
+            # 该关系数量多且语义单一，图中只画线不标字，避免标签互相压盖
+            pos_edges.append((u, v))
         elif data.get("source") == "vlm":
             vlm_edges.append((u, v))
             edge_labels[(u, v)] = rel
@@ -174,6 +251,10 @@ def visualize_fused_graph(graph: nx.MultiDiGraph) -> Image.Image:
             geo_edges.append((u, v))
             edge_labels[(u, v)] = rel
 
+    nx.draw_networkx_edges(
+        graph, pos, edgelist=pos_edges, style="dotted",
+        edge_color="#4dabf7", width=1.0, arrows=False, ax=ax,
+    )
     nx.draw_networkx_edges(
         graph, pos, edgelist=belongs_edges, style="dashed",
         edge_color="#bbbbbb", width=0.9, arrows=False, ax=ax,
@@ -199,10 +280,12 @@ def visualize_fused_graph(graph: nx.MultiDiGraph) -> Image.Image:
         Line2D([0], [0], color="#e03131", lw=2.6, label="L3 语义关系（VLM 观察）"),
         Line2D([0], [0], color="#f4a261", lw=1.1, ls=":", label="L2 几何关系（候选）"),
         Line2D([0], [0], color="#ff8787", lw=1.0, ls=":", label="事故事件关联"),
+        Line2D([0], [0], color="#43a6f0", lw=1.0, ls=":", label="道路坐标引用"),
         Line2D([0], [0], color="#bbbbbb", lw=0.9, ls="--", label="属于场景"),
     ]
     ax.legend(handles=legend, loc="lower left", fontsize=9, framealpha=0.9)
-    ax.set_title("交通事故融合知识图谱（VLM × YOLO）", fontsize=14)
+    ax.set_title(f"交通事故融合知识图谱（VLM × YOLO）｜{graph.number_of_nodes()} 节点 / "
+                 f"{graph.number_of_edges()} 边", fontsize=14)
     ax.axis("off")
 
     buffer = io.BytesIO()
