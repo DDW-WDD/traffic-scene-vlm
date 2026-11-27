@@ -105,6 +105,26 @@ def write_graph_html(fig, path, div_id="graph-plot"):
     return path
 
 
+def _short_label(n, data):
+    """3D 节点标签要短：VLM 的长描述会把相邻节点盖住，屏幕上只写"编号 + 类别"。
+
+    完整描述（颜色、衣着、损伤）仍保留在 hovertext 里，点开详情也能看到，信息不丢。
+    """
+    import re
+
+    label = str(data.get("label", n))
+    cat = data.get("category_zh")
+    if re.fullmatch(r"O\d+", str(n)) and cat:
+        return f"{n} {cat}"
+    if str(n) in ("L1", "L2"):
+        return f"{n} 车道线"
+    if str(n) == "RB_R":
+        return "RB_R 路缘"
+    if str(n) == "ROAD_AREA":
+        return "路面区域"
+    return label if len(label) <= 12 else label[:11] + "…"
+
+
 def build_interactive_3d_figure(graph: nx.MultiDiGraph) -> go.Figure:
     """从融合知识图谱构建 2D 布局的 3D 版本。"""
     # 2D spring_layout（与 2D 版相同的 seed 和 k）
@@ -135,7 +155,7 @@ def build_interactive_3d_figure(graph: nx.MultiDiGraph) -> go.Figure:
             # 没有 VLM 描述时会退化成类别名（如“小汽车”），此时补上编号避免同名节点混淆
             if data.get("category_zh") and label == data["category_zh"]:
                 label = f"{n} {label}"
-            names.append(label)          # 节点上直接写名称（与 2D 图一致）
+            names.append(_short_label(n, data))   # 节点上只写短名，长描述留给悬停/详情
             conf = data.get("confidence")
             conf_str = f"<br>YOLO 置信度: {conf}" if conf is not None else ""
             match_status = data.get("match_status", "")
