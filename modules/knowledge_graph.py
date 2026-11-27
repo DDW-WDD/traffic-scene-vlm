@@ -61,7 +61,7 @@ def build_fused_knowledge_graph(scene):
         G.add_node(
             obj["id"],
             node_type=ntype,
-            label=obj.get("vlm_description")[:14] or obj["category_zh"],
+            label=(obj.get("vlm_description") or "")[:14] or obj["category_zh"],
             category=obj["category"],
             category_zh=obj["category_zh"],
             confidence=obj.get("confidence"),
