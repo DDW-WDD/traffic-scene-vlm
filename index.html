@@ -73,6 +73,7 @@
   th{background:#f3f6fb;color:#39404f;font-weight:600;white-space:nowrap}
   td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
   .scroll-hint{display:none;font-size:11.5px;color:var(--muted);padding:7px 12px 0}
+  .only-mobile{display:none}
 
   .note{
     border-left:3px solid var(--amber);background:#fff9ec;padding:11px 14px;border-radius:0 10px 10px 0;
@@ -96,6 +97,7 @@
     .iframe-box{height:720px}
     .card{border-radius:12px}
     .scroll-hint{display:block}
+    .only-mobile{display:block;margin-top:6px;color:#8a5b00}
     .table-wrap table{min-width:480px}
     section:first-of-type{margin-top:20px}
     footer{margin-top:28px;padding:18px 0 34px}
@@ -166,7 +168,11 @@
     <p class="lead">二维布局三维化：拖动旋转、双指缩放、点按查看详情。新增「道路局部坐标系」节点与蓝色点线（L4 道路平面坐标引用）。</p>
     <div class="card">
       <iframe class="iframe-box" src="outputs/ACCIDENT_001/interactive_graph_spatial.html" title="交互式知识图谱" loading="lazy"></iframe>
-      <div class="cap">如果上方为空白或想全屏查看，可直接打开 <a href="outputs/ACCIDENT_001/interactive_graph_spatial.html" target="_blank" rel="noopener">interactive_graph_spatial.html</a>。</div>
+      <div class="cap">
+        单指拖动旋转、双指或滚轮缩放、点按节点看详情。
+        <span class="only-mobile">手机竖屏下图形会被两侧裁掉一部分，<strong>横屏</strong>观看最完整。</span>
+        也可直接打开 <a href="outputs/ACCIDENT_001/interactive_graph_spatial.html" target="_blank" rel="noopener">interactive_graph_spatial.html</a>（可双指放大）。
+      </div>
     </div>
   </section>
 
