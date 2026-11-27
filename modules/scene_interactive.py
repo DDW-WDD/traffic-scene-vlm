@@ -74,7 +74,8 @@ def _line_shape(x0, y0, x1, y1, color, width=1.6, dash="solid", opacity=1.0):
 
 def make_base_image(surface_png_path, out_png_path, road_polygon,
                     xlim=(-3.9, 10.0), ylim=(-0.45, 3.3),
-                    asphalt=(89, 96, 106), hatch="#aeb6c0", hatch_step=30):
+                    asphalt=(89, 96, 106), hatch="#aeb6c0", hatch_step=24,
+                    texture_alpha=0.55):
     """把"路面底色 + 真实纹理 + 遮挡斜线"预先合成一张不透明底图。
 
     为什么要预先合成：Plotly 的 layout image 画在最底层，而 shape 默认画在 trace 之上，
@@ -97,7 +98,11 @@ def make_base_image(surface_png_path, out_png_path, road_polygon,
     # 只在道路多边形内铺沥青底色，其余保持白色（与静态图的画布一致）
     canvas = Image.composite(Image.new("RGB", (w, h), asphalt),
                              Image.new("RGB", (w, h), (255, 255, 255)), poly_mask)
-    canvas.paste(rgba, (0, 0), rgba)          # 只把有纹理的部分贴上来
+    # 纹理按 texture_alpha 压暗后贴上去：原图照片偏亮，全不透明会让交互版比静态图"发白"，
+    # 压到 55% 后与静态图的 fade 口径一致，也更容易压住 JPEG 的块状噪点。
+    tex = rgba.copy()
+    tex.putalpha(rgba.split()[-1].point(lambda a: int(a * texture_alpha)))
+    canvas.paste(tex, (0, 0), tex)            # 只把有纹理的部分贴上来
 
     # 多边形内、但没有纹理的地方 = 路面被遮挡，用斜线标"仅按几何推断"
     alpha = rgba.split()[-1]
@@ -109,7 +114,7 @@ def make_base_image(surface_png_path, out_png_path, road_polygon,
     d = ImageDraw.Draw(overlay)
     rgb = tuple(int(hatch[i:i + 2], 16) for i in (1, 3, 5))
     for offset in range(-h, w + h, hatch_step):
-        d.line([(offset, h), (offset + h, 0)], fill=rgb + (150,), width=2)
+        d.line([(offset, h), (offset + h, 0)], fill=rgb + (110,), width=1)
     line_alpha = Image.composite(overlay.split()[-1], Image.new("L", (w, h), 0), occluded)
     overlay.putalpha(line_alpha)
     canvas = Image.alpha_composite(canvas.convert("RGBA"), overlay).convert("RGB")
